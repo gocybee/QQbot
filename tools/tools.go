@@ -2,7 +2,6 @@ package tools
 
 import (
 	"QQbot/global"
-	"fmt"
 	"math/rand"
 	"strings"
 )
@@ -21,8 +20,7 @@ func NeedResp(str interface{}) bool {
 //DoOrNot 生成随机数换算为概率--输入小数,现两位，默认0.5
 func DoOrNot(p float32) bool {
 	i := rand.Int() % 100
-	fmt.Println(i, "  ", p)
-	if i < int(p*100)-1 {
+	if i < int(p*100) {
 		return true
 	}
 	return false
