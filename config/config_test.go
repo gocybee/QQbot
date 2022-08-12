@@ -6,15 +6,21 @@ import (
 )
 
 func Test(t *testing.T) {
-	err := loadMysqlCfg()
+	err := loadCfg()
 	if err != nil {
-		fmt.Println("loadMysqlCfg():", err)
+		fmt.Println("loadCfg():", err)
 	}
-	fmt.Printf("%#v\n", Cfg)
+	fmt.Printf("%#v\n", cfg)
 
 	err = initDB()
 	if err != nil {
-		fmt.Println("loadMysqlCfg():", err)
+		fmt.Println("InitDB():", err)
 	}
 	fmt.Println("链接成功")
+
+	err = loadQA()
+	if err != nil {
+		fmt.Println("loadQA():", err)
+	}
+	fmt.Println("加载成功")
 }

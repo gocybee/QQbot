@@ -1,5 +1,7 @@
 package global
 
+import "github.com/jinzhu/gorm"
+
 const (
 	MyName = "我"
 	MYQQID = "3403191872"
@@ -11,3 +13,5 @@ const (
 	HappyAn
 	FearAn
 )
+
+var DB *gorm.DB

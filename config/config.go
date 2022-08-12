@@ -1,6 +1,7 @@
 package config
 
 import (
+	"QQbot/global"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -8,25 +9,12 @@ import (
 	"io/ioutil"
 )
 
-type Config struct {
-	Mysql `yaml:"mysql"`
-}
-
-type Mysql struct {
-	DBName   string `yaml:"dbname"`
-	UserName string `yaml:"username"`
-	Password string `yaml:"password"`
-	Host     string `yaml:"host"`
-	Port     int32  `yaml:"port"`
-}
-
 var (
-	Cfg *Config //mysql配置文件信息
-	DB  *gorm.DB
+	cfg *Config //mysql配置文件信息,数据库初始信息
 )
 
 func init() {
-	err := loadMysqlCfg() //加载数据库
+	err := loadCfg() //加载数据库
 	if err != nil {
 		panic(err)
 	}
@@ -34,9 +22,13 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	err = loadQA() //加载问题和答案
+	if err != nil {
+		panic(err)
+	}
 }
 
-func loadMysqlCfg() error {
+func loadCfg() error {
 	var config Config
 	yamlFile, err := ioutil.ReadFile("./config.yml")
 	if err != nil {
@@ -46,16 +38,38 @@ func loadMysqlCfg() error {
 	if err != nil {
 		return err
 	}
-	Cfg = &config
+	cfg = &config
 	return nil
 }
 
 func initDB() error {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", Cfg.UserName, Cfg.Password, Cfg.Host, Cfg.Port, Cfg.DBName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
+		cfg.UserName, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
 	db, err := gorm.Open("mysql", dsn)
+	db.SingularTable(true) //禁用复数表名
 	if err != nil {
 		return err
 	}
-	DB = db
+	global.DB = db
+	return nil
+}
+
+func loadQA() error {
+	if !global.DB.HasTable(&QA{}) {
+		err := global.DB.CreateTable(&QA{}).Error
+		if err != nil {
+			return err
+		}
+		//逐条插入语句和答案
+		err = global.DB.Transaction(func(tx *gorm.DB) error {
+			for _, v := range cfg.Res {
+				err = global.DB.Create(&v).Error
+				if err != nil {
+					return err
+				}
+			}
+			return nil
+		})
+	}
 	return nil
 }
