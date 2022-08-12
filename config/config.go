@@ -30,7 +30,7 @@ func init() {
 
 func loadCfg() error {
 	var config Config
-	yamlFile, err := ioutil.ReadFile("./config.yml")
+	yamlFile, err := ioutil.ReadFile(global.CfgFileURL)
 	if err != nil {
 		return err
 	}

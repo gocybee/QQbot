@@ -11,8 +11,8 @@ func GetIdFromMap(id interface{}) int64 {
 	return int64(id.(float64))
 }
 
-//NeedResp 看自己是否被@判断需不需要回答
-func NeedResp(str interface{}) bool {
+//BeAt 看自己是否被@
+func BeAt(str interface{}) bool {
 	msg := str.(string)
 	return strings.Contains(msg, "at") && strings.Contains(msg, global.MYQQID)
 }
@@ -24,4 +24,14 @@ func DoOrNot(p float32) bool {
 		return true
 	}
 	return false
+}
+
+//GetUsefulMsg 删去@部分（CQcode部分），获取消息的可被分析部分
+func GetUsefulMsg(msg interface{}) string {
+	code := strings.LastIndex(msg.(string), "]")
+	if code == -1 {
+		return msg.(string)
+	}
+	str := msg.(string)
+	return string([]byte(str)[code+2:]) //信息的code后含有一个空格
 }
