@@ -25,6 +25,7 @@ type CQFace struct {
 	}
 }
 
+//CQUrl 描述QQ的分享链接
 type CQUrl struct {
 	Type string //表明CQ类型share
 	Data struct {

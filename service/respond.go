@@ -38,6 +38,12 @@ func PostRespond(c *gin.Context) {
 	if form["post_type"] == "message" && form["message_type"] == "group" {
 		groupId := tools.GetIdFromMap(form["group_id"]) //获取群聊id
 		msg := form["raw_message"].(string)             //获取信息本体
+
+		//获取帮助
+		if msg == "-help" || msg == "帮助" || strings.Contains(msg, "你能干什么") {
+
+		}
+
 		//入群打招呼
 		if strings.Contains(msg, "大家好") {
 			text := "欢迎来到极客勤奋蜂的大家庭!"
