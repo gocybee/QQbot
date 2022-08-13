@@ -2,6 +2,7 @@ package tools
 
 import (
 	"QQbot/global"
+	"fmt"
 	"math/rand"
 	"strings"
 )
@@ -26,14 +27,15 @@ func DoOrNot(p float32) bool {
 	return false
 }
 
-//GetUsefulMsg 删去@部分（CQcode部分），获取消息的可被分析部分
+//GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
 func GetUsefulMsg(msg interface{}) string {
-	code := strings.LastIndex(msg.(string), "]")
-	if code == -1 {
-		return msg.(string)
-	}
 	str := msg.(string)
-	return string([]byte(str)[code+2:]) //信息的code后含有一个空格
+	return strings.TrimFunc(str, func(u rune) bool {
+		if string(u) == fmt.Sprintf("[CQ:at,qq=%s]", global.MYQQID) {
+			return true
+		}
+		return false
+	})
 }
 
 //SplitMsg 将信息拆分成两个字，便于模糊匹配
