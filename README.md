@@ -16,18 +16,18 @@
 │   ├── config.go               // 配置控制   
 │   ├── config.yml              // 配置文件  
 │   └── config_test.go  
-│
+│  
 ├── dao                         // 数据库操作层  
 │   ├── dao.go                  //数据库操作  
 │   └── select_test.go  
-│
+│  
 ├── global                      // 全局变量层  
 │   ├── CQcode.go               // 特殊信息包装   
 │   └── global.go               // 全局常量和变量  
-│
+│   
 ├── service                     // 服务层  
-│   ├── respond.go              // 路由中间件   
-│
+│   └── respond.go              // 路由中间件  
+│  
 ├── tools                       // 工具层  
 │   ├── daoTools.go             // 数据库信息操作   
 │   ├── serviceTools.go         // 服务决断  
