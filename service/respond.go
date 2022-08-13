@@ -32,6 +32,7 @@ func PostRespond(c *gin.Context) {
 		//出问题直接退出
 		if err != nil {
 			text = "数据库炸了，寄"
+			tools.Beautify(&text)
 			status := tools.SendPrivate(userId, text) //发送信息
 			fmt.Println(status)
 			c.JSONP(http.StatusBadRequest, gin.H{})
@@ -50,7 +51,9 @@ func PostRespond(c *gin.Context) {
 
 		//匿名消息判断
 		if tools.IsAnonymous(form) {
-			status = tools.SendGroup(groupId, "开发大大告诉我，匿名的都是坏蛋，你走开")
+			text = "开发大大告诉我，匿名的都是坏蛋，你走开"
+			tools.Beautify(&text)
+			status = tools.SendGroup(groupId, text)
 			fmt.Println(status)
 			c.JSON(http.StatusOK, gin.H{})
 			return
@@ -59,8 +62,9 @@ func PostRespond(c *gin.Context) {
 		//被@了
 		if tools.BeAt(form["raw_message"]) {
 			//获取帮助
-			if tools.GetUsefulMsg(msg) == "-help" || tools.GetUsefulMsg(msg) == "帮助" || strings.Contains(msg, "你能干什么") {
+			if tools.IsHelp(msg) {
 				text = "我只会一点点欸，主要是开发大大太菜了" //回答语句获取
+				tools.Beautify(&text)
 				status = tools.SendGroup(groupId, text)
 				fmt.Println(status)
 			} else {
@@ -69,11 +73,13 @@ func PostRespond(c *gin.Context) {
 				//出问题直接退出
 				if err != nil {
 					text = "数据库炸了，寄"
+					tools.Beautify(&text)
 					status = tools.SendGroup(groupId, text)
 					fmt.Println(status)
 					c.JSONP(http.StatusBadRequest, gin.H{})
 					return
 				}
+				tools.Beautify(&text)
 				status = tools.SendGroup(groupId, text)
 				fmt.Println(status)
 			}
@@ -83,15 +89,15 @@ func PostRespond(c *gin.Context) {
 			//入群打招呼
 			if strings.Contains(msg, "大家好") {
 				text = "欢迎来到极客勤奋蜂的大家庭!\n欢迎大家随时问" + global.MyName + "问题哦"
-				//TODO 美化句子
+				tools.Beautify(&text)
 				status = tools.SendGroup(groupId, text)
 				fmt.Println(status)
 			}
 
-			//不直接@也有1/10的概率回答问题
+			//不直接@也有1/10的概率回答此特定的句子
 			if tools.DoOrNot(0.1) {
 				status = tools.SendGroup(groupId, "欢迎大家随时问"+global.MyName+"问题哦")
-				//TODO:Question Answer func
+				tools.Beautify(&text)
 				fmt.Println(status)
 			}
 		}

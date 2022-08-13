@@ -17,4 +17,8 @@ const (
 	FearAn
 )
 
-var DB *gorm.DB
+var (
+	DB  *gorm.DB
+	Add = []string{"嘿嘿,", "emmm", "啊哈,", "qwq"} //供句子美化
+	//其中表情的ID是1-221.
+)

@@ -2,6 +2,7 @@ package tools
 
 import (
 	"QQbot/global"
+	"QQbot/runtime"
 	"fmt"
 	"math/rand"
 	"strings"
@@ -48,4 +49,18 @@ func SplitMsg(msg string) []string {
 		res = append(res, t)
 	}
 	return res
+}
+
+//Beautify 为句子的头和尾美化
+func Beautify(ctx *string) {
+	//60%的概率做前部美化
+	if DoOrNot(0.6) {
+		i := rand.Int() % (len(global.Add))
+		*ctx = global.Add[i] + *ctx
+	}
+	//60%的概率做尾部美化
+	if DoOrNot(0.6) {
+		i := rand.Int()%221 + 1
+		*ctx += runtime.CodeCQFace(int64(i))
+	}
 }

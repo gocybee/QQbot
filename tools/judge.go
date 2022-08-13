@@ -2,6 +2,7 @@ package tools
 
 import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
+	"strings"
 	"sync"
 )
 
@@ -32,6 +33,14 @@ func IsGroupMsg(form map[string]interface{}) bool {
 //IsAnonymous 是否为匿名消息
 func IsAnonymous(form map[string]interface{}) bool {
 	if form["anonymous"] != nil {
+		return true
+	}
+	return false
+}
+
+//IsHelp 是否为帮助
+func IsHelp(msg string) bool {
+	if GetUsefulMsg(msg) == "-help" || GetUsefulMsg(msg) == "帮助" || strings.Contains(msg, "你能干什么") {
 		return true
 	}
 	return false

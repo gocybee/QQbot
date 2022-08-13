@@ -33,7 +33,7 @@ func SelectQA(msg string) (string, error) {
 		}
 	}
 	if min == 100 {
-		return "我还不知道哦", nil
+		return "我还不知道哦[CQ:face,id=1]", nil
 	}
 	//TODO: 设置距离限制，不然乱回答
 	return answer, nil
