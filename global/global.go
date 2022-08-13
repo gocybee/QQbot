@@ -5,16 +5,14 @@ import (
 )
 
 const (
+	SendMsgURL = "http://127.0.0.1:5700"
 	CfgFileURL = "D:/GithubLibrary/QQbot/config/config.yml"
 	MyName     = "我"
 	MYQQID     = "3403191872"
-	_          = iota
-	FirMsg
-	BeeMsg
-	BlogMsg
-	ThreeG
-	HappyAn
-	FearAn
+
+	AT    = "at"
+	FACE  = "face"
+	SHARE = "share"
 )
 
 var (

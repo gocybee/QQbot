@@ -2,7 +2,6 @@ package tools
 
 import (
 	"QQbot/global"
-	"QQbot/runtime"
 	"fmt"
 	"math/rand"
 	"strings"
@@ -11,12 +10,6 @@ import (
 //GetIdFromMap 从接受到的表单中提取出用户或者群聊Id
 func GetIdFromMap(id interface{}) int64 {
 	return int64(id.(float64))
-}
-
-//BeAt 看自己是否被@
-func BeAt(str interface{}) bool {
-	msg := str.(string)
-	return strings.Contains(msg, "at") && strings.Contains(msg, global.MYQQID)
 }
 
 //DoOrNot 生成随机数换算为概率--输入小数,现两位，默认0.5
@@ -39,18 +32,6 @@ func GetUsefulMsg(msg interface{}) string {
 	})
 }
 
-//SplitMsg 将信息拆分成两个字，便于模糊匹配
-func SplitMsg(msg string) []string {
-	msg += " "
-	var res []string
-	var m = []rune(msg)
-	for i := 0; i < len(m)-2; i++ {
-		t := string(m[i]) + string(m[i+1])
-		res = append(res, t)
-	}
-	return res
-}
-
 //Beautify 为句子的头和尾美化
 func Beautify(ctx *string) {
 	//60%的概率做前部美化
@@ -61,6 +42,6 @@ func Beautify(ctx *string) {
 	//60%的概率做尾部美化
 	if DoOrNot(0.6) {
 		i := rand.Int()%221 + 1
-		*ctx += runtime.CodeCQFace(int64(i))
+		*ctx += global.CodeCQFace(int64(i))
 	}
 }

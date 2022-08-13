@@ -1,12 +1,6 @@
-package runtime
+package global
 
 import "fmt"
-
-const (
-	AT    = "at"
-	FACE  = "face"
-	SHARE = "share"
-)
 
 //CQAt 表示@的信息
 type CQAt struct {
