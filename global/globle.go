@@ -1,6 +1,8 @@
 package global
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 const (
 	CfgFileURL = "D:/GithubLibrary/QQbot/config/config.yml"

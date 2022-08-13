@@ -1,5 +1,10 @@
 package tools
 
+import (
+	"github.com/lithammer/fuzzysearch/fuzzy"
+	"sync"
+)
+
 //IsHeartBeat 判断是否为心跳事件
 func IsHeartBeat(form map[string]interface{}) bool {
 	if form["post_type"] == "meta_event" && form["meta_event_type"] == "heartbeat" {
@@ -30,4 +35,21 @@ func IsAnonymous(form map[string]interface{}) bool {
 		return true
 	}
 	return false
+}
+
+//MatchDistance 获取信息距离数据库中问题的距离
+func MatchDistance(msg string, sql string) int {
+	mSlice := SplitMsg(msg)
+	var X = -1 //匹配度 0-完全匹配
+	for _, v := range mSlice {
+		x := fuzzy.RankMatch(v, sql)
+		if x < 0 {
+			continue
+		}
+		//出现匹配的树则统计距离
+		var once sync.Once
+		once.Do(func() { X = 0 })
+		X += x
+	}
+	return X
 }

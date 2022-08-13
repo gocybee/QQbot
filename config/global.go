@@ -15,9 +15,9 @@ type Mysql struct {
 
 //QA 用于创建数据库并储存相关的信息
 type QA struct {
-	ID     int32  `gorm:"AUTO_INCREMENT"`
-	Q1     string `gorm:"type:char(25)" yaml:"q1"`
-	Q2     string `gorm:"type:char(25)" yaml:"q2"`
-	Q3     string `gorm:"type:char(25)" yaml:"q3"`
-	Answer string `gorm:"type:char(255)" yaml:"answer"`
+	ID     int32  `gorm:"AUTO_INCREMENT" gorm:"id"`
+	Q1     string `gorm:"type:char(25)" yaml:"q1" gorm:"q1"`
+	Q2     string `gorm:"type:char(25)" yaml:"q2" gorm:"q2"`
+	Q3     string `gorm:"type:char(25)" yaml:"q3" gorm:"q3"`
+	Answer string `gorm:"type:char(255)" yaml:"answer" gorm:"answer"`
 }

@@ -35,3 +35,15 @@ func GetUsefulMsg(msg interface{}) string {
 	str := msg.(string)
 	return string([]byte(str)[code+2:]) //信息的code后含有一个空格
 }
+
+//SplitMsg 将信息拆分成两个字，便于模糊匹配
+func SplitMsg(msg string) []string {
+	msg += " "
+	var res []string
+	var m = []rune(msg)
+	for i := 0; i < len(m)-2; i++ {
+		t := string(m[i]) + string(m[i+1])
+		res = append(res, t)
+	}
+	return res
+}

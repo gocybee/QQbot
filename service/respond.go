@@ -1,7 +1,9 @@
 package service
 
 import (
+	"QQbot/dao"
 	"QQbot/global"
+	"QQbot/runtime"
 	"QQbot/tools"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -26,8 +28,16 @@ func PostRespond(c *gin.Context) {
 	if tools.IsPrivateMsg(form) {
 		msg := form["raw_message"].(string)
 		userId := tools.GetIdFromMap(form["user_id"]) //获取对方的QQ号
-		text := tools.GetRespondWord(msg, int64(0))   //获取回答的语句
-		status := tools.SendPrivate(userId, text)     //发送信息
+		text, err := GetRespondWord(msg, int64(0))    //获取回答的语句
+		//出问题直接退出
+		if err != nil {
+			text = "数据库炸了，寄"
+			status := tools.SendPrivate(userId, text) //发送信息
+			fmt.Println(status)
+			c.JSONP(http.StatusBadRequest, gin.H{})
+			return
+		}
+		status := tools.SendPrivate(userId, text) //发送信息
 		fmt.Println(status)
 	}
 
@@ -54,7 +64,16 @@ func PostRespond(c *gin.Context) {
 				status = tools.SendGroup(groupId, text)
 				fmt.Println(status)
 			} else {
-				text = tools.GetRespondWord(msg, tools.GetIdFromMap(form["user_id"])) //回答语句获取
+				var err error
+				text, err = GetRespondWord(msg, tools.GetIdFromMap(form["user_id"])) //回答语句获取
+				//出问题直接退出
+				if err != nil {
+					text = "数据库炸了，寄"
+					status = tools.SendGroup(groupId, text)
+					fmt.Println(status)
+					c.JSONP(http.StatusBadRequest, gin.H{})
+					return
+				}
 				status = tools.SendGroup(groupId, text)
 				fmt.Println(status)
 			}
@@ -78,4 +97,25 @@ func PostRespond(c *gin.Context) {
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{})
+}
+
+//GetRespondWord 回复消息可能@也可能不@
+func GetRespondWord(msg string, uId int64) (string, error) {
+	var text string
+	//有50%的几率@回去
+	if tools.DoOrNot(0.5) {
+		text += runtime.CodeCQAt(uId)
+	}
+	//打招呼
+	if strings.Contains(msg, "你好") {
+		text += "你好你好鸭"
+		return text, nil
+	}
+	//模糊查询
+	t, err := dao.SelectQA(tools.GetUsefulMsg(msg))
+	if err != nil {
+		return "", err
+	}
+	text += t
+	return text, nil
 }
