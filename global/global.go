@@ -18,6 +18,13 @@ type AI struct {
 	Content string `json:"content,omitempty"`
 }
 
+type Repeat struct {
+	Flag    string //group or private
+	Content string
+	Id      int64 //指向群号
+	Times   int   //重复次数
+}
+
 const (
 	SendMsgURL    = "http://127.0.0.1:5700"
 	ResourceURL   = "D:/GithubLibrary/QQbot/resource/"
@@ -29,11 +36,16 @@ const (
 	AT    = "at"
 	FACE  = "face"
 	SHARE = "share"
+
+	PrivateFlag = "private"
+	GroupFlag   = "group"
+
+	RepeatLimit = 2
 )
 
 var (
 	DB  *gorm.DB
 	QAs []*QA
-	Add = []string{"嘿嘿,", "emmm", "啊哈,", "qwq"} // 供句子美化
+	Re  = make([]Repeat, 2) //储存可能是复读的句子
 	// 其中表情的ID是1-221.
 )
