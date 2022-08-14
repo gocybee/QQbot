@@ -1,4 +1,4 @@
-//package tools 包含所有直接被service引用的函数
+// package tools 包含所有直接被service引用的函数
 
 package tools
 
@@ -14,7 +14,7 @@ import (
 	"unsafe"
 )
 
-//SendPrivate 私发消息
+// SendPrivate 私发消息
 func SendPrivate(qq int64, msg string) string {
 	url := fmt.Sprintf(global.SendMsgURL+"/send_private_msg?user_id=%d&message=%s", qq, msg)
 	resp, err := http.Get(url)
@@ -30,7 +30,7 @@ func SendPrivate(qq int64, msg string) string {
 	return *(*string)(unsafe.Pointer(&data))
 }
 
-//SendGroup 群发消息
+// SendGroup 群发消息
 func SendGroup(gId int64, msg string) string {
 	url := fmt.Sprintf(global.SendMsgURL+"/send_group_msg?group_id=%d&message=%s", gId, msg)
 	resp, err := http.Get(url)
@@ -46,7 +46,7 @@ func SendGroup(gId int64, msg string) string {
 	return *(*string)(unsafe.Pointer(&data))
 }
 
-//IsHeartBeat 判断是否为心跳事件
+// IsHeartBeat 判断是否为心跳事件
 func IsHeartBeat(form map[string]interface{}) bool {
 	if form["post_type"] == "meta_event" && form["meta_event_type"] == "heartbeat" {
 		return true
@@ -54,7 +54,7 @@ func IsHeartBeat(form map[string]interface{}) bool {
 	return false
 }
 
-//IsPrivateMsg 判断是否为私聊消息
+// IsPrivateMsg 判断是否为私聊消息
 func IsPrivateMsg(form map[string]interface{}) bool {
 	if form["post_type"] == "message" && form["message_type"] == "private" {
 		return true
@@ -62,7 +62,7 @@ func IsPrivateMsg(form map[string]interface{}) bool {
 	return false
 }
 
-//IsGroupMsg 判断是否为群消息
+// IsGroupMsg 判断是否为群消息
 func IsGroupMsg(form map[string]interface{}) bool {
 	if form["post_type"] == "message" && form["message_type"] == "group" {
 		return true
@@ -70,7 +70,7 @@ func IsGroupMsg(form map[string]interface{}) bool {
 	return false
 }
 
-//IsAnonymous 是否为匿名消息
+// IsAnonymous 是否为匿名消息
 func IsAnonymous(form map[string]interface{}) bool {
 	if form["anonymous"] != nil {
 		return true
@@ -78,7 +78,7 @@ func IsAnonymous(form map[string]interface{}) bool {
 	return false
 }
 
-//IsHelp 是否为帮助
+// IsHelp 是否为帮助
 func IsHelp(msg string) bool {
 	if GetUsefulMsg(msg) == "-help" || GetUsefulMsg(msg) == "帮助" || strings.Contains(msg, "你能干什么") {
 		return true
@@ -86,7 +86,7 @@ func IsHelp(msg string) bool {
 	return false
 }
 
-//IsStudy 是否触发学习程序
+// IsStudy 是否触发学习程序
 func IsStudy(msg string) bool {
 	if strings.Contains(msg, "+") {
 		return true
@@ -94,25 +94,25 @@ func IsStudy(msg string) bool {
 	return false
 }
 
-//BeAt 看自己是否被@
+// BeAt 看自己是否被@
 func BeAt(str interface{}) bool {
 	msg := str.(string)
 	return strings.Contains(msg, "at") && strings.Contains(msg, global.MYQQID)
 }
 
-//GetRespondWord 回复消息可能@也可能不@
+// GetRespondWord 回复消息可能@也可能不@
 func GetRespondWord(msg string, uId int64) (string, error) {
 	var text string
-	//有50%的几率@回去
+	// 有50%的几率@回去
 	if DoOrNot(0.5) {
 		text += global.CodeCQAt(uId)
 	}
-	//打招呼
+	// 打招呼
 	if strings.Contains(msg, "你好") {
 		text += "你好你好鸭"
 		return text, nil
 	}
-	//模糊查询
+	// 模糊查询
 	t, err := CalculateAnswer(GetUsefulMsg(msg))
 	if err != nil {
 		return "", err
@@ -121,7 +121,7 @@ func GetRespondWord(msg string, uId int64) (string, error) {
 	return text, nil
 }
 
-//ExportSqlMsg 导出所有的学习的信息
+// ExportSqlMsg 导出所有的学习的信息
 func ExportSqlMsg() error {
 	data, err := yaml.Marshal(global.QAs)
 	if err != nil {
@@ -130,7 +130,7 @@ func ExportSqlMsg() error {
 	return ioutil.WriteFile("oldMsg.yml", data, 0777)
 }
 
-//AIHelp 获取AI帮助
+// AIHelp 获取AI帮助
 func AIHelp(msg string) (string, error) {
 	url := fmt.Sprintf("http://api.qingyunke.com/api.php?key=free&appid=0&msg=%s", msg)
 	resp, err := http.Get(url)

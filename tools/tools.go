@@ -7,12 +7,12 @@ import (
 	"strings"
 )
 
-//GetIdFromMap 从接受到的表单中提取出用户或者群聊Id
+// GetIdFromMap 从接受到的表单中提取出用户或者群聊Id
 func GetIdFromMap(id interface{}) int64 {
 	return int64(id.(float64))
 }
 
-//DoOrNot 生成随机数换算为概率--输入小数,现两位，默认0.5
+// DoOrNot 生成随机数换算为概率--输入小数,现两位，默认0.5
 func DoOrNot(p float32) bool {
 	i := rand.Int() % 100
 	if i < int(p*100) {
@@ -21,7 +21,7 @@ func DoOrNot(p float32) bool {
 	return false
 }
 
-//GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
+// GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
 func GetUsefulMsg(msg interface{}) string {
 	var x [2]int
 	str := msg.(string)
@@ -43,17 +43,17 @@ func GetUsefulMsg(msg interface{}) string {
 	return an
 }
 
-//Beautify 为句子的头和尾美化
+// Beautify 为句子的头和尾美化
 func Beautify(ctx *string) {
-	//40%的概率做前部美化
+	// 40%的概率做前部美化
 	if DoOrNot(0.4) {
 		i := rand.Int() % (len(global.Add))
 		*ctx = global.Add[i] + *ctx
 	}
-	//60%的概率做尾部美化
+	// 60%的概率做尾部美化
 	if DoOrNot(0.6) {
 		i := rand.Int()%221 + 1
-		//避开奇怪的表情
+		// 避开奇怪的表情
 		if (i > 40 && i < 92) || (i > 111 && i < 172) || i > 183 {
 			i = 179
 		}
@@ -61,12 +61,12 @@ func Beautify(ctx *string) {
 	}
 }
 
-//CodeQA 将学习的问题包装成结构体
+// CodeQA 将学习的问题包装成结构体
 func CodeQA(msg string) (global.QA, error) {
-	qa := strings.Split(msg, "+") //0-三个问题，1-答案
+	qa := strings.Split(msg, "+") // 0-三个问题，1-答案
 	question := strings.Split(qa[0], " ")
 	var q [3]string
-	//问题初始化
+	// 问题初始化
 	for i := 0; i < len(question); i++ {
 		q[i] = question[i]
 	}
