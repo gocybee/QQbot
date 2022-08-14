@@ -3,7 +3,6 @@ package tools
 import (
 	"QQbot/global"
 	"errors"
-	"fmt"
 	"math/rand"
 	"strings"
 )
@@ -41,20 +40,23 @@ func GetUsefulMsg(msg interface{}) string {
 		}
 	}
 	an := strings.TrimSpace(string(res))
-	fmt.Println("an:::", an)
 	return an
 }
 
 //Beautify 为句子的头和尾美化
 func Beautify(ctx *string) {
-	//60%的概率做前部美化
-	if DoOrNot(0.6) {
+	//40%的概率做前部美化
+	if DoOrNot(0.4) {
 		i := rand.Int() % (len(global.Add))
 		*ctx = global.Add[i] + *ctx
 	}
 	//60%的概率做尾部美化
 	if DoOrNot(0.6) {
 		i := rand.Int()%221 + 1
+		//避开奇怪的表情
+		if (i > 40 && i < 92) || (i > 111 && i < 172) || i > 183 {
+			i = 179
+		}
 		*ctx += global.CodeCQFace(int64(i))
 	}
 }
