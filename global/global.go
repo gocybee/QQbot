@@ -20,6 +20,7 @@ type AI struct {
 
 const (
 	SendMsgURL    = "http://127.0.0.1:5700"
+	ResourceURL   = "D:/GithubLibrary/QQbot/resource/"
 	CfgFileURL    = "D:/GithubLibrary/QQbot/config/config.yml"
 	MyName        = "我"
 	MYQQID        = "3403191872"

@@ -14,9 +14,15 @@ import (
 	"unsafe"
 )
 
-//SendPrivate 私发消息
-func SendPrivate(qq int64, msg string) string {
-	url := fmt.Sprintf(global.SendMsgURL+"/send_private_msg?user_id=%d&message=%s", qq, msg)
+//Send 发小规模消息
+func Send(qq int64, msg *string, flag string) string {
+	var target string
+	if flag == "group" {
+		target = "group"
+	} else {
+		target = "user"
+	}
+	url := fmt.Sprintf(global.SendMsgURL+"/send_"+flag+"_msg?"+target+"_id=%d&message=%s", qq, *msg)
 	resp, err := http.Get(url)
 	if err != nil {
 		return err.Error()
@@ -30,21 +36,21 @@ func SendPrivate(qq int64, msg string) string {
 	return *(*string)(unsafe.Pointer(&data))
 }
 
-//SendGroup 群发消息
-func SendGroup(gId int64, msg string) string {
-	url := fmt.Sprintf(global.SendMsgURL+"/send_group_msg?group_id=%d&message=%s", gId, msg)
-	resp, err := http.Get(url)
-	if err != nil {
-		return err.Error()
-	}
-	defer resp.Body.Close()
-
-	data, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return err.Error()
-	}
-	return *(*string)(unsafe.Pointer(&data))
-}
+//SendHuge 发大量消息
+//func SendHuge(gId int64, form *string, flag string) string {
+//	url := global.SendMsgURL + "/send_" + flag + "_msg"
+//	resp, err := http.Post(url, form)
+//	if err != nil {
+//		return err.Error()
+//	}
+//	defer resp.Body.Close()
+//
+//	data, err := io.ReadAll(resp.Body)
+//	if err != nil {
+//		return err.Error()
+//	}
+//	return *(*string)(unsafe.Pointer(&data))
+//}
 
 //IsHeartBeat 判断是否为心跳事件
 func IsHeartBeat(form map[string]interface{}) bool {
@@ -101,7 +107,7 @@ func BeAt(str interface{}) bool {
 }
 
 //GetRespondWord 回复消息可能@也可能不@
-func GetRespondWord(msg string, uId int64) (string, error) {
+func GetRespondWord(msg string, uId int64) (*string, error) {
 	var text string
 	//有50%的几率@回去
 	if DoOrNot(0.5) {
@@ -110,15 +116,15 @@ func GetRespondWord(msg string, uId int64) (string, error) {
 	//打招呼
 	if strings.Contains(msg, "你好") {
 		text += "你好你好鸭"
-		return text, nil
+		return &text, nil
 	}
 	//模糊查询
 	t, err := CalculateAnswer(GetUsefulMsg(msg))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	text += t
-	return text, nil
+	text += *t
+	return &text, nil
 }
 
 //ExportSqlMsg 导出所有的学习的信息

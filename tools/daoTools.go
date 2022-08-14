@@ -7,36 +7,50 @@ import (
 	"QQbot/global"
 	"fmt"
 	"github.com/lithammer/fuzzysearch/fuzzy"
+	"strings"
 	"sync"
 )
 
 //CalculateAnswer 计算出距离最小的答案
-func CalculateAnswer(msg string) (string, error) {
+func CalculateAnswer(msg string) (*string, error) {
+	//没有信息
+	if strings.TrimSpace(msg) == "" {
+		t := "有什么事情吗？"
+		return &t, nil
+	}
+
 	var min = 100 //记录最小值进行比较
-	var answer string
+	var answer *string
 
 	for _, v := range global.QAs {
 		x := matchDistance(msg, v.Q1) //计算距离
 		if x < min && x >= 0 {        //满足要求
-			min = x           //更新最小值
-			answer = v.Answer //更新结果
+			min = x            //更新最小值
+			answer = &v.Answer //更新结果
 		}
 		x = matchDistance(msg, v.Q2)
 		if x < min && x >= 0 {
 			min = x
-			answer = v.Answer
+			answer = &v.Answer
 		}
 		x = matchDistance(msg, v.Q3)
 		if x < min && x >= 0 {
 			min = x
-			answer = v.Answer
+			answer = &v.Answer
 		}
 	}
+
+	//大规模资源
+	if strings.Contains(*answer, "resource") {
+		url := strings.Split(*answer, "+")
+		answer = loadResource(url[1])
+	}
+
 	//距离过远则舍弃答案
 	if min > global.DistanceLimit {
 		//调用AI
 		help, err := AIHelp(msg)
-		return help, err
+		return &help, err
 	}
 	return answer, nil
 }
@@ -92,10 +106,6 @@ func Study(msg string) error {
 func DBError(id int64, flag string) {
 	var status string
 	text := "数据库炸了，寄"
-	if flag == "private" {
-		status = SendPrivate(id, text) //发送信息
-	} else if flag == "group" {
-		status = SendGroup(id, text) //发送信息
-	}
+	Send(id, &text, flag)
 	fmt.Println(status)
 }

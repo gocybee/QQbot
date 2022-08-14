@@ -2,8 +2,11 @@ package tools
 
 import (
 	"QQbot/global"
+	"bufio"
 	"errors"
+	"io"
 	"math/rand"
+	"os"
 	"strings"
 )
 
@@ -45,11 +48,6 @@ func GetUsefulMsg(msg interface{}) string {
 
 //Beautify 为句子的头和尾美化
 func Beautify(ctx *string) {
-	//40%的概率做前部美化
-	if DoOrNot(0.4) {
-		i := rand.Int() % (len(global.Add))
-		*ctx = global.Add[i] + *ctx
-	}
 	//60%的概率做尾部美化
 	if DoOrNot(0.6) {
 		i := rand.Int()%221 + 1
@@ -79,4 +77,29 @@ func CodeQA(msg string) (global.QA, error) {
 		Q3:     q[2],
 		Answer: qa[1],
 	}, nil
+}
+
+//TODO 错误处理
+func loadResource(FileName string) *string {
+	file, err := os.OpenFile(global.ResourceURL+FileName, os.O_RDONLY, 0666)
+	if err != nil {
+		return nil
+	}
+
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	var result string
+	// 按行处理txt
+	for {
+		line, _, err := reader.ReadLine()
+		if err == io.EOF {
+			break
+		}
+		result += string(line)
+		result += "%0A"
+	}
+	return &result
+
 }
