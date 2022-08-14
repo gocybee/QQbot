@@ -4,21 +4,18 @@ package tools
 
 import (
 	"QQbot/dao"
+	"QQbot/global"
+	"fmt"
 	"github.com/lithammer/fuzzysearch/fuzzy"
 	"sync"
 )
 
 //CalculateAnswer 计算出距离最小的答案
 func CalculateAnswer(msg string) (string, error) {
-	qa, err := dao.SelectQA()
-	if err != nil {
-		return "数据库炸了，寄", err
-	}
-
 	var min = 100 //记录最小值进行比较
 	var answer string
 
-	for _, v := range *qa {
+	for _, v := range global.QAs {
 		x := matchDistance(msg, v.Q1) //计算距离
 		if x < min && x >= 0 {        //满足要求
 			min = x           //更新最小值
@@ -69,4 +66,35 @@ func SplitMsg(msg string) []string {
 		res = append(res, t)
 	}
 	return res
+}
+
+//UpdateQA 作为一个常运行的协程：更新本能地的缓存数据
+func UpdateQA() error {
+	return dao.SelectQA()
+}
+
+//Study 开启学习功能，更新本地数据库
+func Study(msg string) error {
+	qaS, err := CodeQA(msg)
+	if err != nil {
+		return err
+	}
+	err = dao.AddQA(qaS)
+	if err != nil {
+		return err
+	}
+	return UpdateQA()
+}
+
+//DBError 数据库出错返回
+func DBError(id int64, flag string) {
+	var status string
+	text := "数据库炸了，寄"
+	Beautify(&text)
+	if flag == "private" {
+		status = SendPrivate(id, text) //发送信息
+	} else if flag == "group" {
+		status = SendGroup(id, text) //发送信息
+	}
+	fmt.Println(status)
 }

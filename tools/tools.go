@@ -2,6 +2,7 @@ package tools
 
 import (
 	"QQbot/global"
+	"errors"
 	"fmt"
 	"math/rand"
 	"strings"
@@ -44,4 +45,24 @@ func Beautify(ctx *string) {
 		i := rand.Int()%221 + 1
 		*ctx += global.CodeCQFace(int64(i))
 	}
+}
+
+//CodeQA 将学习的问题包装成结构体
+func CodeQA(msg string) (global.QA, error) {
+	qa := strings.Split(msg, "+") //0-三个问题，1-答案
+	question := strings.Split(qa[0], " ")
+	var q [3]string
+	//问题初始化
+	for i := 0; i < len(question); i++ {
+		q[i] = question[i]
+	}
+	if q[0] == "" || qa[1] == "" {
+		return global.QA{}, errors.New("数据读取错误")
+	}
+	return global.QA{
+		Q1:     q[0],
+		Q2:     q[1],
+		Q3:     q[2],
+		Answer: qa[1],
+	}, nil
 }

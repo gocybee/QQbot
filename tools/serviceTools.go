@@ -5,7 +5,9 @@ package tools
 import (
 	"QQbot/global"
 	"fmt"
+	"gopkg.in/yaml.v2"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"strings"
 	"unsafe"
@@ -83,6 +85,14 @@ func IsHelp(msg string) bool {
 	return false
 }
 
+//IsStudy 是否触发学习程序
+func IsStudy(msg string) bool {
+	if strings.Contains(msg, "+") {
+		return true
+	}
+	return false
+}
+
 //BeAt 看自己是否被@
 func BeAt(str interface{}) bool {
 	msg := str.(string)
@@ -108,4 +118,13 @@ func GetRespondWord(msg string, uId int64) (string, error) {
 	}
 	text += t
 	return text, nil
+}
+
+//ExportSqlMsg 导出所有的学习的信息
+func ExportSqlMsg() error {
+	data, err := yaml.Marshal(global.QAs)
+	if err != nil {
+		return err
+	}
+	return ioutil.WriteFile("oldMsg.yml", data, 0777)
 }

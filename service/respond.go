@@ -25,15 +25,39 @@ func PostRespond(c *gin.Context) {
 	//私聊消息回复
 	if tools.IsPrivateMsg(form) {
 		msg := form["raw_message"].(string)
-		userId := tools.GetIdFromMap(form["user_id"])    //获取对方的QQ号
+		userId := tools.GetIdFromMap(form["user_id"]) //获取对方的QQ号
+
+		//导出问答文件
+		if msg == "导出问答文件" {
+			err := tools.ExportSqlMsg()
+			if err != nil {
+				tools.DBError(userId, "private")
+			}
+			status := tools.SendPrivate(userId, "导出成功") //发送信息
+			fmt.Println(status)
+			return
+		}
+
+		//学习程序触发
+		if tools.IsStudy(msg) {
+			err := tools.Study(msg)
+			//数据库出错
+			if err != nil {
+				tools.DBError(userId, "private")
+				c.JSON(http.StatusBadRequest, gin.H{})
+				return
+			}
+			status := tools.SendPrivate(userId, "已经学到啦") //发送信息
+			fmt.Println(status)
+			return
+		}
+
+		//正常问答
 		text, err := tools.GetRespondWord(msg, int64(0)) //获取回答的语句
 		//出问题直接退出
 		if err != nil {
-			text = "数据库炸了，寄"
-			tools.Beautify(&text)
-			status := tools.SendPrivate(userId, text) //发送信息
-			fmt.Println(status)
-			c.JSONP(http.StatusBadRequest, gin.H{})
+			tools.DBError(userId, "private")
+			c.JSON(http.StatusBadRequest, gin.H{})
 			return
 		}
 		status := tools.SendPrivate(userId, text) //发送信息
@@ -70,11 +94,8 @@ func PostRespond(c *gin.Context) {
 				text, err = tools.GetRespondWord(msg, tools.GetIdFromMap(form["user_id"])) //回答语句获取
 				//出问题直接退出
 				if err != nil {
-					text = "数据库炸了，寄"
-					tools.Beautify(&text)
-					status = tools.SendGroup(groupId, text)
-					fmt.Println(status)
-					c.JSONP(http.StatusBadRequest, gin.H{})
+					tools.DBError(groupId, "group")
+					c.JSON(http.StatusBadRequest, gin.H{})
 					return
 				}
 				tools.Beautify(&text)
@@ -85,7 +106,7 @@ func PostRespond(c *gin.Context) {
 		} else {
 			//入群打招呼
 			if strings.Contains(msg, "大家好") {
-				text = "欢迎来到极客勤奋蜂的大家庭! 欢迎大家随时问" + global.MyName + "问题哦"
+				text = "欢迎来到极客勤奋蜂的大家庭"
 				tools.Beautify(&text)
 				status = tools.SendGroup(groupId, text)
 				fmt.Println(status)
