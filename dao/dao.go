@@ -2,7 +2,6 @@ package dao
 
 import (
 	"QQbot/global"
-	"fmt"
 )
 
 //SelectQA 获取所有的问题
@@ -14,10 +13,6 @@ func SelectQA() error {
 	}
 	for i := 0; i < len(qas); i++ {
 		global.QAs = append(global.QAs, &qas[i])
-	}
-
-	for _, v := range global.QAs {
-		fmt.Println(v)
 	}
 	return nil
 }

@@ -24,13 +24,25 @@ func DoOrNot(p float32) bool {
 
 //GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
 func GetUsefulMsg(msg interface{}) string {
+	var x [2]int
 	str := msg.(string)
-	return strings.TrimFunc(str, func(u rune) bool {
-		if string(u) == fmt.Sprintf("[CQ:at,qq=%s]", global.MYQQID) {
-			return true
+	res := []rune(str)
+
+	for i := 0; i < len(res); i++ {
+		if res[i] == '[' {
+			x[0] = i
 		}
-		return false
-	})
+		if res[i] == ']' {
+			x[1] = i
+		}
+		if x[0] != 0 || x[1] != 0 {
+			res = []rune(string(res[:x[0]]) + string(res[x[1]+1:]))
+			x[0], x[1] = 0, 0
+		}
+	}
+	an := strings.TrimSpace(string(res))
+	fmt.Println("an:::", an)
+	return an
 }
 
 //Beautify 为句子的头和尾美化

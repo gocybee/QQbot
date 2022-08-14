@@ -32,10 +32,12 @@ func CalculateAnswer(msg string) (string, error) {
 			answer = v.Answer
 		}
 	}
-	if min == 100 {
-		return "我还不知道哦[CQ:face,id=1]", nil
+	//距离过远则舍弃答案
+	if min > global.DistanceLimit {
+		//调用AI
+		help, err := AIHelp(msg)
+		return help, err
 	}
-	//TODO: 设置距离限制，不然乱回答
 	return answer, nil
 }
 
@@ -90,7 +92,6 @@ func Study(msg string) error {
 func DBError(id int64, flag string) {
 	var status string
 	text := "数据库炸了，寄"
-	Beautify(&text)
 	if flag == "private" {
 		status = SendPrivate(id, text) //发送信息
 	} else if flag == "group" {

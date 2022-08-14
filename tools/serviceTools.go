@@ -4,6 +4,7 @@ package tools
 
 import (
 	"QQbot/global"
+	"encoding/json"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io"
@@ -127,4 +128,24 @@ func ExportSqlMsg() error {
 		return err
 	}
 	return ioutil.WriteFile("oldMsg.yml", data, 0777)
+}
+
+//AIHelp 获取AI帮助
+func AIHelp(msg string) (string, error) {
+	url := fmt.Sprintf("http://api.qingyunke.com/api.php?key=free&appid=0&msg=%s", msg)
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	var AIType global.AI
+	err = json.Unmarshal(data, &AIType)
+	if err != nil {
+		return "", err
+	}
+	return AIType.Content, nil
 }

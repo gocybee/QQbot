@@ -13,11 +13,17 @@ type QA struct {
 	Answer string `gorm:"type:nvarchar(255)" yaml:"answer" gorm:"answer"`
 }
 
+type AI struct {
+	Result  int    `json:"result,omitempty"`
+	Content string `json:"content,omitempty"`
+}
+
 const (
-	SendMsgURL = "http://127.0.0.1:5700"
-	CfgFileURL = "D:/GithubLibrary/QQbot/config/config.yml"
-	MyName     = "我"
-	MYQQID     = "3403191872"
+	SendMsgURL    = "http://127.0.0.1:5700"
+	CfgFileURL    = "D:/GithubLibrary/QQbot/config/config.yml"
+	MyName        = "我"
+	MYQQID        = "3403191872"
+	DistanceLimit = 10
 
 	AT    = "at"
 	FACE  = "face"

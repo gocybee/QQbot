@@ -18,7 +18,7 @@ func PostRespond(c *gin.Context) {
 
 	//心跳检测的回应
 	if tools.IsHeartBeat(form) {
-		c.JSONP(http.StatusOK, gin.H{})
+		c.JSON(http.StatusOK, gin.H{})
 		return
 	}
 
