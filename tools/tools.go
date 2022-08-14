@@ -101,5 +101,4 @@ func loadResource(FileName string) *string {
 		result += "%0A"
 	}
 	return &result
-
 }
