@@ -77,78 +77,19 @@ func NeedSqlFire(msg *string) bool {
 
 //IsRepeated 是否出现了复读，打断
 func IsRepeated(form map[string]interface{}, repeated *bool) (*int64, bool, string) {
-	var f = false //标志是否找到消息
 	if IsPrivateMsg(form) {
 		idPtr, msgPtr, err := GetIdAndMsg(&form, global.PrivateFlag)
 		if err != nil {
 			return nil, false, ""
 		}
-		// 遍历寻找
-		for i := 0; i < len(global.Re); i++ {
-			//找到此人
-			if global.Re[i].Id == *idPtr {
-				f = true
-				//同样的消息
-				if global.Re[i].Content == *msgPtr {
-					global.Re[i].Times++
-					//告诉外界重复信息但不构成复读
-					*repeated = true
-
-					//触发复读
-					if global.Re[i].Times > global.RepeatLimit {
-						//清除内存
-						global.Re[i].Times = 0
-						return idPtr, true, global.PrivateFlag
-					}
-				} else {
-					//消息更新
-					global.Re[i].Content = *msgPtr
-					global.Re[i].Times = 1
-					return nil, false, ""
-				}
-			}
-		}
-		//没有找到则创建消息记录
-		if !f {
-			var r = global.Repeat{Id: *idPtr, Content: *msgPtr, Flag: global.PrivateFlag, Times: 1}
-			global.Re = append(global.Re, r)
-			return nil, false, ""
-		}
+		return GetPossibleRepeatedMsg(idPtr, msgPtr, global.PrivateFlag, repeated)
 	}
 	if IsGroupMsg(form) {
 		idPtr, msgPtr, err := GetIdAndMsg(&form, global.GroupFlag)
 		if err != nil {
 			return nil, false, ""
 		}
-		for i := 0; i < len(global.Re); i++ {
-			//同样的群，同样的消息
-			if global.Re[i].Id == *idPtr {
-				f = true
-				if global.Re[i].Content == *msgPtr {
-					global.Re[i].Times++
-
-					//告诉外界重复信息但不构成复读
-					*repeated = true
-
-					//触发复读
-					if global.Re[i].Times > global.RepeatLimit {
-						//清除内存
-						global.Re[i].Times = 0
-						return idPtr, true, global.GroupFlag
-					}
-
-				} else {
-					//消息更新
-					global.Re[i].Content = *msgPtr
-					global.Re[i].Times = 0
-					return nil, false, ""
-				}
-			}
-		}
-		if !f {
-			var r = global.Repeat{Id: *idPtr, Content: *msgPtr, Flag: global.GroupFlag, Times: 1}
-			global.Re = append(global.Re, r)
-		}
+		return GetPossibleRepeatedMsg(idPtr, msgPtr, global.GroupFlag, repeated)
 	}
 	return nil, false, ""
 }

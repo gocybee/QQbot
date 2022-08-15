@@ -46,6 +46,6 @@ const (
 var (
 	DB  *gorm.DB
 	QAs []*QA
-	Re  = make([]Repeat, 2) //储存可能是复读的句子
+	Re  = make(map[string]*Repeat, 1) //储存可能是复读的句子 索引为群号或QQ号
 	// 其中表情的ID是1-221.
 )

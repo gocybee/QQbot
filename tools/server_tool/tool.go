@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -107,4 +108,36 @@ func Beautify(ctx *string) {
 		}
 		*ctx += global.CodeCQFace(int64(i))
 	}
+}
+
+//GetPossibleRepeatedMsg 获取可能重复的信息于全局
+func GetPossibleRepeatedMsg(idPtr *int64, msgPtr *string, flag string, happened *bool) (*int64, bool, string) {
+	_idStr := strconv.FormatInt(*idPtr, 10)
+	//找到此人
+	if re, ok := global.Re[_idStr]; ok {
+		//同样的消息
+		if re.Content == *msgPtr {
+			re.Times++
+			fmt.Println("次数", re.Times)
+			//告诉外界重复信息但不构成复读
+			*happened = true
+			//触发复读
+			if re.Times > global.RepeatLimit {
+				fmt.Println("return了！！！")
+				//清除内存
+				re.Times = 0
+				return idPtr, true, flag
+			}
+		} else {
+			//消息更新
+			re.Content = *msgPtr
+			re.Times = 1
+			return nil, false, ""
+		}
+		return nil, false, ""
+	}
+	//没有找到则创建消息记录
+	var r = global.Repeat{Id: *idPtr, Content: *msgPtr, Flag: flag, Times: 1}
+	global.Re[_idStr] = &r
+	return nil, false, ""
 }
