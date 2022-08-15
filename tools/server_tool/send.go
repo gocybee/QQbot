@@ -8,8 +8,8 @@ import (
 	"unsafe"
 )
 
-//Send 发小规模消息
-func Send(qq *int64, msg *string, flag string) string {
+//send 发小规模消息
+func send(qq *int64, msg *string, flag string) string {
 	var target string
 	if flag == "group" {
 		target = "group"

@@ -118,12 +118,10 @@ func GetPossibleRepeatedMsg(idPtr *int64, msgPtr *string, flag string, happened 
 		//同样的消息
 		if re.Content == *msgPtr {
 			re.Times++
-			fmt.Println("次数", re.Times)
 			//告诉外界重复信息但不构成复读
 			*happened = true
 			//触发复读
 			if re.Times > global.RepeatLimit {
-				fmt.Println("return了！！！")
 				//清除内存
 				re.Times = 0
 				return idPtr, true, flag

@@ -42,3 +42,13 @@ func CodeCQFace(id int64) string {
 func CodeCQUrl(url string, title string) string {
 	return fmt.Sprintf("[CQ:%s,url=%s,title=%s]", SHARE, url, title)
 }
+
+// CodeCQPhoto 包装图片信息-非闪照
+func CodeCQPhoto(fileName string, url string) string {
+	return fmt.Sprintf("[CQ:%s,file=%s,subType=1,url=%s]", IMAGE, fileName, url)
+}
+
+// CodeCQPoke 包装戳一戳信息
+func CodeCQPoke(qq *int64) string {
+	return fmt.Sprintf("[CQ:%s,id=%d]", POKE, *qq)
+}

@@ -27,7 +27,7 @@ func PostRespond(c *gin.Context) {
 	var repeated = false
 	//复读判断
 	if idPtr, ok, flag := server_tool.IsRepeated(form, &repeated); ok {
-		server_tool.ResPondWithText(idPtr, "复读打咩", flag)
+		server_tool.ResPondWithTextAndPhoto(idPtr, "复读打咩", global.RefuseFileName, global.RefuseURL, flag)
 		c.JSON(http.StatusOK, gin.H{})
 		return
 	}
@@ -148,7 +148,7 @@ func PostRespond(c *gin.Context) {
 
 			//不直接@也有1/10的概率回答此特定的句子
 			if server_tool.DoOrNot(0.1) {
-				server_tool.ResPondWithText(idPtr, "欢迎大家随时问我问题哦", global.GroupFlag)
+				server_tool.ResPondWithText(idPtr, "欢迎大家随时问"+global.MyName+"问题哦", global.GroupFlag)
 			}
 		}
 	}

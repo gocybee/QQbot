@@ -3,35 +3,37 @@
 package server_tool
 
 import (
+	"QQbot/global"
 	"QQbot/tools/dao_tool"
 	"fmt"
 )
 
 //ResPondWithAsk 没有实际问题的回答
 func ResPondWithAsk(id *int64, flag string) {
-	t := "有什么事情吗？"
-	status := Send(id, &t, flag) //发送信息
+	t := "叫我干哈"
+	Beautify(&t)
+	status := send(id, &t, flag) //发送信息
 	fmt.Println(status)
 }
 
 //ResPondWithDBError 数据库出错返回
 func ResPondWithDBError(id *int64, flag string) {
 	text := "数据库炸了，寄"
-	status := Send(id, &text, flag)
+	status := send(id, &text, flag)
 	fmt.Println(status)
 }
 
 //ResPondWithText 返回test信息
 func ResPondWithText(id *int64, msg string, flag string) {
 	Beautify(&msg)
-	status := Send(id, &msg, flag)
+	status := send(id, &msg, flag)
 	fmt.Println(status)
 }
 
 //ResPondWithTextPtr 返回test信息
 func ResPondWithTextPtr(id *int64, msg *string, flag string) {
 	Beautify(msg)
-	status := Send(id, msg, flag)
+	status := send(id, msg, flag)
 	fmt.Println(status)
 }
 
@@ -51,4 +53,20 @@ func RespondWhitSqlAndAI(idPtr *int64, msgPtr *string, flag string) {
 	}
 	//匹配到了答案
 	ResPondWithTextPtr(idPtr, answerPtr, flag)
+}
+
+//ResPondWithPhoto 返回非闪照的图片
+func ResPondWithPhoto(id *int64, fileName string, url string, flag string) {
+	msg := global.CodeCQPhoto(fileName, url)
+	status := send(id, &msg, flag)
+	fmt.Println(status)
+}
+
+// 目前有bug
+
+//ResPondWithTextAndPhoto 返回信息及非闪照的图片
+func ResPondWithTextAndPhoto(id *int64, msg string, fileName string, url string, flag string) {
+	msg += global.CodeCQPhoto(fileName, url)
+	status := send(id, &msg, flag)
+	fmt.Println(status)
 }
