@@ -5,11 +5,6 @@ mysql:
   password:
   host: 127.0.0.1
   port: 3306
-#  dbname: www_tanicewhite_
-#  username: www_tanicewhite_
-#  password: GYWLzSKHGJpibeBJ
-#  host: 159.75.79.62
-#  port: 13306
 
 res:
   -

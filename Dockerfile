@@ -22,7 +22,8 @@ WORKDIR /bot
 
 # 将二进制文件从 /build 目录复制到这里
 COPY --from=builder /build/app .
-COPY --from=builder /build/config/ ./config/
+# COPY --from=builder /build/config/ ./config/
+# 自行映射数据卷
 
 # 声明服务端口
 EXPOSE 8080
