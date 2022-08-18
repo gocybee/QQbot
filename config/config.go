@@ -3,6 +3,7 @@ package config
 import (
 	"QQbot/dao"
 	"QQbot/global"
+	"os"
 
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
@@ -19,7 +20,6 @@ type Config struct {
 type Mysql struct {
 	DBName   string `yaml:"dbname"`
 	UserName string `yaml:"username"`
-	Password string `yaml:"password"`
 	Host     string `yaml:"host"`
 	Port     int32  `yaml:"port"`
 }
@@ -56,8 +56,9 @@ func loadCfg() error {
 }
 
 func initDB() error {
+	pwd := os.Getenv("MYSQL_ROOT_PASSWORD")
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
-		cfg.UserName, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
+		cfg.UserName, pwd, cfg.Host, cfg.Port, cfg.DBName)
 	db, err := gorm.Open("mysql", dsn)
 	db.SingularTable(true) // 禁用复数表名
 	if err != nil {

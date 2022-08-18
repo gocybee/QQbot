@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  bot:
+    build: .
+    container_name: qq-bot
+    volumes:
+      - /bot/config:/bot/config
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    restart: always
+    ports:
+      - "8881:8080"
+    networks:
+      - bot-net
+  mysql:
+    image: mysql:latest
+    container_name: qq-bot-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    networks:
+      - bot-net
+
+
+networks:
+  bot-net:
