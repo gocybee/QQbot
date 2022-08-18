@@ -20,11 +20,11 @@ func GetIdAndMsg(form *map[string]interface{}, flag string) (*int64, *string, er
 	msg := (*form)["raw_message"].(string)
 	if flag == "group" {
 
-		id = int64((*form)["group_id"].(float64)) //获取群号
+		id = int64((*form)["group_id"].(float64)) // 获取群号
 
 	} else if flag == "private" {
 
-		id = int64((*form)["user_id"].(float64)) //获取QQ号
+		id = int64((*form)["user_id"].(float64)) // 获取QQ号
 
 	} else {
 		return nil, nil, errors.New("flag error")
@@ -32,7 +32,7 @@ func GetIdAndMsg(form *map[string]interface{}, flag string) (*int64, *string, er
 	return &id, &msg, nil
 }
 
-//AIHelp 获取AI帮助
+// AIHelp 获取AI帮助
 func AIHelp(msg *string) (string, error) {
 	url := fmt.Sprintf("http://api.qingyunke.com/api.php?key=free&appid=0&msg=%s", *msg)
 	resp, err := http.Get(url)
@@ -52,7 +52,7 @@ func AIHelp(msg *string) (string, error) {
 	return AIType.Content, nil
 }
 
-//ExportSqlMsg 导出所有的学习的信息
+// ExportSqlMsg 导出所有的学习的信息
 func ExportSqlMsg() error {
 	data, err := yaml.Marshal(global.QAs)
 	if err != nil {
@@ -61,12 +61,12 @@ func ExportSqlMsg() error {
 	return ioutil.WriteFile("oldMsg.yml", data, 0777)
 }
 
-//GetIdFromMap 从接受到的表单中提取出用户或者群聊Id
+// GetIdFromMap 从接受到的表单中提取出用户或者群聊Id
 func GetIdFromMap(id interface{}) int64 {
 	return int64(id.(float64))
 }
 
-//DoOrNot 生成随机数换算为概率--输入小数,现两位，默认0.5
+// DoOrNot 生成随机数换算为概率--输入小数,现两位，默认0.5
 func DoOrNot(p float32) bool {
 	i := rand.Int() % 100
 	if i < int(p*100) {
@@ -75,7 +75,7 @@ func DoOrNot(p float32) bool {
 	return false
 }
 
-//GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
+// GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
 func GetUsefulMsg(msg *string) *string {
 	var x [2]int
 	str := *msg
@@ -97,12 +97,12 @@ func GetUsefulMsg(msg *string) *string {
 	return &an
 }
 
-//Beautify 为句子的头和尾美化
+// Beautify 为句子的头和尾美化
 func Beautify(ctx *string) {
-	//60%的概率做尾部美化
+	// 60%的概率做尾部美化
 	if DoOrNot(0.6) {
 		i := rand.Int()%221 + 1
-		//避开奇怪的表情
+		// 避开奇怪的表情
 		if (i > 40 && i < 92) || (i > 111 && i < 172) || i > 183 {
 			i = 179
 		}
@@ -110,31 +110,31 @@ func Beautify(ctx *string) {
 	}
 }
 
-//GetPossibleRepeatedMsg 获取可能重复的信息于全局
+// GetPossibleRepeatedMsg 获取可能重复的信息于全局
 func GetPossibleRepeatedMsg(idPtr *int64, msgPtr *string, flag string, happened *bool) (*int64, bool, string) {
 	_idStr := strconv.FormatInt(*idPtr, 10)
-	//找到此人
+	// 找到此人
 	if re, ok := global.Re[_idStr]; ok {
-		//同样的消息
+		// 同样的消息
 		if re.Content == *msgPtr {
 			re.Times++
-			//告诉外界重复信息但不构成复读
+			// 告诉外界重复信息但不构成复读
 			*happened = true
-			//触发复读
+			// 触发复读
 			if re.Times > global.RepeatLimit {
-				//清除内存
+				// 清除内存
 				re.Times = 0
 				return idPtr, true, flag
 			}
 		} else {
-			//消息更新
+			// 消息更新
 			re.Content = *msgPtr
 			re.Times = 1
 			return nil, false, ""
 		}
 		return nil, false, ""
 	}
-	//没有找到则创建消息记录
+	// 没有找到则创建消息记录
 	var r = global.Repeat{Id: *idPtr, Content: *msgPtr, Flag: flag, Times: 1}
 	global.Re[_idStr] = &r
 	return nil, false, ""

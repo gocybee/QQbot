@@ -19,10 +19,10 @@ type AI struct {
 }
 
 type Repeat struct {
-	Flag    string //group or private
+	Flag    string // group or private
 	Content string
-	Id      int64 //指向群号
-	Times   int   //重复次数
+	Id      int64 // 指向群号
+	Times   int   // 重复次数
 }
 
 const (
@@ -51,6 +51,6 @@ const (
 var (
 	DB  *gorm.DB
 	QAs []*QA
-	Re  = make(map[string]*Repeat, 1) //储存可能是复读的句子 索引为群号或QQ号
+	Re  = make(map[string]*Repeat, 1) // 储存可能是复读的句子 索引为群号或QQ号
 	// 其中表情的ID是1-221.
 )
