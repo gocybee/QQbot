@@ -2,7 +2,7 @@
 
 #### 环境依赖
 >go-cqhttp v1.0.0-rc3  
->mysql  
+>mysql
 
 #### 部署步骤
 >安装go-cqhttp  
@@ -30,10 +30,15 @@
 ├── service                     // 服务层  
 │   └── respond.go              // 路由中间件  
 │  
-├── tools                       // 工具层  
-│   ├── daoTools.go             // 数据库信息操作   
-│   ├── serviceTools.go         // 服务决断  
-│   └── tools.go                // 常用工具
+├── tools                       // 工具层    
+│   ├── dao_tool                // 数据库信息操作  
+│   │    └── daoTools.go  
+│   │  
+│   ├── server_tool             // 服务决断  
+│   │   ├── judge.go            // 判断  
+│   │   ├── respond.go          // 回复  
+│   │   ├── send.go             // 发送  
+│   │   └── tools.go            // 常用工具
 
 #### 相关功能
 >1.私聊时可以进行学习，导出文件，正常问答的问题  
