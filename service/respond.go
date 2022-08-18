@@ -10,22 +10,22 @@ import (
 )
 
 func PostRespond(c *gin.Context) {
-	//获取接收到的信息
+	// 获取接收到的信息
 	var form map[string]interface{}
 	if c.ShouldBind(&form) != nil {
 		c.JSON(http.StatusOK, gin.H{})
 		return
 	}
 
-	//心跳检测的回应
+	// 心跳检测的回应
 	if server_tool.IsHeartBeat(form) {
 		c.JSON(http.StatusOK, gin.H{})
 		return
 	}
 
-	//记录是否出现重复问题
+	// 记录是否出现重复问题
 	var repeated = false
-	//复读判断
+	// 复读判断
 	if idPtr, ok, flag := server_tool.IsRepeated(form, &repeated); ok {
 		server_tool.ResPondWithTextAndPhoto(idPtr, "复读打咩", global.RefuseFileName, global.RefuseURL, flag)
 		c.JSON(http.StatusOK, gin.H{})
@@ -42,7 +42,7 @@ func PostRespond(c *gin.Context) {
 		}
 		// 去除表情
 		msgPtr = server_tool.GetUsefulMsg(msgPtr)
-		//消息重复
+		// 消息重复
 		if repeated {
 			server_tool.ResPondWithText(idPtr, "刚刚才回答过哦", global.PrivateFlag)
 			c.JSON(http.StatusOK, gin.H{})
@@ -71,11 +71,11 @@ func PostRespond(c *gin.Context) {
 			return
 		}
 
-		//学习程序触发
+		// 学习程序触发
 		if server_tool.IsStudy(msgPtr) {
-			//信息写入数据库
+			// 信息写入数据库
 			err = dao_tool.Study(msgPtr)
-			//数据库出错
+			// 数据库出错
 			if err != nil {
 				server_tool.ResPondWithDBError(idPtr, global.PrivateFlag)
 				c.JSON(http.StatusOK, gin.H{})
@@ -88,13 +88,13 @@ func PostRespond(c *gin.Context) {
 			return
 		}
 
-		//正常问答
+		// 正常问答
 		server_tool.RespondWhitSqlAndAI(idPtr, msgPtr, global.PrivateFlag)
 		c.JSON(http.StatusOK, gin.H{})
 		return
 	}
 
-	//群聊消息回复
+	// 群聊消息回复
 	if server_tool.IsGroupMsg(form) {
 		idPtr, msgPtr, err := server_tool.GetIdAndMsg(&form, global.GroupFlag)
 		if err != nil {
@@ -102,19 +102,19 @@ func PostRespond(c *gin.Context) {
 			return
 		}
 
-		//匿名消息判断
+		// 匿名消息判断
 		if server_tool.IsAnonymous(form) {
 			server_tool.ResPondWithText(idPtr, "开发大大告诉我，匿名的都是坏蛋，你走开", global.GroupFlag)
 			c.JSON(http.StatusOK, gin.H{})
 			return
 		}
 
-		//被@了
+		// 被@了
 		if server_tool.BeAt(msgPtr) {
 			// 删除信息中@的部分
 			msgPtr = server_tool.GetUsefulMsg(msgPtr)
 
-			//消息重复
+			// 消息重复
 			if repeated {
 				server_tool.ResPondWithText(idPtr, "刚刚才回答过哦", global.GroupFlag)
 				c.JSON(http.StatusOK, gin.H{})
@@ -128,25 +128,25 @@ func PostRespond(c *gin.Context) {
 				return
 			}
 
-			//获取帮助
+			// 获取帮助
 			if server_tool.IsHelp(msgPtr) {
 				server_tool.ResPondWithText(idPtr, "我只会一点点欸，主要是开发大大太菜了", global.GroupFlag)
 				c.JSON(http.StatusOK, gin.H{})
 				return
 			}
-			//正常问答
+			// 正常问答
 			server_tool.RespondWhitSqlAndAI(idPtr, msgPtr, global.GroupFlag)
 
-			//没有被@
+			// 没有被@
 		} else {
-			//入群打招呼
+			// 入群打招呼
 			if strings.Contains(*msgPtr, "大家好") {
 				server_tool.ResPondWithText(idPtr, "欢迎来到极客勤奋蜂的大家庭", global.GroupFlag)
 				c.JSON(http.StatusOK, gin.H{})
 				return
 			}
 
-			//不直接@也有1/10的概率回答此特定的句子
+			// 不直接@也有1/10的概率回答此特定的句子
 			if server_tool.DoOrNot(0.1) {
 				server_tool.ResPondWithText(idPtr, "欢迎大家随时问"+global.MyName+"问题哦", global.GroupFlag)
 			}

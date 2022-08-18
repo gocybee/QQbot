@@ -8,7 +8,7 @@ import (
 	"unsafe"
 )
 
-//send 发小规模消息
+// send 发小规模消息
 func send(qq *int64, msg *string, flag string) string {
 	var target string
 	if flag == "group" {
