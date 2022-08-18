@@ -1,26 +1,41 @@
-version: '3'
+version: "3"
 
 services:
   bot:
     build: .
-    container_name: qq-bot
     volumes:
-      - /bot/config:/bot/config
+      - ${BOT_CONFIG_PATH}:/bot/config
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_ADDR: ${MYSQL_ADDR}
     restart: always
     ports:
-      - "8881:8080"
-    networks:
-      - bot-net
-  mysql:
+      - "${EXPOSED_PORT}:8080"
+
+  db:
     image: mysql:latest
-    container_name: qq-bot-mysql
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-    networks:
-      - bot-net
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
+  cq-http:
+    image: silicer/go-cqhttp:latest
+    restart: always
+    volumes:
+      - ${CQHTTP_DATA_PATH}:/data
+    ports:
+      - "6700:6700"
 
-networks:
-  bot-net:
+# 需要配置环境变量有
+# MYSQL_PASSWORD=xxx
+# MYSQL_USERNAME=xxx
+# BOT_CONFIG_PATH=xxx
+# MYSQL_DB_NAME=xxx
+# MYSQL_ADDR=[ip]:[port]
+# EXPOSED_PORT=port
+# CQHTTP_DATA_PATH=[需要包含 cqhttp config.yml]

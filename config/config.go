@@ -13,15 +13,7 @@ import (
 )
 
 type Config struct {
-	Mysql `yaml:"mysql"` // 数据库配置
-	Res   []global.QA    `yaml:"res"` // 问答初始化
-}
-
-type Mysql struct {
-	DBName   string `yaml:"dbname"`
-	UserName string `yaml:"username"`
-	Host     string `yaml:"host"`
-	Port     int32  `yaml:"port"`
+	Res []global.QA `yaml:"res"` // 问答初始化
 }
 
 var cfg *Config // mysql配置文件信息,数据库初始信息
@@ -56,9 +48,12 @@ func loadCfg() error {
 }
 
 func initDB() error {
-	pwd := os.Getenv("MYSQL_ROOT_PASSWORD")
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
-		cfg.UserName, pwd, cfg.Host, cfg.Port, cfg.DBName)
+	dbName := os.Getenv("MYSQL_DATABASE")
+	pwd := os.Getenv("MYSQL_PASSWORD")
+	addr := os.Getenv("MYSQL_ADDR")
+	userName := os.Getenv("MYSQL_USERNAME")
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		userName, pwd, addr, dbName)
 	db, err := gorm.Open("mysql", dsn)
 	db.SingularTable(true) // 禁用复数表名
 	if err != nil {

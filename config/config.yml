@@ -1,10 +1,3 @@
-mysql:
-  #主机测试
-  dbname: qqbot
-  username: root
-  host: 127.0.0.1
-  port: 3306
-
 res:
   -
     q1: 刷人
