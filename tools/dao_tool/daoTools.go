@@ -86,8 +86,8 @@ func UpdateQA() error {
 }
 
 // Study 开启学习功能，更新本地数据库
-func Study(msg *string) error {
-	qaS, err := CodeQA(msg)
+func Study(msg string) error {
+	qaS, err := CodeQA(&msg)
 	if err != nil {
 		return err
 	}

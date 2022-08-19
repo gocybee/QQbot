@@ -32,7 +32,7 @@ func PostRespond(c *gin.Context) {
 	// 私聊消息回复
 	if server_tool.IsPrivateMsg(form) {
 
-		idPtr, msgPtr, err := server_tool.GetIdAndMsg(&form, global.PrivateFlag)
+		idPtr, msgPtr, err := server_tool.GetIdAndMsg(form, global.PrivateFlag)
 		if err != nil {
 			return
 		}
@@ -85,7 +85,7 @@ func PostRespond(c *gin.Context) {
 
 	// 群聊消息回复
 	if server_tool.IsGroupMsg(form) {
-		idPtr, msgPtr, err := server_tool.GetIdAndMsg(&form, global.GroupFlag)
+		idPtr, msgPtr, err := server_tool.GetIdAndMsg(form, global.GroupFlag)
 		if err != nil {
 			return
 		}
@@ -124,7 +124,7 @@ func PostRespond(c *gin.Context) {
 			// 没有被@
 		} else {
 			// 入群打招呼
-			if strings.Contains(*msgPtr, "大家好") {
+			if strings.Contains(msgPtr, "大家好") {
 				server_tool.ResPondWithText(idPtr, "欢迎来到极客勤奋蜂的大家庭", global.GroupFlag)
 				return
 			}

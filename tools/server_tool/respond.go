@@ -9,36 +9,36 @@ import (
 )
 
 // ResPondWithAsk 没有实际问题的回答
-func ResPondWithAsk(id *int64, flag string) {
+func ResPondWithAsk(id int64, flag string) {
 	t := "叫我干哈"
 	Beautify(&t)
-	status := send(id, &t, flag) // 发送信息
+	status := send(&id, &t, flag) // 发送信息
 	fmt.Println(status)
 }
 
 // ResPondWithDBError 数据库出错返回
-func ResPondWithDBError(id *int64, flag string) {
+func ResPondWithDBError(id int64, flag string) {
 	text := "数据库炸了，寄"
-	status := send(id, &text, flag)
+	status := send(&id, &text, flag)
 	fmt.Println(status)
 }
 
 // ResPondWithText 返回test信息
-func ResPondWithText(id *int64, msg string, flag string) {
+func ResPondWithText(id int64, msg string, flag string) {
 	Beautify(&msg)
-	status := send(id, &msg, flag)
+	status := send(&id, &msg, flag)
 	fmt.Println(status)
 }
 
 // ResPondWithTextPtr 返回test信息
-func ResPondWithTextPtr(id *int64, msg string, flag string) {
+func ResPondWithTextPtr(id int64, msg string, flag string) {
 	Beautify(&msg)
-	status := send(id, &msg, flag)
+	status := send(&id, &msg, flag)
 	fmt.Println(status)
 }
 
 // RespondWhitSqlAndAI 出去特殊情况外的所有问答
-func RespondWhitSqlAndAI(idPtr *int64, msgPtr string, flag string) {
+func RespondWhitSqlAndAI(idPtr int64, msgPtr string, flag string) {
 	// 正常问答
 	answerPtr := dao_tool.CalculateAnswer(msgPtr) // 获取回答的语句
 	// 没有匹配到答案

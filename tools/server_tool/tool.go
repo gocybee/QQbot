@@ -15,21 +15,17 @@ import (
 )
 
 // GetIdAndMsg 从初始结构体中获取信息和发送的id
-func GetIdAndMsg(form *map[string]interface{}, flag string) (*int64, *string, error) {
+func GetIdAndMsg(form map[string]interface{}, flag string) (int64, string, error) {
 	var id int64
-	msg := (*form)["raw_message"].(string)
+	msg := form["raw_message"].(string)
 	if flag == "group" {
-
-		id = int64((*form)["group_id"].(float64)) // 获取群号
-
+		id = int64(form["group_id"].(float64)) // 获取群号
 	} else if flag == "private" {
-
-		id = int64((*form)["user_id"].(float64)) // 获取QQ号
-
+		id = int64(form["user_id"].(float64)) // 获取QQ号
 	} else {
-		return nil, nil, errors.New("flag error")
+		return 0, "", errors.New("flag error")
 	}
-	return &id, &msg, nil
+	return id, msg, nil
 }
 
 // AIHelp 获取AI帮助
@@ -76,9 +72,9 @@ func DoOrNot(p float32) bool {
 }
 
 // GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
-func GetUsefulMsg(msg *string) *string {
+func GetUsefulMsg(msg string) string {
 	var x [2]int
-	str := *msg
+	str := msg
 	res := []rune(str)
 
 	for i := 0; i < len(res); i++ {
@@ -94,7 +90,7 @@ func GetUsefulMsg(msg *string) *string {
 		}
 	}
 	an := strings.TrimSpace(string(res))
-	return &an
+	return an
 }
 
 // Beautify 为句子的头和尾美化
@@ -111,15 +107,15 @@ func Beautify(ctx *string) {
 }
 
 // GetPossibleRepeatedMsg 获取可能重复的信息于全局
-func GetPossibleRepeatedMsg(idPtr *int64, msgPtr *string, flag string, happened *bool) (*int64, bool, string) {
-	_idStr := strconv.FormatInt(*idPtr, 10)
+func GetPossibleRepeatedMsg(idPtr int64, msgPtr string, flag string, happened bool) (int64, bool, string) {
+	_idStr := strconv.FormatInt(idPtr, 10)
 	// 找到此人
 	if re, ok := global.Re[_idStr]; ok {
 		// 同样的消息
-		if re.Content == *msgPtr {
+		if re.Content == msgPtr {
 			re.Times++
 			// 告诉外界重复信息但不构成复读
-			*happened = true
+			happened = true
 			// 触发复读
 			if re.Times > global.RepeatLimit {
 				// 清除内存
@@ -128,14 +124,14 @@ func GetPossibleRepeatedMsg(idPtr *int64, msgPtr *string, flag string, happened 
 			}
 		} else {
 			// 消息更新
-			re.Content = *msgPtr
+			re.Content = msgPtr
 			re.Times = 1
-			return nil, false, ""
+			return 0, false, ""
 		}
-		return nil, false, ""
+		return 0, false, ""
 	}
 	// 没有找到则创建消息记录
-	var r = global.Repeat{Id: *idPtr, Content: *msgPtr, Flag: flag, Times: 1}
+	var r = global.Repeat{Id: idPtr, Content: msgPtr, Flag: flag, Times: 1}
 	global.Re[_idStr] = &r
-	return nil, false, ""
+	return 0, false, ""
 }
