@@ -31,19 +31,19 @@ func ResPondWithText(id *int64, msg string, flag string) {
 }
 
 // ResPondWithTextPtr 返回test信息
-func ResPondWithTextPtr(id *int64, msg *string, flag string) {
-	Beautify(msg)
-	status := send(id, msg, flag)
+func ResPondWithTextPtr(id *int64, msg string, flag string) {
+	Beautify(&msg)
+	status := send(id, &msg, flag)
 	fmt.Println(status)
 }
 
 // RespondWhitSqlAndAI 出去特殊情况外的所有问答
-func RespondWhitSqlAndAI(idPtr *int64, msgPtr *string, flag string) {
+func RespondWhitSqlAndAI(idPtr *int64, msgPtr string, flag string) {
 	// 正常问答
 	answerPtr := dao_tool.CalculateAnswer(msgPtr) // 获取回答的语句
 	// 没有匹配到答案
-	if answerPtr == nil {
-		test, err := AIHelp(msgPtr)
+	if answerPtr == "" {
+		test, err := AIHelp(&msgPtr)
 		if err != nil {
 			ResPondWithText(idPtr, "AI错误", flag)
 			return

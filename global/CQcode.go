@@ -29,8 +29,8 @@ type CQUrl struct {
 }
 
 // CodeCQAt 包装at信息,
-func CodeCQAt(qq *int64) string {
-	return fmt.Sprintf("[CQ:%s,qq=%v]", AT, *qq)
+func CodeCQAt(qq int64) string {
+	return fmt.Sprintf("[CQ:%s,qq=%v]", AT, qq)
 }
 
 // CodeCQFace 包装表情信息
@@ -49,6 +49,6 @@ func CodeCQPhoto(fileName string, url string) string {
 }
 
 // CodeCQPoke 包装戳一戳信息
-func CodeCQPoke(qq *int64) string {
-	return fmt.Sprintf("[CQ:%s,id=%d]", POKE, *qq)
+func CodeCQPoke(qq int64) string {
+	return fmt.Sprintf("[CQ:%s,id=%d]", POKE, qq)
 }

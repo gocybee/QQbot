@@ -5,33 +5,31 @@ package dao_tool
 import (
 	"QQbot/dao"
 	"QQbot/global"
-	"bufio"
 	"errors"
 	"github.com/lithammer/fuzzysearch/fuzzy"
-	"io"
-	"os"
+	"io/ioutil"
 	"strings"
 	"sync"
 )
 
 // CalculateAnswer 计算出距离最小的答案
-func CalculateAnswer(msg *string) *string {
+func CalculateAnswer(msg string) string {
 
 	var min = 100 // 记录最小值进行比较
 	var answer string
 
 	for _, v := range global.QAs {
-		x := matchDistance(*msg, v.Q1) // 计算距离
-		if x < min && x >= 0 {         // 满足要求
+		x := matchDistance(msg, v.Q1) // 计算距离
+		if x < min && x >= 0 {        // 满足要求
 			min = x           // 更新最小值
 			answer = v.Answer // 更新结果
 		}
-		x = matchDistance(*msg, v.Q2)
+		x = matchDistance(msg, v.Q2)
 		if x < min && x >= 0 {
 			min = x
 			answer = v.Answer
 		}
-		x = matchDistance(*msg, v.Q3)
+		x = matchDistance(msg, v.Q3)
 		if x < min && x >= 0 {
 			min = x
 			answer = v.Answer
@@ -47,10 +45,10 @@ func CalculateAnswer(msg *string) *string {
 
 	// 距离过远则舍弃答案
 	if min > global.DistanceLimit {
-		return nil
+		return ""
 	}
 
-	return &answer
+	return answer
 }
 
 // MatchDistance 获取某一个信息距离数据库中问题的距离
@@ -101,27 +99,12 @@ func Study(msg *string) error {
 }
 
 // TODO 错误处理
-func loadResource(FileName string) *string {
-	file, err := os.OpenFile(global.ResourceURL+FileName, os.O_RDONLY, 0666)
+func loadResource(FileName string) string {
+	b, err := ioutil.ReadFile(global.ResourceURL + FileName)
 	if err != nil {
-		return nil
+		return ""
 	}
-
-	defer file.Close()
-
-	reader := bufio.NewReader(file)
-
-	var result string
-	// 按行处理txt
-	for {
-		line, _, err := reader.ReadLine()
-		if err == io.EOF {
-			break
-		}
-		result += string(line)
-		result += "%0A"
-	}
-	return &result
+	return string(b)
 }
 
 // CodeQA 将学习的问题包装成结构体

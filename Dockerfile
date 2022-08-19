@@ -5,7 +5,7 @@ ENV GO111MODULE=on \
     CGO_ENABLED=0 \
     GOOS=linux \
     GOARCH=amd64 \
-    GOPORXY=https://goproxy.cn
+    GOPROXY=https://goproxy.cn
 
 # 移动到工作目录：/build
 WORKDIR /build
@@ -14,7 +14,8 @@ WORKDIR /build
 COPY . .
 
 # 将我们的代码编译成二进制可执行文件app
-RUN go build -o app ./cmd/main.go
+RUN set -x; go mod tidy && \
+    go build -o app ./cmd/main.go
 
 FROM scratch
 
