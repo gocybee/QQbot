@@ -3,89 +3,64 @@ version: "3.1"
 nlu:
 - intent: greet
   examples: |
-    - hey
-    - hello
+    - 你好
+    - 您好
+    - 早上好
+    - 晚上好
+    - 下午好
     - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
+    - hello
 
 - intent: goodbye
   examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
+    - 拜拜
+    - 再见
+    - 睡了
     - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
 
 - intent: affirm
   examples: |
+    - 对
     - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
+    - 当然
+    - 牛逼
+    - 可以
+    - OK
+    - 行
 
 - intent: deny
   examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
+    - 滚
+    - 不行
+    - 爬
+    - No
+    - 没有
 
 - intent: mood_great
   examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
+    - 开心
+    - 高兴
+    - 爽死了
+    - 起飞
+    - 卧槽
+    - 太刑了
+    - 太爽了
 
 - intent: mood_unhappy
   examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+    - 伤心
+    - 鼠鼠抱抱
+    - 艹
+    - 难受
+    - 妈的
+    - 呜呜呜
+    - 救命
+    - 😭😭😭
 
 - intent: bot_challenge
   examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+    - 你是谁?
+    - 你是人?
+    - 你是机器人?
+    - 你是啥?
+    - 啥玩意你是?
