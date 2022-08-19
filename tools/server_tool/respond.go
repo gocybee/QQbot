@@ -63,8 +63,8 @@ func ResPondWithPhoto(id *int64, fileName string, url string, flag string) {
 }
 
 // ResPondWithTextAndPhoto 返回信息及非闪照的图片
-func ResPondWithTextAndPhoto(id *int64, msg string, fileName string, url string, flag string) {
+func ResPondWithTextAndPhoto(id int64, msg string, fileName string, url string, flag string) {
 	msg += global.CodeCQPhoto(fileName, url)
-	status := send(id, &msg, flag)
+	status := send(&id, &msg, flag)
 	fmt.Println(status)
 }

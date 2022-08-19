@@ -107,7 +107,7 @@ func Beautify(ctx *string) {
 }
 
 // GetPossibleRepeatedMsg 获取可能重复的信息于全局
-func GetPossibleRepeatedMsg(idPtr int64, msgPtr string, flag string, happened bool) (int64, bool, string) {
+func GetPossibleRepeatedMsg(idPtr int64, msgPtr string, flag string, happened *bool) (int64, bool, string) {
 	_idStr := strconv.FormatInt(idPtr, 10)
 	// 找到此人
 	if re, ok := global.Re[_idStr]; ok {
@@ -115,7 +115,7 @@ func GetPossibleRepeatedMsg(idPtr int64, msgPtr string, flag string, happened bo
 		if re.Content == msgPtr {
 			re.Times++
 			// 告诉外界重复信息但不构成复读
-			happened = true
+			*happened = true
 			// 触发复读
 			if re.Times > global.RepeatLimit {
 				// 清除内存

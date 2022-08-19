@@ -76,7 +76,7 @@ func NeedSqlFire(msg string) bool {
 }
 
 // IsRepeated 是否出现了复读，打断
-func IsRepeated(form map[string]interface{}, repeated bool) (int64, bool, string) {
+func IsRepeated(form map[string]interface{}, repeated *bool) (int64, bool, string) {
 	if IsPrivateMsg(form) {
 		idPtr, msgPtr, err := GetIdAndMsg(form, global.PrivateFlag)
 		if err != nil {
