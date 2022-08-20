@@ -27,7 +27,7 @@ func MaintainRouting(id int64, msg string, repeated bool, flag string) error {
 		if global.PoolNumber < global.MaxPoolNumber {
 			RegisterRouting(_idStr, &t)
 		}
-		server_tool.ResPondWithText(id, "呀~鼠鼠的脑袋要转不过来了，等一会再来找我聊天嘛", flag)
+		server_tool.ResPondWithText(id, "呀~"+global.MyName+"的脑袋要转不过来了，等一会再来找我聊天嘛", flag)
 		return nil
 	}
 	return nil
