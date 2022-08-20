@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
 func PostRespond(c *gin.Context) {
@@ -47,11 +48,26 @@ func PostRespond(c *gin.Context) {
 		return
 	}
 
-	//注册并维护协程
-	err = routing_tool.MaintainRouting(senderId, id, msg, repeated, flag)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"err": err})
-		return
+	//注册并维护协程--私聊信息或者群聊指定信息
+	if server_tool.IsPrivateMsg(form) || (server_tool.IsGroupMsg(form) && server_tool.BeAt(msg)) {
+		err = routing_tool.MaintainRouting(senderId, id, msg, repeated, flag)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"err": err})
+			return
+		}
+	} else {
+		// 没有被@
+		if strings.Contains(msg, "大家好") {
+			server_tool.ResPondWithText(id, "欢迎来到极客勤奋蜂的大家庭", global.GroupFlag)
+			return
+		}
+
+		// 不直接@也有1/10的概率回答此特定的句子
+		if server_tool.DoOrNot(0.1) {
+			server_tool.ResPondWithText(id, "欢迎大家随时问"+global.MyName+"问题哦", global.GroupFlag)
+			return
+		}
+
 	}
 
 	//测试
