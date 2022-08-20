@@ -28,19 +28,21 @@ func MaintainRouting(id int64, msg string, repeated bool, flag string) error {
 }
 
 func RegisterRouting(idStr string, text *global.ChanMsg) {
+
 	var x global.Logic
 	global.Routing[idStr] = &x
 
 	//守护进程
 	global.Routing[idStr].Lock()
 	defer global.Routing[idStr].Unlock()
-	//信息发送
-	x.C = make(chan *global.ChanMsg)
-	x.C <- text
 
 	//执行默认函数--会阻塞一定的时间
 	err := global.Pool.Invoke(idStr)
 	if err != nil {
 		return
 	}
+
+	//信息发送
+	x.C = make(chan *global.ChanMsg)
+	x.C <- text
 }

@@ -51,5 +51,7 @@ func PostRespond(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"err": err})
 		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{})
 	return
 }

@@ -11,6 +11,9 @@ import (
 // GetIdAndMsg 从初始结构体中获取信息和发送的id
 func GetIdAndMsg(form map[string]interface{}, flag string) (int64, string, error) {
 	var id int64
+	if form["raw_message"] == nil {
+		return 0, "", errors.New("其他操作")
+	}
 	msg := form["raw_message"].(string)
 	if flag == "group" {
 		id = int64(form["group_id"].(float64)) // 获取群号

@@ -26,7 +26,7 @@ func loadPool() error {
 				if err != nil {
 					return
 				}
-			case <-time.After(global.TimeLimit):
+			case <-time.After(global.TimeLimit * time.Second):
 				//删除此协程记录
 				delete(global.Routing, str)
 				return
