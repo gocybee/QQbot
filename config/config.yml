@@ -1,41 +1,20 @@
-res:
-  -
-    q1: 刷人
-    q2: 留几个人
-    q3: 水平才留
-    answer: 我们是不会刷人的哦，坚持才是胜利，卷起来!!
-  -
-    q1: 零基础
-    q2: 没学过难学
-    q3: 入门
-    answer: 学习都是从0开始的嘛，开发大大也才入门golang没多久捏，有问题都可以找学长学姐哦。
-  -
-    q1: 组织
-    q2: 其他的
-    q3: 别的
-    answer: 学习还是靠自己，要有清晰的目标，当然学校也有很多其他的优秀的组织。
-  -
-    q1: 笔记
-    q2: 成员介绍
-    q3: 博客
-    answer: resource+blog_url
-  -
-    q1: 学go语言
-    q2: 学习路线
-    q3: 建议
-    answer: 当然有学习的方法和建议，学长手把手带你读他写的课件。 #TODO 学习路径和规划的url
-  -
-    q1: 勤奋蜂介绍
-    q2: 介绍
-    q3: 勤奋蜂是干什么的
-    answer: resource+team_introduction
-  -
-    q1: 你是干什么的
-    q2: 你来做什么
-    q3: 你是谁
-    answer: 我叫蜂蜂，可以为大家端茶倒水，还可以回答一些简单的问题，不过错了也不要怪我，人家也才出生没几天呢。
-  -
-    q1: 怎么进入勤奋蜂
-    q2: 怎么留在勤奋蜂
-    q3: 怎么留下来
-    answer: 态度端正，认真完成学长布置的任务
+
+time_limit: 10 #协程空闲最大时间(s)
+
+post_question_to_rasa_url: "" #向rasa机器人发送问题的接口
+
+get_rasa_answer_url: "" #接收rasa机器人回答的接口
+
+send_msg_url: "http://127.0.0.1:5700" #发送QQ信息的接口
+
+#打断复读发送的图片的文件名(不建议更改)
+refuse_file_name: "e185eceb199babeb7fe1061df5a88236.image"
+
+#打断复读发送的文件名的url(不建议更改)
+refuse_url: "https://gchat.qpic.cn/gchatpic_new/2505772098/881902822-3083931220-E185ECEB199BABEB7FE1061DF5A88236/0?term=3"
+
+my_name: "鼠鼠" #QQ机器人的自称(根据rasa模型更改)
+
+my_qq_id: "3403191872" #QQ机器人的qq号(根据cq-http配置文件相同)
+
+max_pool_number: 100 #连接池最大链接数量

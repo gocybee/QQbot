@@ -2,25 +2,20 @@ package config
 
 import (
 	"fmt"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"testing"
 )
 
 func Test(t *testing.T) {
-	err := loadCfg()
+	var config Config
+	yamlFile, err := ioutil.ReadFile("config.yml")
 	if err != nil {
-		fmt.Println("loadCfg():", err)
+		fmt.Println("err when read file:", err)
 	}
-	fmt.Printf("%#v\n", cfg)
-
-	err = initDB()
+	err = yaml.Unmarshal(yamlFile, &config)
 	if err != nil {
-		fmt.Println("InitDB():", err)
+		fmt.Println("err when unmarshal file:", err)
 	}
-	fmt.Println("链接成功")
-
-	err = loadQA()
-	if err != nil {
-		fmt.Println("loadQA():", err)
-	}
-	fmt.Println("加载成功")
+	fmt.Printf("%#v\n", config)
 }
