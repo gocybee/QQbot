@@ -4,6 +4,7 @@ import (
 	"QQbot/global"
 	"QQbot/tools/routing_tool"
 	"QQbot/tools/server_tool"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -39,18 +40,22 @@ func PostRespond(c *gin.Context) {
 	}
 
 	//获取信息的重要部分
-	id, msg, err := server_tool.GetIdAndMsg(form, flag)
+	senderId, id, msg, err := server_tool.GetIdAndMsg(form, flag)
+
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"err": err})
 		return
 	}
 
 	//注册并维护协程
-	err = routing_tool.MaintainRouting(id, msg, repeated, flag)
+	err = routing_tool.MaintainRouting(senderId, id, msg, repeated, flag)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"err": err})
 		return
 	}
+
+	//测试
+	fmt.Println("\n已注册的信息", global.Routing)
 
 	c.JSON(http.StatusOK, gin.H{})
 	return

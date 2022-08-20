@@ -54,18 +54,18 @@ func BeAt(str string) bool {
 // IsRepeated 是否出现了复读，打断
 func IsRepeated(form map[string]interface{}, repeated *bool) (int64, bool, string) {
 	if IsPrivateMsg(form) {
-		idPtr, msgPtr, err := GetIdAndMsg(form, global.PrivateFlag)
+		_, id, msg, err := GetIdAndMsg(form, global.PrivateFlag) //私聊时两id信息相同
 		if err != nil {
 			return 0, false, ""
 		}
-		return GetPossibleRepeatedMsg(idPtr, msgPtr, global.PrivateFlag, repeated)
+		return GetPossibleRepeatedMsg(id, msg, global.PrivateFlag, repeated)
 	}
 	if IsGroupMsg(form) {
-		idPtr, msgPtr, err := GetIdAndMsg(form, global.GroupFlag)
+		_, id, msg, err := GetIdAndMsg(form, global.GroupFlag) //群内复读不需要考虑个人
 		if err != nil {
 			return 0, false, ""
 		}
-		return GetPossibleRepeatedMsg(idPtr, msgPtr, global.GroupFlag, repeated)
+		return GetPossibleRepeatedMsg(id, msg, global.GroupFlag, repeated)
 	}
 	return 0, false, ""
 }

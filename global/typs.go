@@ -15,7 +15,7 @@ type Repeat struct {
 
 //ChanMsg 被维护的协程和主程序的通信
 type ChanMsg struct {
-	Id       int64  //发送放的id
+	Id       int64  //发送方的id
 	Msg      string //问题
 	Flag     string //group or private
 	Repeated bool   //是否触发了复读

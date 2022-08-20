@@ -38,4 +38,5 @@ func init() {
 	global.RefuseURL = config.RefuseURL
 	global.MyName = config.MyName
 	global.MYQQID = config.MYQQID
+	global.MaxPoolNumber = config.MaxPoolNumber
 }

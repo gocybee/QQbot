@@ -8,21 +8,25 @@ import (
 	"strings"
 )
 
-// GetIdAndMsg 从初始结构体中获取信息和发送的id
-func GetIdAndMsg(form map[string]interface{}, flag string) (int64, string, error) {
+// GetIdAndMsg 从初始结构体中获取信息和发送者的id以及群号
+func GetIdAndMsg(form map[string]interface{}, flag string) (int64, int64, string, error) {
 	var id int64
 	if form["raw_message"] == nil {
-		return 0, "", errors.New("其他操作")
+		return 0, 0, "", errors.New("其他操作")
 	}
+	//获取发送者的qq号
+	senderId := (form["sender"].(map[string]interface{}))["user_id"].(float64)
+	_senderId := int64(senderId)
+
 	msg := form["raw_message"].(string)
 	if flag == "group" {
 		id = int64(form["group_id"].(float64)) // 获取群号
 	} else if flag == "private" {
 		id = int64(form["user_id"].(float64)) // 获取QQ号
 	} else {
-		return 0, "", errors.New("flag error")
+		return 0, 0, "", errors.New("flag error")
 	}
-	return id, msg, nil
+	return _senderId, id, msg, nil
 }
 
 // DoOrNot 生成随机数换算为概率--输入小数,现两位
