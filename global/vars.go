@@ -31,7 +31,7 @@ var (
 
 	TimeLimit time.Duration //配置连接池的最大空闲时间
 
-	Pool *ants.Pool //协程池
+	Pool *ants.PoolWithFunc //协程池
 
 	Routing = make(map[string]*Logic) //每一个用户的对话储存为一个Logic协程
 

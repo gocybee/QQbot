@@ -23,8 +23,6 @@ type ChanMsg struct {
 
 //Logic 描述用户的通讯方式
 type Logic struct {
-	HandleFunc *func()       //协程池保留的对话协程
-	C          chan *ChanMsg //信息传输
-	Id         string        //自身在map中的位置
+	C chan *ChanMsg //信息传输
 	sync.Mutex
 }
