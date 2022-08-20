@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 // GetIdAndMsg 从初始结构体中获取信息和发送者的id以及群号
@@ -56,7 +57,10 @@ func GetUsefulMsg(msg string) string {
 			x[0], x[1] = 0, 0
 		}
 	}
-	an := strings.TrimSpace(string(res))
+
+	an := strings.TrimFunc(string(res), func(r rune) bool {
+		return !unicode.IsLetter(r) && !unicode.IsNumber(r) && !unicode.Is(unicode.Han, r)
+	})
 	return an
 }
 
