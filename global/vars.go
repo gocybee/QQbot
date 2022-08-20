@@ -29,6 +29,8 @@ var (
 	MYQQID                string //QQ机器人的qq号码
 	MaxPoolNumber         int    //连接池最大数量
 
+	PoolNumber int //记录已使用的连接池数量
+
 	TimeLimit time.Duration //配置连接池的最大空闲时间
 
 	Pool *ants.PoolWithFunc //协程池

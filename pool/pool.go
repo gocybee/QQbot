@@ -18,6 +18,7 @@ func init() {
 func loadPool() error {
 	var err error
 	global.Pool, err = ants.NewPoolWithFunc(global.MaxPoolNumber, func(x interface{}) {
+		global.PoolNumber++
 		str := x.(string)
 		for {
 			select {
@@ -29,6 +30,7 @@ func loadPool() error {
 			case <-time.After(global.TimeLimit * time.Second):
 				//删除此协程记录
 				delete(global.Routing, str)
+				global.PoolNumber--
 				return
 			}
 		}

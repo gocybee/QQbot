@@ -1,5 +1,5 @@
 
-time_limit: 10 #协程空闲最大时间(s)
+time_limit: 8 #协程空闲最大时间(s)
 
 post_question_to_rasa_url: "" #向rasa机器人发送问题的接口
 
@@ -17,4 +17,4 @@ my_name: "鼠鼠" #QQ机器人的自称(根据rasa模型更改)
 
 my_qq_id: "3403191872" #QQ机器人的qq号(根据cq-http配置文件相同)
 
-max_pool_number: 100 #连接池最大链接数量
+max_pool_number: 10 #连接池最大链接数量
