@@ -4,7 +4,6 @@ import (
 	"QQbot/global"
 	"QQbot/tools/routing_tool"
 	"QQbot/tools/server_tool"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -69,9 +68,6 @@ func PostRespond(c *gin.Context) {
 		}
 
 	}
-
-	//测试
-	fmt.Println("\n已注册的信息", global.Routing)
 
 	c.JSON(http.StatusOK, gin.H{})
 	return
