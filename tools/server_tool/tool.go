@@ -47,14 +47,7 @@ func GetUsefulMsg(msg string) string {
 		x2Changed = false
 	)
 	res := []rune(msg)
-	//特殊符号处理
-	for i := 0; i < len(res); i++ {
-		//无法识别的特殊符号和表情
-		if !(unicode.IsLetter(res[i]) || unicode.IsNumber(res[i]) || unicode.Is(unicode.Han, res[i])) {
-			res = []rune(string(res[:i]) + string(res[i+1:]))
-			i -= 1
-		}
-	}
+
 	//删除@以及表情
 	for i := 0; i < len(res); i++ {
 
@@ -71,6 +64,15 @@ func GetUsefulMsg(msg string) string {
 			i = -1 //res改变，再次遍历
 			x1Changed = false
 			x2Changed = false
+		}
+	}
+
+	//特殊符号处理
+	for i := 0; i < len(res); i++ {
+		//无法识别的特殊符号和表情
+		if !(unicode.IsLetter(res[i]) || unicode.IsNumber(res[i]) || unicode.Is(unicode.Han, res[i])) {
+			res = []rune(string(res[:i]) + string(res[i+1:]))
+			i -= 1
 		}
 	}
 
