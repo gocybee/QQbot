@@ -5,7 +5,6 @@ import (
 	"errors"
 	"math/rand"
 	"strconv"
-	"strings"
 	"unicode"
 )
 
@@ -48,8 +47,17 @@ func GetUsefulMsg(msg string) string {
 		x2Changed = false
 	)
 	res := []rune(msg)
-
+	//特殊符号处理
 	for i := 0; i < len(res); i++ {
+		//无法识别的特殊符号和表情
+		if !(unicode.IsLetter(res[i]) || unicode.IsNumber(res[i]) || unicode.Is(unicode.Han, res[i])) {
+			res = []rune(string(res[:i]) + string(res[i+1:]))
+			i -= 1
+		}
+	}
+	//删除@以及表情
+	for i := 0; i < len(res); i++ {
+
 		if res[i] == '[' {
 			x[0] = i
 			x1Changed = true
@@ -66,10 +74,7 @@ func GetUsefulMsg(msg string) string {
 		}
 	}
 
-	an := strings.TrimFunc(string(res), func(r rune) bool {
-		return !unicode.IsLetter(r) && !unicode.IsNumber(r) && !unicode.Is(unicode.Han, r)
-	})
-	return an
+	return string(res)
 }
 
 // Beautify 为句子的尾部美化
