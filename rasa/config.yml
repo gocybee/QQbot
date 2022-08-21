@@ -8,6 +8,8 @@ language: zh
 
 pipeline:
   - name: "JiebaTokenizer"
+  - name: "LexicalSyntacticFeaturizer"
+  - name: "CountVectorsFeaturizer"
   - name: "LanguageModelFeaturizer"
     model_name: "bert"
     model_weights: "bert-base-chinese"

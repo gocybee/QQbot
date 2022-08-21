@@ -27,3 +27,8 @@ stories:
   steps:
     - intent: ask_make_huo
     - action: utter_make_huo
+
+- story: drinking
+  steps:
+    - intent: ask_drinking
+    - action: utter_drinking
