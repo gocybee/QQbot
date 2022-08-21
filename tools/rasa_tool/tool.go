@@ -2,8 +2,10 @@ package rasa_tool
 
 import (
 	"QQbot/global"
+	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 	"unsafe"
 )
 
@@ -22,8 +24,13 @@ func AskRasa(l *global.RoutingMsg, rmPtr *global.ReceivedMsg) {
 }
 
 //PostQuestion 向rasa发送问题
-func PostQuestion() string {
-	resp, err := http.Get(global.PostQuestionToRasaURL)
+func PostQuestion(session string, text string) string {
+	q := global.RasaPost{Sender: session, Message: text}
+	reader, err := json.Marshal(q)
+	if err != nil {
+		return err.Error()
+	}
+	resp, err := http.Post(global.PostQuestionToRasaURL+"/webhooks/callback/webhook", "application/json", strings.NewReader(string(reader)))
 	if err != nil {
 		return err.Error()
 	}
@@ -33,6 +40,7 @@ func PostQuestion() string {
 	if err != nil {
 		return err.Error()
 	}
+
 	return *(*string)(unsafe.Pointer(&data))
 }
 
@@ -49,4 +57,9 @@ func GetAnswer() string {
 		return err.Error()
 	}
 	return *(*string)(unsafe.Pointer(&data))
+}
+
+// GetAnalysisId 获取语义分析的id
+func GetAnalysisId() string {
+	return ""
 }

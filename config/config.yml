@@ -1,9 +1,11 @@
 
 time_limit: 10 #协程空闲最大时间(s)
 
-post_question_to_rasa_url: "" #向rasa机器人发送问题的接口
+post_question_to_rasa_url: "http://127.0.0.1:5000" #向rasa机器人发送问题的接口
 
-get_rasa_answer_url: "" #接收rasa机器人回答的接口
+question_analysis_url: "" #向rasa询问语义
+
+get_rasa_answer_url: "http://127.0.0.1:5002/api" #接收rasa机器人回答的接口
 
 send_msg_url: "http://127.0.0.1:5700" #发送QQ信息的接口
 

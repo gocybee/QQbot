@@ -32,3 +32,15 @@ type RoutingMsg struct {
 	C        chan *ChanMsg //信息传输
 	sync.Mutex
 }
+
+// RasaPost 向Rasa发送的消息
+type RasaPost struct {
+	Sender  string `json:"sender"`
+	Message string `json:"message"`
+}
+
+// RasaRec 接收的消息
+type RasaRec struct {
+	Text  string `json:"text"`
+	Image string `json:"image"`
+}

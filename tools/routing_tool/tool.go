@@ -24,6 +24,7 @@ func MaintainRouting(rmPtr *global.ReceivedMsg) error {
 //registerRouting 注册协程时不需要考虑是否为群聊
 func registerRouting(senderIdStr string) {
 	var x global.RoutingMsg
+	//一定要初始化通道
 	x.C = make(chan *global.ChanMsg, 0)
 
 	global.Routing[senderIdStr] = &x

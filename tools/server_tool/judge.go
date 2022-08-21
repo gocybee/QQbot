@@ -79,5 +79,3 @@ func DoOrNot(p float32) bool {
 	}
 	return false
 }
-
-func IsMeaningRepeated() {}

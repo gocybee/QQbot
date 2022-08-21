@@ -10,6 +10,7 @@ import (
 type Config struct {
 	TimeLimit             time.Duration `yaml:"time_limit"`                //配置协程最大空闲时间
 	PostQuestionToRasaURL string        `yaml:"post_question_to_rasa_url"` //后端链接rasa机器人传输问题的接口
+	QuestionAnalysisURL   string        `yaml:"question_analysis_url"`     //后端语义分析接口
 	GetRasaAnswerURL      string        `yaml:"get_rasa_answer_url"`       //后端从rasa获取答案的接口
 	SendMsgURL            string        `yaml:"send_msg_url"`              //发送QQ信息的接口
 	RefuseFileName        string        `yaml:"refuse_file_name"`          //复读打断消息所需图片的文件名
@@ -32,6 +33,7 @@ func init() {
 	//赋初值
 	global.TimeLimit = config.TimeLimit
 	global.PostQuestionToRasaURL = config.PostQuestionToRasaURL
+	global.QuestionAnalysisURl = config.QuestionAnalysisURL
 	global.GetRasaAnswerURL = config.GetRasaAnswerURL
 	global.SendMsgURL = config.SendMsgURL
 	global.RefuseFileName = config.RefuseFileName

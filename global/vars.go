@@ -19,6 +19,7 @@ const (
 
 var (
 	PostQuestionToRasaURL string //后端链接rasa机器人传输问题的接口
+	QuestionAnalysisURl   string //后端语义分析接口
 	GetRasaAnswerURL      string //后端从rasa获取答案的接口
 	SendMsgURL            string //发送QQ信息的接口
 	RefuseFileName        string //复读打断消息所需图片的文件名
