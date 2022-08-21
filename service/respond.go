@@ -41,7 +41,6 @@ func PostRespond(c *gin.Context) {
 
 	//获取信息的重要部分
 	senderId, id, msg, err := server_tool.GetIdAndMsg(form, flag)
-
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"err": err})
 		return

@@ -17,7 +17,7 @@ func init() {
 //loadPool 启动时加载协程池
 func loadPool() error {
 	var err error
-	global.Pool, err = ants.NewPoolWithFunc(global.MaxPoolNumber, func(x interface{}) {
+	global.Pool, err = ants.NewPoolWithFunc(global.MaxPoolNumber, func(x interface{}) { //即传入的sender_id
 		global.PoolNumber++
 		str := x.(string)
 		for {

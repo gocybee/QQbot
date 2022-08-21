@@ -41,20 +41,28 @@ func DoOrNot(p float32) bool {
 
 // GetUsefulMsg 删去@自己部分（CQcode部分），获取消息的可被分析部分
 func GetUsefulMsg(msg string) string {
-	var x [2]int
-	str := msg
-	res := []rune(str)
+	var (
+		x [2]int
+		//记录事件发生
+		x1Changed = false
+		x2Changed = false
+	)
+	res := []rune(msg)
 
 	for i := 0; i < len(res); i++ {
 		if res[i] == '[' {
 			x[0] = i
+			x1Changed = true
 		}
 		if res[i] == ']' {
 			x[1] = i
+			x2Changed = true
 		}
-		if x[0] != 0 || x[1] != 0 {
+		if x1Changed && x2Changed {
 			res = []rune(string(res[:x[0]]) + string(res[x[1]+1:]))
-			x[0], x[1] = 0, 0
+			i = -1 //res改变，再次遍历
+			x1Changed = false
+			x2Changed = false
 		}
 	}
 

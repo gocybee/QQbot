@@ -7,11 +7,12 @@ import (
 
 const (
 	URLTOConfig = "D:/GithubLibrary/QQbot/config/config.yml" //到配置文件的绝对路径
-	AT          = "at"
-	FACE        = "face"
-	SHARE       = "share"
-	IMAGE       = "image"
-	POKE        = "poke"
+
+	AT    = "at"
+	FACE  = "face"
+	SHARE = "share"
+	IMAGE = "image"
+	POKE  = "poke"
 
 	PrivateFlag = "private"
 	GroupFlag   = "group"
