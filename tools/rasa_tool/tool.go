@@ -1,4 +1,4 @@
-package link_rasa
+package rasa_tool
 
 import (
 	"QQbot/global"
@@ -6,6 +6,20 @@ import (
 	"net/http"
 	"unsafe"
 )
+
+// AskRasa 向协程发送信息
+func AskRasa(l *global.RoutingMsg, rmPtr *global.ReceivedMsg) {
+	t := global.ChanMsg{
+		Id:        rmPtr.GetOppositeIdInt64(),
+		Msg:       rmPtr.GetMsg(),
+		Flag:      rmPtr.GetGlobalFlag(),
+		Repeated:  rmPtr.IsRepeated(),
+		Session:   l.Session,
+		OldQueId:  l.OldQueId,
+		RoutingID: rmPtr.GetSenderIdStr(),
+	}
+	l.C <- &t
+}
 
 //PostQuestion 向rasa发送问题
 func PostQuestion() string {

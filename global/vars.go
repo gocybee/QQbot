@@ -14,10 +14,7 @@ const (
 	IMAGE = "image"
 	POKE  = "poke"
 
-	PrivateFlag = "private"
-	GroupFlag   = "group"
-
-	RepeatLimit = 2
+	RepeatLimit = 3
 )
 
 var (
@@ -36,11 +33,8 @@ var (
 
 	Pool *ants.PoolWithFunc //协程池
 
-	Routing = make(map[string]*Logic) //每一个用户的对话储存为一个Logic协程
+	Routing = make(map[string]*RoutingMsg) //每一个用户的对话储存为一个Logic协程
 
-	Re = make(map[string]*Repeat, 1) // 储存可能是复读的句子 索引为群号或QQ号
+	Repeated = make(map[string]*Repeat, 1) // 储存可能是复读的句子 索引为群号或QQ号
 	// 其中表情的ID是1-221.
-
-	//DB  *gorm.DB
-	//QAs []*QA
 )
