@@ -12,13 +12,13 @@ jobs:
           requirements_file: requirements.txt
           data_validate: true
           rasa_train: true
-          cross_validation: true
+          cross_validation: false
           rasa_test: true
           test_type: all
-          publish_summary: false
+          publish_summary: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload model
-        if: github.ref == 'refs/heads/main'
+        if: startsWith(github.event.ref, 'refs/tags') || github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@master
         with:
           name: model
