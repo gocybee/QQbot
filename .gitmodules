@@ -1,0 +1,3 @@
+[submodule "QQbot-rasa"]
+	path = QQbot-rasa
+	url = git@github.com:gocybee/QQbot-rasa.git
