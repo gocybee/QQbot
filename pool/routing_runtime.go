@@ -3,7 +3,6 @@ package pool
 import (
 	"QQbot/global"
 	"QQbot/tools/server_tool"
-	"fmt"
 	"time"
 )
 
@@ -15,7 +14,6 @@ func RoutingRuntimeLogic(x interface{}) {
 	for {
 		select {
 		case t := <-global.Routing[str].C:
-			fmt.Println("接收到消息了！！！！！！！！！！！！！")
 			//接收到消息
 			server_tool.RespondLogic(t)
 
