@@ -22,3 +22,8 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: make_huo path
+  steps:
+    - intent: ask_make_huo
+    - action: utter_make_huo

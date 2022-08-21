@@ -5,37 +5,25 @@ stories:
 - story: happy path 1
   steps:
   - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
+      芜湖，起飞
     intent: mood_great
   - action: utter_happy
 
 - story: happy path 2
   steps:
   - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
+      太爽了
     intent: mood_great
   - action: utter_happy
   - user: |
-      bye-bye!
+      再见
     intent: goodbye
   - action: utter_goodbye
 
 - story: sad path 1
   steps:
   - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
+      难受
     intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -47,27 +35,19 @@ stories:
 - story: sad path 2
   steps:
   - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
+      伤心
     intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
   - user: |
-      not really
+      没有
     intent: deny
   - action: utter_goodbye
 
 - story: sad path 3
   steps:
   - user: |
-      hi
-    intent: greet
-  - action: utter_greet
-  - user: |
-      very terrible
+      呜呜呜
     intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -79,13 +59,13 @@ stories:
 - story: say goodbye
   steps:
   - user: |
-      bye-bye!
+      再见
     intent: goodbye
   - action: utter_goodbye
 
 - story: bot challenge
   steps:
   - user: |
-      are you a bot?
+      你是机器人吗？
     intent: bot_challenge
   - action: utter_iamabot
