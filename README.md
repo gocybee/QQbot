@@ -1,47 +1,55 @@
 # QQbot
 
 #### 环境依赖
->go-cqhttp v1.0.0-rc3  
->mysql
+>go-cqhttp v1.0.0-rc3
 
 #### 部署步骤
->安装go-cqhttp  
->设置config/config.yml文件的参数  
->设置global/global.go中**SendMsgURL** **CfgFileURL** **MYQQID**字段的值  
->运行./cmd/main.go
+>1.安装go-cqhttp并做好相关调试  
+>2.获取rasa机器人存入QQbot-rasa/models文件夹下并设置接口5005(默认)  
+>3.设置config/config.yml文件的参数  
+>4.设置global/global.go中**CfgFileURL** **MYQQID**字段的值  
+>5.rasa train + rasa run 运行rasa机器人  
+>6.运行./cmd/main.go
 
 #### 目录结构描述
-├── README.md                   // help  
+>├── README.md                   // help  
 ├── api                         // 路由层  
-├── cmd                         // main函数  
-├── config                      // 配置  
-│   ├── config.go               // 配置控制   
-│   ├── config.yml              // 配置文件  
-│   └── config_test.go  
 │  
-├── dao                         // 数据库操作层  
-│   ├── dao.go                  //数据库操作  
-│   └── select_test.go  
+├── cmd  
+│　　└── main.go                 // main函数  
 │  
-├── global                      // 全局变量层  
-│   ├── CQcode.go               // 特殊信息包装   
-│   └── global.go               // 全局常量和变量  
-│   
+├── config   
+│　　├── config.go               // 配置控制   
+│　　├── config.yml              // 配置文件  
+│　　└── config_test.go  
+│  
+├── global  
+│　　├── CQcode.go               // QQ表情信息&包装   
+│　　├── message.go              // 描述通道传递的信息  
+│　　├── types.go                // 全局结构体  
+│　　└── vars.go                 // 全局常量和变量  
+│  
+├── pool                        // 协程连接池  
+│　　├── pool.go                 // 协程预加载加载  
+│　　└── routing_runtime.go      // 协程运行逻辑  
+│  
+├── QQbot-rasa                  // 储存rasa机器人模型  
+│  
 ├── service                     // 服务层  
-│   └── respond.go              // 路由中间件  
+│　　└── respond.go              // 路由中间件  
 │  
-├── tools                       // 工具层    
-│   ├── dao_tool                // 数据库信息操作  
-│   │    └── daoTools.go  
-│   │  
-│   ├── server_tool             // 服务决断  
-│   │   ├── judge.go            // 判断  
-│   │   ├── respond.go          // 回复  
-│   │   ├── send.go             // 发送  
-│   │   └── tools.go            // 常用工具
+├── tools    
+│　　├── rasa_tool               // 处理链接rasa机器人  
+│　　│　　├── talk_test.go  
+│　　│　　└── tool.go  
+│　　│  
+│　　├── routing_tool            // 协程维护层   
+│　　│　　└── respond.go  
+│　　│  
+│　　├── server_tool             // 服务决断  
+│　　│　　├── answer_post.go      // 回复层  
+│　　│　　├── judge.go            // 判断层  
+│　　│　　├── logic.go            // 回复逻辑层  
+│　　│　　└── msg.go              // 信息处理层
 
 #### 相关功能
->1.私聊时可以进行学习，导出文件，正常问答的问题  
-> &emsp;需要学习：回复”问题1 问题2 问题3+答案“即可收到回复  
-> &emsp;需要导出文件：回复”导出问答文件“即生成名字为oldMsg.yml文件  
->2.注意：所有学习的语句将会被模糊查询，并在所有情景下回答。
