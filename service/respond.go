@@ -44,13 +44,13 @@ func PostRespond(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"err": err})
 			return
 		}
+
+		//精简问题--删除多余部分
+		rmPtr.ExtractRawMsg()
+
+		//发送问题
+		rasa_tool.AskRasa(global.Routing[rmPtr.GetSenderIdStr()], rmPtr)
 	}
-
-	//精简问题--删除多余部分
-	rmPtr.ExtractRawMsg()
-
-	//发送问题
-	rasa_tool.AskRasa(global.Routing[rmPtr.GetSenderIdStr()], rmPtr)
 
 	c.JSON(http.StatusOK, gin.H{})
 	return

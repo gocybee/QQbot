@@ -15,7 +15,7 @@ func MaintainRouting(rmPtr *global.ReceivedMsg) error {
 			registerRouting(rmPtr.GetSenderIdStr())
 
 		} else {
-			server_tool.ResPondWithText(rmPtr.GetOppositeIdInt64(), "呀~"+global.MyName+"的脑袋要转不过来了，等一会再来找我聊天嘛", rmPtr.GetGlobalFlag())
+			server_tool.ResPondWithText(rmPtr.GetOppositeIdInt64(), "呀~"+global.MyName+"的脑袋要转不过来了，等一会再来找我聊天嘛", rmPtr.GetGlobalFlag(), true)
 		}
 	}
 	return nil

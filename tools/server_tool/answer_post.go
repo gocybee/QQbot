@@ -11,15 +11,10 @@ import (
 )
 
 // ResPondWithText 返回test信息
-func ResPondWithText(id int64, msg string, flag string) {
-	Beautify(&msg)
-	status := send(&id, &msg, flag)
-	fmt.Println(status)
-}
-
-// ResPondWithTextPtr 返回test信息
-func ResPondWithTextPtr(id int64, msg string, flag string) {
-	Beautify(&msg)
+func ResPondWithText(id int64, msg string, flag string, needBeautify bool) {
+	if needBeautify {
+		Beautify(&msg)
+	}
 	status := send(&id, &msg, flag)
 	fmt.Println(status)
 }

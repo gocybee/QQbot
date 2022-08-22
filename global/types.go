@@ -41,6 +41,6 @@ type RasaPost struct {
 
 // RasaRec 接收的消息
 type RasaRec struct {
-	Text  string `json:"text"`
-	Image string `json:"image"`
+	RecipientId string `json:"recipient_id"`
+	Text        string `json:"text"`
 }
