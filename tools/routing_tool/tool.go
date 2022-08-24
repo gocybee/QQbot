@@ -7,7 +7,6 @@ import (
 
 //MaintainRouting 维护协程直到回话结束，第一次则注册此协程
 func MaintainRouting(rmPtr *global.ReceivedMsg) error {
-
 	//询问全局是否注册-sender_id为key
 	if _, ok := global.Routing[rmPtr.GetSenderIdStr()]; !ok {
 		//最大连接数量把控

@@ -3,12 +3,10 @@ package rasa_tool
 import (
 	"QQbot/global"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
 	"strings"
-	"unsafe"
 )
 
 // AskRasa 向协程发送信息
@@ -49,7 +47,7 @@ func GetRasaAnswer(session string, text string) string {
 		return err.Error()
 	}
 
-	fmt.Println("原始回答：", *(*string)(unsafe.Pointer(&data)))
+	//fmt.Println("原始回答：", *(*string)(unsafe.Pointer(&data)))
 
 	var ans string //储存回答的语句
 	for _, v := range an {
