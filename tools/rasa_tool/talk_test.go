@@ -10,7 +10,7 @@ func Test1(t *testing.T) {
 	fmt.Println("回答", str)
 }
 
-func Test2(t *testing.T) {
-	str := GetAnalysisId("Hello")
-	fmt.Println("回答", str)
-}
+//func Test2(t *testing.T) {
+//	str := GetAnalysisId("Hello")
+//	fmt.Println("回答", str)
+//}

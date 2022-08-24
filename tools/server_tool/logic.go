@@ -18,6 +18,11 @@ func RespondLogic(text *global.ChanMsg) {
 		return
 	}
 
+	if text.Msg == "" {
+		ResPondWithText(text.Id, "叫我干哈", text.Flag, true)
+		return
+	}
+
 	//TODO 第一次则获取rasa的回复和session然后将session加入global.Routing中
 	answer := rasa_tool.GetRasaAnswer(text.RoutingID, text.Msg)
 	if answer == "" {
