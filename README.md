@@ -4,10 +4,10 @@
 >go-cqhttp v1.0.0-rc3
 
 #### 部署步骤
->1.安装go-cqhttp并做好相关调试  
+>1.安装go-cqhttp并做好相关调试
 >2.获取rasa机器人存入QQbot-rasa/models文件夹下并设置接口5005(默认)  
 >3.设置config/config.yml文件的参数  
->4.设置global/global.go中**CfgFileURL** **MYQQID**字段的值  
+>4.设置global/global.go中**CfgFileURL**字段的值  
 >5.rasa train + rasa run 运行rasa机器人  
 >6.运行./cmd/main.go
 
