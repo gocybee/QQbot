@@ -27,7 +27,7 @@ func IntentionJudge(cPtr *global.ChanMsg) string {
 		return global.LIKE
 	}
 	//3G故事
-	if whichIntention(msg, []string{"3G"}) {
+	if whichIntention(msg, []string{"3G", "3g"}) {
 		return global.THREE
 	}
 	// 学校相关
