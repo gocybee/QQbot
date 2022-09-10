@@ -16,7 +16,7 @@ func RespondLogic(text *global.ChanMsg) {
 	}
 
 	if IsHelp(text.Msg) {
-		ResPondWithText(text.Id, "我只会一点点欸，主要是开发大大太菜了", text.Flag, true)
+		ResPondWithText(text.Id, "我只会一点点欸，主要是开发大大太菜了(help写出来也没几个字)", text.Flag, true)
 		return
 	}
 
