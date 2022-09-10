@@ -1,6 +1,7 @@
 package config
 
 import (
+	"QQbot/global"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -8,8 +9,8 @@ import (
 )
 
 func Test(t *testing.T) {
-	var config Config
-	yamlFile, err := ioutil.ReadFile("config.yml")
+	var config OtherConfig
+	yamlFile, err := ioutil.ReadFile(global.URLTOOTHERConfig)
 	if err != nil {
 		fmt.Println("err when read file:", err)
 	}

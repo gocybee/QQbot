@@ -38,4 +38,4 @@ services:
 # MYSQL_DB_NAME=xxx
 # MYSQL_ADDR=[ip]:[port]
 # EXPOSED_PORT=port
-# CQHTTP_DATA_PATH=[需要包含 cqhttp config.yml]
+# CQHTTP_DATA_PATH=[需要包含 cqhttp other_conf.yml]

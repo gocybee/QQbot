@@ -47,8 +47,6 @@ func GetRasaAnswer(session string, text string) string {
 		return err.Error()
 	}
 
-	//fmt.Println("原始回答：", *(*string)(unsafe.Pointer(&data)))
-
 	var ans string //储存回答的语句
 	for _, v := range an {
 		if a, ok := v["text"]; ok {
@@ -58,29 +56,6 @@ func GetRasaAnswer(session string, text string) string {
 			}
 		}
 	}
+
 	return ans
 }
-
-//
-//// GetAnalysisId 获取语义分析的id
-//func GetAnalysisId(text string) string {
-//	q := fmt.Sprintf("\"text\":%s", text)
-//
-//	reader, err := json.Marshal(q)
-//	if err != nil {
-//		return err.Error()
-//	}
-//
-//	resp, err := http.Post("http://0.0.0.0:5005/model/parse", "application/json", strings.NewReader(string(reader)))
-//	if err != nil {
-//		return err.Error()
-//	}
-//	defer resp.Body.Close()
-//
-//	data, err := io.ReadAll(resp.Body)
-//	if err != nil {
-//		return err.Error()
-//	}
-//
-//	return *(*string)(unsafe.Pointer(&data))
-//}

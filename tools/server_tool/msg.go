@@ -18,7 +18,7 @@ func Beautify(ctx *string) {
 	}
 }
 
-// RegisterRepeated 基于消息源创建信息记录
+// RegisterRepeated 基于消息源创建信息记录-便于统计复读
 func RegisterRepeated(rmPtr *global.ReceivedMsg) {
 	var r = global.Repeat{
 		Id:      rmPtr.GetOppositeIdInt64(),
