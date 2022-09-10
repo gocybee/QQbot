@@ -2,6 +2,7 @@ package server_tool
 
 import (
 	"QQbot/global"
+	"QQbot/tools/analysis_tool"
 	"QQbot/tools/rasa_tool"
 )
 
@@ -18,17 +19,24 @@ func RespondLogic(text *global.ChanMsg) {
 		return
 	}
 
-	if text.Msg == "" {
+	if text.Msg == "" || PunctualOnly(text.Msg) {
 		ResPondWithText(text.Id, "叫我干哈", text.Flag, true)
 		return
 	}
 
-	//TODO 第一次则获取rasa的回复和session然后将session加入global.Routing中
-	answer := rasa_tool.GetRasaAnswer(text.RoutingID, text.Msg)
-	if answer == "" {
-		ResPondWithText(text.Id, "还不懂这句话的意思哦", text.Flag, true)
+	intention := analysis_tool.IntentionJudge(text)
+	// ChAT 交予rasa
+	if intention == global.CHAT {
+		answer := rasa_tool.GetRasaAnswer(text.RoutingID, text.Msg)
+		if answer == "" {
+			ResPondWithText(text.Id, "还不懂这句话的意思哦", text.Flag, true)
+		}
+		ResPondWithText(text.Id, answer, text.Flag, false)
+		return
+	} else {
+		//其余搜寻答案即可
+		an := analysis_tool.SelectAnswer(intention)
+		ResPondWithText(text.Id, an, text.Flag, true)
+		return
 	}
-	ResPondWithText(text.Id, answer, text.Flag, false)
-
-	return
 }

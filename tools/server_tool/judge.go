@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+	"unicode"
 )
 
 // IsHeartBeat 判断是否为心跳事件
@@ -42,6 +43,17 @@ func IsHelp(mt string) bool {
 // BeAt 看自己是否被@
 func BeAt(mt string) bool {
 	return strings.Contains(mt, fmt.Sprintf("[CQ:at,qq=%s]", global.MYQQID))
+}
+
+//PunctualOnly 是否只有符号
+func PunctualOnly(str string) bool {
+	s := []rune(str)
+	for _, v := range s {
+		if !unicode.IsPunct(v) {
+			return false
+		}
+	}
+	return true
 }
 
 // IsMsgRepeated 是否出现了语言内容重复型复读

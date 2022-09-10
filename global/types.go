@@ -47,12 +47,12 @@ type RasaRec struct {
 
 // IntentionKeys 意图分类关键词合集
 type IntentionKeys struct {
-	StudioKey       []string `yaml:"studio_key"`         //其他工作室相关
-	QffKey          []string `yaml:"qff_key"`            //勤奋蜂相关
-	QffFreshmenKey  []string `yaml:"qff_freshmen_key"`   //勤奋蜂-零基础相关
-	QffStayKey      []string `yaml:"qff_stay_key"`       //勤奋蜂-刷人相关
-	QffRecruitKey   []string `yaml:"qff_recruit_key"`    //勤奋蜂-招新相关
-	QffSeniorStuKey []string `yaml:"qff_senior_stu_key"` //勤奋蜂-学长学姐相关
-	SchoolKey       []string `yaml:"school_key"`         //学校相关
-	LikeKey         []string `yaml:"like_key"`           //“喜欢”情感倾向相关
+	StudioKey       []string //其他工作室相关
+	QffKey          []string //勤奋蜂相关
+	QffFreshmenKey  []string //勤奋蜂-零基础相关
+	QffStayKey      []string //勤奋蜂-刷人相关
+	QffRecruitKey   []string //勤奋蜂-招新相关
+	QffSeniorStuKey []string //勤奋蜂-学长学姐相关
+	SchoolKey       []string //学校相关
+	LikeKey         []string //“喜欢”情感倾向相关
 }

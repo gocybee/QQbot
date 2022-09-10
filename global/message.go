@@ -141,28 +141,3 @@ func GetUsefulMsg(msg string) string {
 
 	return string(res)
 }
-
-// PostMsg 描述即将被发送的信息
-type PostMsg struct {
-	MsgHead
-	msg       string //从数据库中提取的答案
-	intention string //意图分类标记-能被外部访问
-}
-
-//GeneratePostMsg 生成发送信息的相关描述
-func GeneratePostMsg(p *ReceivedMsg) *PostMsg {
-	return &PostMsg{
-		MsgHead: p.MsgHead,
-	}
-}
-
-// GetMsgFromSql 从数据库中获取答案
-func (p *PostMsg) GetMsgFromSql() {
-	//TODO: 待写函数从数据库中以p.Intention为索引取得答案
-	//p.msg =
-}
-
-// IntentionAdd 层层判断，增加意图类别
-func (p *PostMsg) IntentionAdd(i int) {
-	p.intention += string(rune(i))
-}
