@@ -4,7 +4,6 @@ import (
 	"QQbot/global"
 	"QQbot/tools/analysis_tool"
 	"QQbot/tools/rasa_tool"
-	"fmt"
 )
 
 // RespondLogic 回答问题
@@ -37,8 +36,6 @@ func RespondLogic(text *global.ChanMsg) {
 	} else {
 		//其余搜寻答案即可
 		an := analysis_tool.SelectAnswer(intention)
-
-		fmt.Println("答案：：\n" + an)
 
 		ResPondWithText(text.Id, an, text.Flag, true)
 		return
