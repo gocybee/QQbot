@@ -26,6 +26,7 @@ qff_stay_key:
 qff_recruit_key:
   - "招新"
   - "介绍"
+  - "部门"
 
 # 本工作室关于学长学姐的关键词
 qff_senior_stu_key:
