@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	URLTOOTHERConfig    = "D:/GithubLibrary/gocybee/QQbot/config/other_conf.yml"    //到配置文件的绝对路径
-	URLTOANALYSISConfig = "D:/GithubLibrary/gocybee/QQbot/config/analysis_conf.yml" //到意图配置的路径
-	URLTOANSWERConfig   = "D:/GithubLibrary/gocybee/QQbot/config/story_conf.yml"    //到回答配置文件的绝对路径
+	URLTOOTHERConfig    = "/www/wwwroot/QQbot/go-web/config/other_conf.yml"    //到配置文件的绝对路径
+	URLTOANALYSISConfig = "/www/wwwroot/QQbot/go-web/config/analysis_conf.yml" //到意图配置的路径
+	URLTOANSWERConfig   = "/www/wwwroot/QQbot/go-web/config/story_conf.yml"    //到回答配置文件的绝对路径
 
 	AT    = "at"
 	FACE  = "face"
