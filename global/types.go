@@ -53,6 +53,8 @@ type IntentionKeys struct {
 	QffStayKey      []string //勤奋蜂-刷人相关
 	QffRecruitKey   []string //勤奋蜂-招新相关
 	QffSeniorStuKey []string //勤奋蜂-学长学姐相关
+	QffExam         []string //勤奋蜂-考核相关
+	QffClass        []string //勤奋蜂-上课相关
 	SchoolKey       []string //学校相关
 	LikeKey         []string //“喜欢”情感倾向相关
 }

@@ -25,6 +25,8 @@ type AnaConfig struct {
 	QffStayKey      []string `yaml:"qff_stay_key"`       //勤奋蜂-刷人相关
 	QffRecruitKey   []string `yaml:"qff_recruit_key"`    //勤奋蜂-招新相关
 	QffSeniorStuKey []string `yaml:"qff_senior_stu_key"` //勤奋蜂-学长学姐相关
+	QffExam         []string `yaml:"qff_exam"`           //勤奋蜂-考核相关
+	QffClass        []string `yaml:"qff_class"`          //勤奋蜂-上课相关
 	SchoolKey       []string `yaml:"school_key"`         //学校相关
 	LikeKey         []string `yaml:"like_key"`           //“喜欢”情感倾向相关
 	//3G的关键词默认
@@ -41,6 +43,8 @@ type AnswerCfg struct {
 	School   []string `yaml:"school"`
 	Like     []string `yaml:"like"`
 	ThreeG   []string `yaml:"3G"`
+	Exam     []string `yaml:"exam"`
+	Class    []string `yaml:"class"`
 }
 
 func loadOtherConfig() {
@@ -84,6 +88,8 @@ func loadAnalysisConfig() {
 		QffStayKey:      config.QffStayKey,
 		QffRecruitKey:   config.QffRecruitKey,
 		QffSeniorStuKey: config.QffSeniorStuKey,
+		QffExam:         config.QffExam,
+		QffClass:        config.QffClass,
 		SchoolKey:       config.SchoolKey,
 		LikeKey:         config.LikeKey,
 	}
@@ -108,6 +114,8 @@ func loadAnswerConfig() {
 	global.AnswerMap[global.QffStay] = config.Stay
 	global.AnswerMap[global.QffRecruit] = config.Recruit
 	global.AnswerMap[global.QffSenior] = config.Senior
+	global.AnswerMap[global.QffExam] = config.Exam
+	global.AnswerMap[global.QffClass] = config.Class
 	global.AnswerMap[global.SCHOOL] = config.School
 	global.AnswerMap[global.LIKE] = config.Like
 	global.AnswerMap[global.THREE] = config.ThreeG

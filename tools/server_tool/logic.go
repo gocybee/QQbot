@@ -20,7 +20,12 @@ func RespondLogic(text *global.ChanMsg) {
 	}
 
 	if text.Msg == "" || PunctualOnly(text.Msg) {
-		ResPondWithText(text.Id, "叫我干哈", text.Flag, true)
+		if DoOrNot(0.5) {
+			ResPondWithText(text.Id, "咋了", text.Flag, true)
+		} else {
+			ResPondWithText(text.Id, "叫我干哈", text.Flag, true)
+		}
+
 		return
 	}
 
@@ -30,12 +35,10 @@ func RespondLogic(text *global.ChanMsg) {
 		answer, err := rasa_tool.GetRasaAnswer(text.Session, text.Msg)
 		ResPondWithText(text.Id, answer, text.Flag, false)
 		//没有回复结果
-		if err != nil {
+
+		if answer == "" || err != nil {
 			ResPondWithText(text.Id, "后台又双叒叕不和我玩了", text.Flag, false)
 			ResPondWithPhoto(text.Id, "b564900eded645e5c523f5534b14ab1b.image", "https://gchat.qpic.cn/gchatpic_new/918845478/920689543-2538037296-B564900EDED645E5C523F5534B14AB1B/0?term=3", text.Flag)
-		}
-		if answer == "" {
-			ResPondWithText(text.Id, "俺不会", text.Flag, false)
 		}
 		return
 

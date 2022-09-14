@@ -90,5 +90,13 @@ func isEnvironRelatedToQFFQue(environment string, msg string) (bool, string) {
 	if whichIntention(msg, global.IntentionKey.QffSeniorStuKey) {
 		return true, global.QffSenior
 	}
+	// 考核-qff
+	if whichIntention(msg, global.IntentionKey.QffExam) {
+		return true, global.QffExam
+	}
+	// 授课-qff
+	if whichIntention(msg, global.IntentionKey.QffClass) {
+		return true, global.QffClass
+	}
 	return false, ""
 }

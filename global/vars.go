@@ -32,6 +32,8 @@ const (
 	QffStay     = "stay"     //刷不刷人的问题
 	QffRecruit  = "recruit"  //涉及勤奋蜂招新问题
 	QffSenior   = "senior"   //涉及勤奋蜂关于学姐学长的问题
+	QffExam     = "exam"     //考核
+	QffClass    = "class"    //上课
 
 	SCHOOL = "school" //有关学校的问题
 
