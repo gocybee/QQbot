@@ -49,12 +49,11 @@ qff_senior_stu_key:
   - "大佬"
 
 # 本工作室的考核
-qff_exam:
-  - "寒假考核"
-  - "暑假考核"
+qff_exam_key:
+  - "考核"
   - "面试"
 
 # 本工作室的教学相关
-qff_class:
+qff_class_key:
   - "上课"
   - "网课"
