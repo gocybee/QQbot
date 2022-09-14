@@ -4,7 +4,6 @@ import (
 	"QQbot/global"
 	"QQbot/tools/analysis_tool"
 	"QQbot/tools/rasa_tool"
-	"time"
 )
 
 // RespondLogic 回答问题
@@ -28,21 +27,16 @@ func RespondLogic(text *global.ChanMsg) {
 	intention := analysis_tool.IntentionJudge(text)
 	// ChAT 交予rasa
 	if intention == global.CHAT {
-		var answer = make(chan string, 1)
-		//超过0.5s没有获取回复算超时
-		select {
-		case <-time.After(time.Millisecond):
-			ResPondWithText(text.Id, "阿勒，后台失联了", text.Flag, false)
-
-			ResPondWithPhoto(text.Id, "90e4a8323deb495bdef7086b618269e7.image", "https://gchat.qpic.cn/gchatpic_new/2505772098/920689543-3065492934-90E4A8323DEB495BDEF7086B618269E7/0?term=3", text.Flag)
-		case answer <- rasa_tool.GetRasaAnswer(text.Session, text.Msg):
-			ResPondWithText(text.Id, <-answer, text.Flag, false)
-		}
+		answer, err := rasa_tool.GetRasaAnswer(text.Session, text.Msg)
+		ResPondWithText(text.Id, answer, text.Flag, false)
 		//没有回复结果
-		if <-answer == "" {
-			ResPondWithTextAndPhoto(text.Id, "问了一下后台，结果是。。。%0a我不会", "b564900eded645e5c523f5534b14ab1b.image", "https://gchat.qpic.cn/gchatpic_new/918845478/920689543-2538037296-B564900EDED645E5C523F5534B14AB1B/0?term=3", text.Flag)
+		if err != nil {
+			ResPondWithText(text.Id, "后台又双叒叕不和我玩了", text.Flag, false)
+			ResPondWithPhoto(text.Id, "b564900eded645e5c523f5534b14ab1b.image", "https://gchat.qpic.cn/gchatpic_new/918845478/920689543-2538037296-B564900EDED645E5C523F5534B14AB1B/0?term=3", text.Flag)
 		}
-
+		if answer == "" {
+			ResPondWithText(text.Id, "俺不会", text.Flag, false)
+		}
 		return
 
 	} else {

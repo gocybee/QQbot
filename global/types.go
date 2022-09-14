@@ -26,7 +26,7 @@ type ChanMsg struct {
 
 // RoutingMsg 描述用户和rasa的通讯方式
 type RoutingMsg struct {
-	EnvironmentKey string        //对应问答目的（这次问话处于什么环境）-前面起到qff且后不被覆盖则默认问qff相关问题
+	EnvironmentKey string        //对应问答目的（这次问话处于什么环境）-前面起到qff且后不被覆盖则默认问qff相关问题 默认勤奋蜂
 	OldQueId       string        //储存上一个问题的rasaID,防止语义重复
 	Session        string        //此协程对应的rasa语境令牌
 	C              chan *ChanMsg //信息传输

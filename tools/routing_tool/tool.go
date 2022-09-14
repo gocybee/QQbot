@@ -25,6 +25,8 @@ func registerRouting(senderIdStr string) {
 	var x global.RoutingMsg
 	//一定要初始化通道
 	x.C = make(chan *global.ChanMsg, 0)
+	//默认为勤奋蜂
+	x.EnvironmentKey = global.QFF
 
 	global.Routing[senderIdStr] = &x
 
