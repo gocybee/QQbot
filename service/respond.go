@@ -2,7 +2,6 @@ package service
 
 import (
 	"QQbot/global"
-	"QQbot/tools/rasa_tool"
 	"QQbot/tools/routing_tool"
 	"QQbot/tools/server_tool"
 	"github.com/gin-gonic/gin"
@@ -49,7 +48,7 @@ func PostRespond(c *gin.Context) {
 		rmPtr.ExtractRawMsg()
 
 		//发送问题
-		rasa_tool.AskRasa(global.Routing[rmPtr.GetSenderIdStr()], rmPtr)
+		server_tool.PostChanMsgToRouting(global.Routing[rmPtr.GetSenderIdStr()], rmPtr)
 	}
 
 	c.JSON(http.StatusOK, gin.H{})

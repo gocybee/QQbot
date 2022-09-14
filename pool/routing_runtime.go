@@ -13,7 +13,7 @@ func RoutingRuntimeLogic(x interface{}) {
 	str := x.(string)
 	for {
 		select {
-		case t := <-global.Routing[str].C:
+		case t := <-global.Routing[str].C: //协程接收到由handleFunction发来的目标信息
 			//接收到消息
 			server_tool.RespondLogic(t)
 

@@ -9,20 +9,6 @@ import (
 	"strings"
 )
 
-// AskRasa 向协程发送信息
-func AskRasa(l *global.RoutingMsg, rmPtr *global.ReceivedMsg) {
-	t := global.ChanMsg{
-		Id:        rmPtr.GetOppositeIdInt64(),
-		Msg:       rmPtr.GetMsg(),
-		Flag:      rmPtr.GetGlobalFlag(),
-		Repeated:  rmPtr.IsRepeated(),
-		Session:   l.Session,
-		OldQueId:  l.OldQueId,
-		RoutingID: rmPtr.GetSenderIdStr(),
-	}
-	l.C <- &t
-}
-
 //GetRasaAnswer 向rasa发送问题并收到回复
 func GetRasaAnswer(session string, text string) string {
 	q := global.RasaPost{Sender: session, Message: text}

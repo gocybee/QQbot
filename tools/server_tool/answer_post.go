@@ -20,9 +20,9 @@ func ResPondWithText(id int64, msg string, flag string, needBeautify bool) {
 }
 
 // ResPondWithPhoto 返回非闪照的图片
-func ResPondWithPhoto(id *int64, fileName string, url string, flag string) {
+func ResPondWithPhoto(id int64, fileName string, url string, flag string) {
 	msg := global.CodeCQPhoto(fileName, url)
-	status := send(id, &msg, flag)
+	status := send(&id, &msg, flag)
 	fmt.Println(status)
 }
 

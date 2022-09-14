@@ -17,6 +17,14 @@ func whichIntention(str string, keys []string) bool {
 	return false
 }
 
+// whichEnvironmentKey 判断环境是否符合分类
+func whichEnvironmentKey(routingId string, environmentKey string) bool {
+	if global.Routing[routingId].EnvironmentKey == environmentKey {
+		return true
+	}
+	return false
+}
+
 // IntentionJudge 通过精简后的语句判断表层意图
 // 返回值 表层意图 回答的描述信息
 func IntentionJudge(cPtr *global.ChanMsg) string {
@@ -43,7 +51,11 @@ func IntentionJudge(cPtr *global.ChanMsg) string {
 		return global.QffFreshmen
 	}
 	// 勤奋蜂相关
-	if whichIntention(msg, global.IntentionKey.QffKey) {
+	if whichIntention(msg, global.IntentionKey.QffKey) || whichEnvironmentKey(cPtr.RoutingID, global.QFF) {
+
+		//此次回话的环境设置为勤奋蜂相关
+		global.Routing[cPtr.RoutingID].EnvironmentKey = global.QFF
+
 		// 招新简章
 		if whichIntention(msg, global.IntentionKey.QffRecruitKey) {
 			return global.QffRecruit
