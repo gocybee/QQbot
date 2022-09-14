@@ -21,7 +21,7 @@ type OtherConfig struct {
 type AnaConfig struct {
 	StudioKey       []string `yaml:"studio_key"`         //其他工作室相关
 	QffKey          []string `yaml:"qff_key"`            //勤奋蜂相关
-	QffFreshmenKey  []string `yaml:"qff_freshmen_key"`   //勤奋蜂-零基础相关
+	FreshmenKey     []string `yaml:"freshmen_key"`       //勤奋蜂-零基础相关
 	QffStayKey      []string `yaml:"qff_stay_key"`       //勤奋蜂-刷人相关
 	QffRecruitKey   []string `yaml:"qff_recruit_key"`    //勤奋蜂-招新相关
 	QffSeniorStuKey []string `yaml:"qff_senior_stu_key"` //勤奋蜂-学长学姐相关
@@ -80,7 +80,7 @@ func loadAnalysisConfig() {
 	global.IntentionKey = global.IntentionKeys{
 		StudioKey:       config.StudioKey,
 		QffKey:          config.QffKey,
-		QffFreshmenKey:  config.QffFreshmenKey,
+		QffFreshmenKey:  config.FreshmenKey,
 		QffStayKey:      config.QffStayKey,
 		QffRecruitKey:   config.QffRecruitKey,
 		QffSeniorStuKey: config.QffSeniorStuKey,
