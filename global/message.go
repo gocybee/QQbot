@@ -7,9 +7,9 @@ import (
 )
 
 type MsgHead struct {
-	flag       string //群聊或私聊的global标志
-	oppositeId int64  //信息来源的qq号或群号
-	senderId   int64  //信息发送方的qq号
+	flag       string // 群聊或私聊的global标志
+	oppositeId int64  // 信息来源的qq号或群号
+	senderId   int64  // 信息发送方的qq号
 }
 
 // GetGlobalFlag 获取消息来源-群聊或者私聊的flag
@@ -40,8 +40,8 @@ func (m *MsgHead) GetSenderIdStr() string {
 // ReceivedMsg 描述截取到的有用信息
 type ReceivedMsg struct {
 	MsgHead
-	msg      string //原始信息或者已经被简化的信息
-	repeated bool   //消息和此人上一个问题是否相同
+	msg      string // 原始信息或者已经被简化的信息
+	repeated bool   // 消息和此人上一个问题是否相同
 }
 
 // GetSentenceStruct 从原始信息中获取信息结构体
@@ -49,15 +49,15 @@ type ReceivedMsg struct {
 // 返回值 信息综合结构体 错误信息
 func GetSentenceStruct(form map[string]interface{}) (*ReceivedMsg, error) {
 	if form["post_type"] != "message" {
-		return &ReceivedMsg{}, errors.New("信息符合要求")
+		return &ReceivedMsg{}, errors.New("信息不符合要求")
 	}
-	//获取发送者的qq号
+	// 获取发送者的qq号
 	senderId := int64((form["sender"].(map[string]interface{}))["user_id"].(float64))
 
 	msg := form["raw_message"].(string)
 
-	var flag string    //区分群聊，私聊
-	var opposite int64 //信息来源的qq_id
+	var flag string    // 区分群聊，私聊
+	var opposite int64 // 信息来源的qq_id
 	if opp, ok := form["group_id"]; ok {
 		flag = "group"
 		opposite = int64(opp.(float64))
@@ -105,13 +105,13 @@ func (r *ReceivedMsg) Repeated() {
 func GetUsefulMsg(msg string) string {
 	var (
 		x [2]int
-		//记录事件发生
+		// 记录事件发生
 		x1Changed = false
 		x2Changed = false
 	)
 	res := []rune(msg)
 
-	//删除@以及表情
+	// 删除@以及表情
 	for i := 0; i < len(res); i++ {
 
 		if res[i] == '[' {
@@ -124,15 +124,15 @@ func GetUsefulMsg(msg string) string {
 		}
 		if x1Changed && x2Changed {
 			res = []rune(string(res[:x[0]]) + string(res[x[1]+1:]))
-			i = -1 //res改变，再次遍历
+			i = -1 // res改变，再次遍历
 			x1Changed = false
 			x2Changed = false
 		}
 	}
 
-	//特殊符号处理
+	// 特殊符号处理
 	for i := 0; i < len(res); i++ {
-		//无法识别的特殊符号和表情
+		// 无法识别的特殊符号和表情
 		if !(unicode.IsLetter(res[i]) || unicode.IsNumber(res[i]) || unicode.Is(unicode.Han, res[i]) || unicode.IsPunct(res[i])) {
 			res = []rune(string(res[:i]) + string(res[i+1:]))
 			i -= 1

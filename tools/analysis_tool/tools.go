@@ -11,7 +11,7 @@ import (
 // 返回值 表层意图 回答的描述信息
 func IntentionJudge(cPtr *global.ChanMsg) string {
 	msg := cPtr.Msg
-	//首先判断环境
+	// 首先判断环境
 	if ok, flag := isEnvironRelatedToQFFQue(global.Routing[cPtr.RoutingID].EnvironmentKey, msg); ok {
 		return flag
 	}
@@ -21,7 +21,7 @@ func IntentionJudge(cPtr *global.ChanMsg) string {
 		return global.LIKE
 	}
 
-	//3G故事
+	// 3G故事
 	if whichIntention(msg, []string{"3G", "3g"}) {
 		return global.THREE
 	}
@@ -43,13 +43,13 @@ func IntentionJudge(cPtr *global.ChanMsg) string {
 
 	// 勤奋蜂相关
 	if whichIntention(msg, global.IntentionKey.QffKey) {
-		//此次回话的环境设置为勤奋蜂相关
+		// 此次回话的环境设置为勤奋蜂相关
 		global.Routing[cPtr.RoutingID].EnvironmentKey = global.QFF
-		//确定是勤奋蜂相关
+		// 确定是勤奋蜂相关
 		if ok, flag := isEnvironRelatedToQFFQue(global.QFF, msg); ok {
 			return flag
 		}
-		//此时无法分辨具体内容或没有相关内容的答案
+		// 此时无法分辨具体内容或没有相关内容的答案
 		return global.QFF
 	}
 
@@ -63,7 +63,7 @@ func SelectAnswer(class string) string {
 	return ansArr[x]
 }
 
-//whichIntention 判断意图关键词中是否含有特定词语
+// whichIntention 判断意图关键词中是否含有特定词语
 func whichIntention(str string, keys []string) bool {
 	for _, v := range keys {
 		if strings.Contains(str, v) {

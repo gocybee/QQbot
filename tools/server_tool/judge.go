@@ -45,7 +45,7 @@ func BeAt(mt string) bool {
 	return strings.Contains(mt, fmt.Sprintf("[CQ:at,qq=%s]", global.MYQQID))
 }
 
-//PunctualOnly 是否只有符号
+// PunctualOnly 是否只有符号
 func PunctualOnly(str string) bool {
 	s := []rune(str)
 	for _, v := range s {
@@ -57,27 +57,27 @@ func PunctualOnly(str string) bool {
 }
 
 // IsMsgRepeated 是否出现了语言内容重复型复读
-//返回 是否出现复读
+// 返回 是否出现复读
 func IsMsgRepeated(rmPtr *global.ReceivedMsg) bool {
 	opp := rmPtr.GetOppositeIdStr()
 	if r, ok := global.Repeated[opp]; ok {
 		r.Lock()
 		defer r.Unlock()
 		if r.Content == rmPtr.GetMsg() {
-			//标记信息重复
+			// 标记信息重复
 			rmPtr.Repeated()
 			r.Times++
 			if r.Times > global.RepeatLimit {
-				//重置
+				// 重置
 				delete(global.Repeated, opp)
 				return true
 			}
 		} else {
-			//更新信息
+			// 更新信息
 			r.Content = rmPtr.GetMsg()
 		}
 	} else {
-		//需要创建信息记录
+		// 需要创建信息记录
 		RegisterRepeated(rmPtr)
 	}
 	return false

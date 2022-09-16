@@ -30,11 +30,11 @@ func RespondLogic(text *global.ChanMsg) {
 	}
 
 	intention := analysis_tool.IntentionJudge(text)
-	// ChAT 交予rasa
+	// CHAT 交予rasa
 	if intention == global.CHAT {
 		answer, err := rasa_tool.GetRasaAnswer(text.Session, text.Msg)
 		ResPondWithText(text.Id, answer, text.Flag, false)
-		//没有回复结果
+		// 没有回复结果
 
 		if answer == "" || err != nil {
 			ResPondWithText(text.Id, "后台又双叒叕不和我玩了", text.Flag, false)
@@ -43,7 +43,7 @@ func RespondLogic(text *global.ChanMsg) {
 		return
 
 	} else {
-		//其余搜寻答案即可
+		// 其余搜寻答案即可
 		an := analysis_tool.SelectAnswer(intention)
 
 		ResPondWithText(text.Id, an, text.Flag, true)

@@ -22,7 +22,7 @@ func PostRespond(c *gin.Context) {
 		return
 	}
 
-	//生成ReceivedMsg结构体
+	// 生成ReceivedMsg结构体
 	rmPtr, err := global.GetSentenceStruct(form)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"err": err})
@@ -36,7 +36,7 @@ func PostRespond(c *gin.Context) {
 		return
 	}
 
-	//注册并维护协程--私聊信息或者群聊指定信息
+	// 注册并维护协程--私聊信息或者群聊指定信息
 	if server_tool.IsPrivateMsg(rmPtr.GetGlobalFlag()) || (server_tool.IsGroupMsg(rmPtr.GetGlobalFlag()) && server_tool.BeAt(rmPtr.GetMsg())) {
 		err = routing_tool.MaintainRouting(rmPtr)
 		if err != nil {
@@ -44,10 +44,10 @@ func PostRespond(c *gin.Context) {
 			return
 		}
 
-		//精简问题--删除多余部分
+		// 精简问题--删除多余部分
 		rmPtr.ExtractRawMsg()
 
-		//发送问题
+		// 发送问题
 		server_tool.PostChanMsgToRouting(global.Routing[rmPtr.GetSenderIdStr()], rmPtr)
 	}
 

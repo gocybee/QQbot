@@ -4,18 +4,21 @@ import (
 	"QQbot/global"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-//GetRasaAnswer 向rasa发送问题并收到回复
+// GetRasaAnswer 向rasa发送问题并收到回复
 func GetRasaAnswer(session string, text string) (string, error) {
 	q := global.RasaPost{Sender: session, Message: text}
 	reader, err := json.Marshal(q)
 	if err != nil {
 		return "", err
 	}
+	global.RasaURL = "http://localhost:5005"
+	log.Println("try to send to", global.RasaURL, "/webhooks/rest/webhook")
 	resp, err := http.Post(global.RasaURL+"/webhooks/rest/webhook", "application/json", strings.NewReader(string(reader)))
 	if err != nil {
 		return "", err
@@ -33,7 +36,7 @@ func GetRasaAnswer(session string, text string) (string, error) {
 		return "", err
 	}
 
-	var ans string //储存回答的语句
+	var ans string // 储存回答的语句
 	for _, v := range an {
 		if a, ok := v["text"]; ok {
 			ans, err = strconv.Unquote(strings.Replace(strconv.Quote(a.(string)), `\\u`, `\u`, -1))
