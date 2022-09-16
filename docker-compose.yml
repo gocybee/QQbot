@@ -14,15 +14,6 @@ services:
     ports:
       - "${EXPOSED_PORT}:8080"
 
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DB_NAME}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_USER: ${MYSQL_USERNAME}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-
   cq-http:
     image: silicer/go-cqhttp:latest
     restart: always
