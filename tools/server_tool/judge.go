@@ -76,10 +76,10 @@ func IsMsgRepeated(rmPtr *global.ReceivedMsg) bool {
 			// 更新信息
 			r.Content = rmPtr.GetMsg()
 		}
-	} else {
-		// 需要创建信息记录
-		RegisterRepeated(rmPtr)
+		return false
 	}
+	// 需要创建信息记录
+	RegisterRepeated(rmPtr)
 	return false
 }
 

@@ -4,7 +4,6 @@ import (
 	"QQbot/global"
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -17,8 +16,6 @@ func GetRasaAnswer(session string, text string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	global.RasaURL = "http://localhost:5005"
-	log.Println("try to send to", global.RasaURL, "/webhooks/rest/webhook")
 	resp, err := http.Post(global.RasaURL+"/webhooks/rest/webhook", "application/json", strings.NewReader(string(reader)))
 	if err != nil {
 		return "", err

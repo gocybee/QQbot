@@ -9,10 +9,9 @@ import (
 
 // IntentionJudge 通过精简后的语句判断表层意图
 // 返回值 表层意图 回答的描述信息
-func IntentionJudge(cPtr *global.ChanMsg) string {
-	msg := cPtr.Msg
+func IntentionJudge(msg string) string {
 	// 首先判断环境
-	if ok, flag := isEnvironRelatedToQFFQue(global.Routing[cPtr.RoutingID].EnvironmentKey, msg); ok {
+	if ok, flag := isRelatedToQFFQue(msg); ok {
 		return flag
 	}
 
@@ -41,26 +40,13 @@ func IntentionJudge(cPtr *global.ChanMsg) string {
 		return global.QffFreshmen
 	}
 
-	// 勤奋蜂相关
-	if whichIntention(msg, global.IntentionKey.QffKey) {
-		// 此次回话的环境设置为勤奋蜂相关
-		global.Routing[cPtr.RoutingID].EnvironmentKey = global.QFF
-		// 确定是勤奋蜂相关
-		if ok, flag := isEnvironRelatedToQFFQue(global.QFF, msg); ok {
-			return flag
-		}
-		// 此时无法分辨具体内容或没有相关内容的答案
-		return global.QFF
-	}
-
 	return global.CHAT
 }
 
 // SelectAnswer 搜索出确定的答案
 func SelectAnswer(class string) string {
 	ansArr := global.AnswerMap[class]
-	x := rand.Int() % len(ansArr)
-	return ansArr[x]
+	return ansArr[rand.Intn(len(ansArr))]
 }
 
 // whichIntention 判断意图关键词中是否含有特定词语
@@ -73,11 +59,8 @@ func whichIntention(str string, keys []string) bool {
 	return false
 }
 
-// isEnvironRelatedToQFFQue 已有环境时，判断是否确实是问qff环境中的内容
-func isEnvironRelatedToQFFQue(environment string, msg string) (bool, string) {
-	if environment == "" {
-		return false, ""
-	}
+// isRelatedToQFFQue 已有环境时，判断是否确实是问qff环境中的内容
+func isRelatedToQFFQue(msg string) (bool, string) {
 	// 招新简章-qff
 	if whichIntention(msg, global.IntentionKey.QffRecruitKey) {
 		return true, global.QffRecruit

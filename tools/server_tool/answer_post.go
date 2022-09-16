@@ -10,40 +10,42 @@ import (
 	"unsafe"
 )
 
-// ResPondWithText 返回test信息
-func ResPondWithText(id int64, msg string, flag string, needBeautify bool) {
+// RespondWithText 返回test信息
+func RespondWithText(id int64, msg string, flag string, needBeautify bool) {
 	if needBeautify {
 		Beautify(&msg)
 	}
-	status := send(&id, &msg, flag)
+	status := send(id, msg, flag)
 	fmt.Println(status)
 }
 
-// ResPondWithPhoto 返回非闪照的图片
-func ResPondWithPhoto(id int64, fileName string, url string, flag string) {
+// RespondWithPhoto 返回非闪照的图片
+func RespondWithPhoto(id int64, fileName string, url string, flag string) {
 	msg := global.CodeCQPhoto(fileName, url)
-	status := send(&id, &msg, flag)
+	status := send(id, msg, flag)
 	fmt.Println(status)
 }
 
-// ResPondWithTextAndPhoto 返回信息及非闪照的图片
-func ResPondWithTextAndPhoto(id int64, msg string, fileName string, url string, flag string) {
+// RespondWithTextAndPhoto 返回信息及非闪照的图片
+func RespondWithTextAndPhoto(id int64, msg string, fileName string, url string, flag string) {
 	msg += global.CodeCQPhoto(fileName, url)
-	status := send(&id, &msg, flag)
+	status := send(id, msg, flag)
 	fmt.Println(status)
 }
 
-// send 发小规模消息
-func send(qq *int64, msg *string, flag string) string {
+// send 发消息
+func send(qq int64, msg string, flag string) string {
 	var target string
 	if flag == "group" {
 		target = "group"
 	} else {
 		target = "user"
 	}
-	_url := global.SendMsgURL + "/send_" + flag + "_msg?" + target + "_"
-	format := fmt.Sprintf("id=%d&message=%s", *qq, *msg)
-	resp, err := http.Get(_url + format)
+	url := fmt.Sprintf("%s/send_%s_msg?%s_id=%d&message=%s",
+		global.SendMsgURL, flag, target, qq, msg)
+	// _url := global.SendMsgURL + "/send_" + flag + "_msg?" + target + "_"
+	// format := fmt.Sprintf("id=%d&message=%s", qq, msg)
+	resp, err := http.Get(url)
 	if err != nil {
 		return err.Error()
 	}

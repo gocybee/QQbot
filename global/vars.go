@@ -1,14 +1,15 @@
 package global
 
 import (
+	"fmt"
 	"github.com/panjf2000/ants/v2"
-	"time"
+	"go.uber.org/atomic"
 )
 
 const (
-	URLTOOTHERConfig    = "./other_conf.yml"    // 到配置文件的路径
-	URLTOANALYSISConfig = "./analysis_conf.yml" // 到意图配置的路径
-	URLTOANSWERConfig   = "./story_conf.yml"    // 到回答配置文件的路径
+	URLTOOTHERConfig    = "./config/other_conf.yml"    // 到配置文件的路径
+	URLTOANALYSISConfig = "./config/analysis_conf.yml" // 到意图配置的路径
+	URLTOANSWERConfig   = "./config/story_conf.yml"    // 到回答配置文件的路径
 
 	AT    = "at"
 	FACE  = "face"
@@ -40,20 +41,17 @@ const (
 )
 
 var (
-	RasaURL        string // 后端链接rasa机器人传输问题的接口
-	SendMsgURL     string // 发送QQ信息的接口
-	RefuseFileName string // 复读打断消息所需图片的文件名
-	RefuseURL      string // 复读打断消息所需图片的地址
-	MyName         string // qq机器人的自称(名字)
-	MYQQID         string // QQ机器人的qq号码
-	MaxPoolNumber  int    // 连接池最大数量
+	RasaURL       string // 后端链接rasa机器人传输问题的接口
+	SendMsgURL    string // 发送QQ信息的接口
+	MyName        string // qq机器人的自称(名字)
+	MYQQID        string // QQ机器人的qq号码
+	MaxPoolNumber int    // 连接池最大数量
+	TimeLimit     int64  // 配置对话最长保持时间(s 单位)
 
 	IntentionKey IntentionKeys                  // 意图关键词合集
 	AnswerMap    = make(map[string][]string, 1) // 答案储存
 
-	PoolNumber int // 记录已使用的连接池数量
-
-	TimeLimit time.Duration // 配置int的最大空闲时间
+	PoolNumber atomic.Int32 // 记录已使用的连接池数量
 
 	Pool *ants.PoolWithFunc // 协程池
 
@@ -62,5 +60,16 @@ var (
 	Repeated = make(map[string]*Repeat, 1) // 储存可能是复读的句子 索引为群号或QQ号
 
 	// 其中表情的ID是1-221.
-
 )
+
+func PrintVars() {
+	fmt.Println()
+	fmt.Println("=====配置选项如下=====")
+	fmt.Println("RasaURL:", RasaURL)
+	fmt.Println("SendMsgURL:", SendMsgURL)
+	fmt.Println("BotName:", MyName)
+	fmt.Println("BotQQNumber:", MYQQID)
+	fmt.Println("MaxPoolNumber:", MaxPoolNumber)
+	fmt.Println("TimeLimit:", TimeLimit)
+	fmt.Println()
+}
