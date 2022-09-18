@@ -2,31 +2,37 @@ version: "3"
 
 services:
   bot:
+    container_name: bot
     build: .
     volumes:
       - ${BOT_CONFIG_PATH}:/bot/config
-    environment:
-      MYSQL_USERNAME: ${MYSQL_USERNAME}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DB_NAME}
-      MYSQL_ADDR: ${MYSQL_ADDR}
     restart: always
-    ports:
-      - "${EXPOSED_PORT}:8080"
 
-  cq-http:
+  rasa:
+    container_name: rasa
+    image: rasa/rasa:main-full
+    command:
+      - "run"
+      - "--enable-api"
+      - "--auth-token"
+      - "${RASA_AUTH_TOKEN}"
+    environment:
+      SANIC_WORKERS: 8  # 建议填 CPU 数量
+    ports:
+      - "${RASA_ENDPOINTS_PORT}:5005"
+    volumes:
+      - ${RASA_DATA_PATH}:/app
+
+  cqhttp:
+    container_name: cqhttp
     image: silicer/go-cqhttp:latest
     restart: always
     volumes:
       - ${CQHTTP_DATA_PATH}:/data
-    ports:
-      - "6700:6700"
 
-# 需要配置环境变量有
-# MYSQL_PASSWORD=xxx
-# MYSQL_USERNAME=xxx
+# 需要配置环境变量有(可以在同一目录创建 .env 配置，再用 docker-compose config 检查)
 # BOT_CONFIG_PATH=xxx
-# MYSQL_DB_NAME=xxx
-# MYSQL_ADDR=[ip]:[port]
-# EXPOSED_PORT=port
+# RASA_AUTH_TOKEN=xxx rasa 认证 token
+# RASA_DATA_PATH=[需要包含 endpoint.yml，credentials.yml config.yml 和 models 文件夹以及至少一个 model]
 # CQHTTP_DATA_PATH=[需要包含 cqhttp other_conf.yml]
+# RASA_ENDPOINTS_PORT=[暴露在外面的 rasa api 端口，用于持续集成]

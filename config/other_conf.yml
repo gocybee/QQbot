@@ -1,20 +1,14 @@
 
 time_limit: 100 #对话最大保持时间(s)
 
-rasa_url: "http://159.75.79.62:5005" #向rasa机器人发送问题的接口
-#rasa_url: "http://127.0.0.1:5005" #本机测试    向rasa机器人发送问题的接口
+rasa_url: "http://rasa:5005" # 向rasa机器人发送问题的接口 (docker-compose)
+#rasa_url: "http://127.0.0.1:5005" # 本机测试    向rasa机器人发送问题的接口
 
-send_msg_url: "http://159.75.79.62:5700" #发送QQ信息的接口
+send_msg_url: "http://cqhttp:5700" # 发送QQ信息的接口 (docker-compose)
 #send_msg_url: "http://127.0.0.1:5700" #本机测试    发送QQ信息的接口
 
-#打断复读发送的图片的文件名(不建议更改)
-#refuse_file_name: "e185eceb199babeb7fe1061df5a88236.image"
+my_name: "鼠鼠" # QQ机器人的自称
 
-#打断复读发送的文件名的url(不建议更改)
-#refuse_url: "https://gchat.qpic.cn/gchatpic_new/2505772098/881902822-3083931220-E185ECEB199BABEB7FE1061DF5A88236/0?term=3"
+my_qq_id: "3403191872" #QQ机器人的qq号(与cq-http配置文件相同，用于判断是否 At 自己)
 
-my_name: "鼠鼠" #QQ机器人的自称(根据rasa模型更改)
-
-my_qq_id: "3403191872" #QQ机器人的qq号(与cq-http配置文件相同)
-
-max_pool_number: 20 #连接池最大链接数量
+max_pool_number: 20 #连接池最大对话维持数量
