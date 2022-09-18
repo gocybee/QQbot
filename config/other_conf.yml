@@ -1,11 +1,11 @@
 
 time_limit: 100 #对话最大保持时间(s)
 
-rasa_url: "http://rasa:5005" # 向rasa机器人发送问题的接口 (docker-compose)
-#rasa_url: "http://127.0.0.1:5005" # 本机测试    向rasa机器人发送问题的接口
+#rasa_url: "http://rasa:5005" # 向rasa机器人发送问题的接口 (docker-compose)
+rasa_url: "http://127.0.0.1:5005" # 本机测试    向rasa机器人发送问题的接口
 
-send_msg_url: "http://cqhttp:5700" # 发送QQ信息的接口 (docker-compose)
-#send_msg_url: "http://127.0.0.1:5700" #本机测试    发送QQ信息的接口
+#send_msg_url: "http://cqhttp:5700" # 发送QQ信息的接口 (docker-compose)
+send_msg_url: "http://127.0.0.1:5700" #本机测试    发送QQ信息的接口
 
 my_name: "鼠鼠" # QQ机器人的自称
 

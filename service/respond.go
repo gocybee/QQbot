@@ -2,7 +2,6 @@ package service
 
 import (
 	"QQbot/global"
-	"QQbot/tools/analysis_tool"
 	"QQbot/tools/routing_tool"
 	"QQbot/tools/server_tool"
 	"github.com/gin-gonic/gin"
@@ -39,22 +38,13 @@ func PostRespond(c *gin.Context) {
 		return
 	}
 
-	// 精简问题--删除多余部分
-	rmPtr.ExtractRawMsg()
-
-	// 关键词触发
-	intention := analysis_tool.IntentionJudge(rmPtr.GetMsg())
-	if intention != global.CHAT {
-		an := analysis_tool.SelectAnswer(intention)
-
-		server_tool.RespondWithText(rmPtr.GetOppositeIdInt64(), an,
-			rmPtr.GetGlobalFlag(), true)
-		return
-	}
-
 	// 注册并维护协程--私聊信息或者群聊指定信息
 	// 维护这轮对话
 	if server_tool.IsPrivateMsg(rmPtr.GetGlobalFlag()) || (server_tool.IsGroupMsg(rmPtr.GetGlobalFlag()) && server_tool.BeAt(rmPtr.GetMsg())) {
+		// 精简问题--删除多余部分
+		rmPtr.ExtractRawMsg()
+
+		// 询问全局并注册
 		err = routing_tool.MaintainRouting(rmPtr)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"err": err})

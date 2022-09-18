@@ -7,24 +7,28 @@ import (
 
 // RespondLogic 回答问题
 func RespondLogic(text *global.ChanMsg) {
+
 	// 消息重复
 	if text.Repeated {
-		RespondWithText(text.Id, "刚刚才回答过哦", text.Flag, true)
+		RespondWithText(text.Id, "你刚刚发过了哦", text.Flag, true)
 		return
 	}
 
 	if text.Msg == "" || PunctualOnly(text.Msg) {
-		RespondWithText(text.Id, "你说啥？", text.Flag, true)
+		RespondWithText(text.Id, "干嘛？", text.Flag, true)
 		return
 	}
 
 	answer, err := rasa_tool.GetRasaAnswer(text.Session, text.Msg)
 	if err != nil || answer == "" {
-		RespondWithText(text.Id, answer, text.Flag, false)
-	} else {
+		// rasa机器人无法回答
 		RespondWithText(text.Id, "我不到啊", text.Flag, true)
-		return
+
+	} else {
+		// 获取到回答的消息
+		RespondWithText(text.Id, answer, text.Flag, false)
 	}
+
 }
 
 // PostChanMsgToRouting 向全局的协程发送回复目标的信息

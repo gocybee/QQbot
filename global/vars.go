@@ -7,9 +7,7 @@ import (
 )
 
 const (
-	URLTOOTHERConfig    = "./config/other_conf.yml"    // 到配置文件的路径
-	URLTOANALYSISConfig = "./config/analysis_conf.yml" // 到意图配置的路径
-	URLTOANSWERConfig   = "./config/story_conf.yml"    // 到回答配置文件的路径
+	URLTOOTHERConfig = "./config/other_conf.yml" // 到配置文件的路径
 
 	AT    = "at"
 	FACE  = "face"
@@ -18,26 +16,6 @@ const (
 	POKE  = "poke"
 
 	RepeatLimit = 3
-
-	// 意图分类
-
-	STUDIO = "studio" // 其他工作室相关
-
-	QFF         = "qff"      // 本工作室相关
-	QffFreshmen = "freshmen" // 零基础
-	QffStay     = "stay"     // 刷不刷人的问题
-	QffRecruit  = "recruit"  // 涉及勤奋蜂招新问题
-	QffSenior   = "senior"   // 涉及勤奋蜂关于学姐学长的问题
-	QffExam     = "exam"     // 考核
-	QffClass    = "class"    // 上课
-
-	SCHOOL = "school" // 有关学校的问题
-
-	LIKE = "like" // 贴贴
-
-	CHAT = "chat" // 正常唠嗑的问题-交给rasa处理
-
-	THREE = "3G" // 三G的故事
 )
 
 var (
@@ -47,9 +25,6 @@ var (
 	MYQQID        string // QQ机器人的qq号码
 	MaxPoolNumber int    // 连接池最大数量
 	TimeLimit     int64  // 配置对话最长保持时间(s 单位)
-
-	IntentionKey IntentionKeys                  // 意图关键词合集
-	AnswerMap    = make(map[string][]string, 1) // 答案储存
 
 	PoolNumber atomic.Int32 // 记录已使用的连接池数量
 

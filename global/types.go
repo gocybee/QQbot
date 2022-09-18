@@ -41,17 +41,3 @@ type RasaRec struct {
 	RecipientId string `json:"recipient_id"`
 	Text        string `json:"text"`
 }
-
-// IntentionKeys 意图分类关键词合集
-type IntentionKeys struct {
-	StudioKey       []string // 其他工作室相关
-	QffKey          []string // 勤奋蜂相关
-	QffFreshmenKey  []string // 勤奋蜂-零基础相关
-	QffStayKey      []string // 勤奋蜂-刷人相关
-	QffRecruitKey   []string // 勤奋蜂-招新相关
-	QffSeniorStuKey []string // 勤奋蜂-学长学姐相关
-	QffExam         []string // 勤奋蜂-考核相关
-	QffClass        []string // 勤奋蜂-上课相关
-	SchoolKey       []string // 学校相关
-	LikeKey         []string // “喜欢”情感倾向相关
-}
