@@ -27,11 +27,11 @@ var (
 	MaxPoolNumber int    // 连接池最大数量
 	TimeLimit     int64  // 配置对话最长保持时间(s 单位)
 
-	Mysql MysqlMsg //储存数据库登录信息
+	Mysql MysqlMsg // 储存数据库登录信息
 
-	DB *gorm.DB //数据库链接
+	DB *gorm.DB // 数据库链接
 
-	Fathers []string //对机器人有设置权限的人的qq号
+	Fathers []string // 对机器人有设置权限的人的qq号
 
 	PoolNumber atomic.Int32 // 记录已使用的连接池数量
 

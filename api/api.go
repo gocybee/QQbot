@@ -8,8 +8,7 @@ import (
 func StartEngines() {
 	r := gin.Default()
 
-	// 反向http接口为跟路由，并且是POST请求
-	r.POST("/", service.PostRespond)
+	r.Any("/", service.PostRespond)
 	if err := r.Run(); err != nil {
 		panic(err)
 	}

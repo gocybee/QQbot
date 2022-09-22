@@ -16,7 +16,7 @@ func InitDB() error {
 		return err
 	}
 
-	//禁用复数
+	// 禁用复数
 	db.SingularTable(true)
 
 	// 判断是否有聊天白名单
