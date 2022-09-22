@@ -18,12 +18,12 @@ type OtherConfig struct {
 
 	MaxPoolNumber int `yaml:"max_pool_number"` // 连接池最大数量
 
-	MysqlId       string `yaml:"mysql_id"`       //数据库账号
-	MysqlPassword string `yaml:"mysql_password"` //数据库密码
-	MysqlAddr     string `yaml:"mysql_addr"`     //数据库url
-	Database      string `yaml:"database"`       //库的名称
+	MysqlId       string `yaml:"mysql_id"`       // 数据库账号
+	MysqlPassword string `yaml:"mysql_password"` // 数据库密码
+	MysqlAddr     string `yaml:"mysql_addr"`     // 数据库url
+	Database      string `yaml:"database"`       // 库的名称
 
-	Father []string `yaml:"father"` //控制权限所有者
+	Father []string `yaml:"father"` // 控制权限所有者
 }
 
 func LoadOtherConfig() error {
@@ -46,7 +46,7 @@ func LoadOtherConfig() error {
 	global.MaxPoolNumber = config.MaxPoolNumber // 协程池的最大数量
 	global.Fathers = config.Father
 
-	//数据库登录信息
+	// 数据库登录信息
 	global.Mysql = global.MysqlMsg{
 		UId:      config.MysqlId,
 		Password: config.MysqlPassword,

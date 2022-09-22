@@ -4,15 +4,15 @@ import (
 	"QQbot/global"
 )
 
-// Baned 在所有情况下设置不能说的句子
-func Baned(msgId string) error {
-	//在全局记录中寻找id对应的信息
+// Banned 在所有情况下设置不能说的句子
+func Banned(msgId string) error {
+	// 在全局记录中寻找id对应的信息
 	var c global.AnswerAndId
 	err := global.DB.Model(&global.AnswerAndId{}).Where("msg_id = ?", msgId).Find(&c).Error
 	if err != nil {
 		return err
 	}
-	//将其写入回答黑名单
+	// 将其写入回答黑名单
 	var t = global.BanedAnswerList{
 		Baned: c.Content,
 	}
@@ -34,7 +34,7 @@ func CanChatWith(opp string) bool {
 	if opp == "920689543" {
 		return true
 	}
-	//其他白名单的判断
+	// 其他白名单的判断
 	if !global.DB.Model(&global.ChatWhiteList{}).Where("uid = ?", opp).First(&t).RecordNotFound() {
 		return true
 	}

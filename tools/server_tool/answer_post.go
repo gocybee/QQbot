@@ -59,7 +59,7 @@ func send(qq int64, msg string, flag string) string {
 	}
 	an := *(*string)(unsafe.Pointer(&data))
 
-	//记录id和信息
+	// 记录id和信息
 	temp := dao_tool.GenerateIdAndAnswerStr(an, msg)
 	err = dao.WritIdAndAnswer(temp)
 	if err != nil {

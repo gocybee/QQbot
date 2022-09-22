@@ -9,7 +9,7 @@ import (
 func NeedBan(opp string, msgExtracted string) bool {
 	for _, v := range global.Fathers {
 		if v == opp {
-			if strings.Contains(msgExtracted, "不能这样说") {
+			if strings.Contains(msgExtracted, "不可以") {
 				return true
 			}
 			return false
@@ -18,7 +18,7 @@ func NeedBan(opp string, msgExtracted string) bool {
 	return false
 }
 
-// GenerateIdAndAnswerStr 由返回的status生成对应的结构体
+// GenerateIdAndAnswerStr 由返回的 status 生成对应的结构体
 func GenerateIdAndAnswerStr(status string, content string) global.AnswerAndId {
 	m := []byte(status)
 	var r int

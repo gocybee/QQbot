@@ -14,7 +14,7 @@ func PostRespond(c *gin.Context) {
 	// 获取接收到的信息
 	var form map[string]interface{}
 	if err := c.ShouldBind(&form); err != nil {
-		c.JSON(http.StatusOK, gin.H{"err": err})
+		c.JSON(http.StatusOK, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -27,11 +27,11 @@ func PostRespond(c *gin.Context) {
 	// 生成ReceivedMsg结构体--先判断是否在聊天白名单内-否 则直接return err
 	rmPtr, err := global.GetSentenceStruct(form)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"err": err})
+		c.JSON(http.StatusOK, gin.H{"err": err.Error()})
 		return
 	}
 
-	//不在白名单中则直接退出
+	// 不在白名单中则直接退出
 	if !(dao.CanChatWith(rmPtr.GetSenderIdStr()) || dao.CanChatWith(rmPtr.GetOppositeIdStr())) {
 		c.JSON(http.StatusOK, gin.H{})
 		return
@@ -50,11 +50,11 @@ func PostRespond(c *gin.Context) {
 	// 维护这轮对话
 	if server_tool.IsPrivateMsg(rmPtr.GetGlobalFlag()) || (server_tool.IsGroupMsg(rmPtr.GetGlobalFlag()) && server_tool.BeAt(rmPtr.GetMsg())) {
 
-		// 是否需要ban调回答语句
+		// 是否需要 ban 掉回答语句
 		if dao_tool.NeedBan(rmPtr.GetSenderIdStr(), rmPtr.GetMsg()) {
-			//获取出reply的结构体中的msg_id
+			// 获取出 reply 的结构体中的 msg_id
 			t := dao_tool.GenerateIdAndAnswerStr(rmPtr.GetMsg(), "")
-			err = dao.Baned(t.MsgId)
+			err = dao.Banned(t.MsgId)
 			if err != nil {
 				server_tool.RespondWithText(rmPtr.GetOppositeIdInt64(), "不，我还要说！",
 					rmPtr.GetGlobalFlag(), true)
@@ -71,7 +71,7 @@ func PostRespond(c *gin.Context) {
 		// 询问全局并注册
 		err = routing_tool.MaintainRouting(rmPtr)
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{"err": err})
+			c.JSON(http.StatusOK, gin.H{"err": err.Error()})
 			return
 		}
 		// 发送问题
