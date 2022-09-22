@@ -21,7 +21,7 @@ func InitDB() error {
 
 	// 判断是否有聊天白名单
 	if !db.HasTable(&global.ChatWhiteList{}) {
-		err = db.Create(&global.BanedAnswerList{}).Error
+		err = db.CreateTable(&global.ChatWhiteList{}).Error
 		if err != nil {
 			return err
 		}
@@ -29,7 +29,7 @@ func InitDB() error {
 
 	// 判断是否有回答黑名单
 	if !db.HasTable(&global.BanedAnswerList{}) {
-		err = db.Create(&global.BanedAnswerList{}).Error
+		err = db.CreateTable(&global.BanedAnswerList{}).Error
 		if err != nil {
 			return err
 		}
@@ -37,7 +37,7 @@ func InitDB() error {
 
 	// 判断是否有信息记录
 	if !db.HasTable(&global.AnswerAndId{}) {
-		err = db.Create(&global.AnswerAndId{}).Error
+		err = db.CreateTable(&global.AnswerAndId{}).Error
 		if err != nil {
 			return err
 		}

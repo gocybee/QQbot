@@ -53,8 +53,8 @@ func PostRespond(c *gin.Context) {
 		// 是否需要ban调回答语句
 		if dao_tool.NeedBan(rmPtr.GetSenderIdStr(), rmPtr.GetMsg()) {
 			//获取出reply的结构体中的msg_id
-			t := dao_tool.GenerateIdAndAnswerStr(rmPtr.GetMsg(), "")
-			err = dao.Baned(t.MsgId)
+			t := dao_tool.GetReplyMsgId(rmPtr.GetMsg())
+			err = dao.Baned(t)
 			if err != nil {
 				server_tool.RespondWithText(rmPtr.GetOppositeIdInt64(), "不，我还要说！",
 					rmPtr.GetGlobalFlag(), true)
@@ -63,6 +63,9 @@ func PostRespond(c *gin.Context) {
 			}
 			server_tool.RespondWithText(rmPtr.GetOppositeIdInt64(), "知道了知道了",
 				rmPtr.GetGlobalFlag(), true)
+			return
+
+			//不需要维护协程
 		}
 
 		// 精简问题--删除多余部分

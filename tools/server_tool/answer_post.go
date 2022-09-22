@@ -14,29 +14,23 @@ import (
 
 // RespondWithText 返回test信息
 func RespondWithText(id int64, msg string, flag string, needBeautify bool) {
+	rawMsg := msg
 	if needBeautify {
 		Beautify(&msg)
 	}
-	status := send(id, msg, flag)
+	status := send(id, msg, rawMsg, flag)
 	fmt.Println(status)
 }
 
 // RespondWithPhoto 返回非闪照的图片
 func RespondWithPhoto(id int64, fileName string, url string, flag string) {
 	msg := global.CodeCQPhoto(fileName, url)
-	status := send(id, msg, flag)
-	fmt.Println(status)
-}
-
-// RespondWithTextAndPhoto 返回信息及非闪照的图片
-func RespondWithTextAndPhoto(id int64, msg string, fileName string, url string, flag string) {
-	msg += global.CodeCQPhoto(fileName, url)
-	status := send(id, msg, flag)
+	status := send(id, msg, msg, flag)
 	fmt.Println(status)
 }
 
 // send 发消息
-func send(qq int64, msg string, flag string) string {
+func send(qq int64, msg string, rawMsg string, flag string) string {
 	var target string
 	if flag == "group" {
 		target = "group"
@@ -60,7 +54,7 @@ func send(qq int64, msg string, flag string) string {
 	an := *(*string)(unsafe.Pointer(&data))
 
 	//记录id和信息
-	temp := dao_tool.GenerateIdAndAnswerStr(an, msg)
+	temp := dao_tool.GenerateIdAndAnswerStr(an, rawMsg)
 	err = dao.WritIdAndAnswer(temp)
 	if err != nil {
 		an += err.Error()
