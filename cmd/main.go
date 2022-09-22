@@ -2,9 +2,7 @@ package main
 
 import (
 	"QQbot/api"
-	_ "QQbot/config"
-	_ "QQbot/dao"
-	_ "QQbot/pool"
+	_ "QQbot/init"
 )
 
 func main() {

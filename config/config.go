@@ -2,7 +2,6 @@ package config
 
 import (
 	"QQbot/global"
-	"fmt"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 )
@@ -27,15 +26,15 @@ type OtherConfig struct {
 	Father []string `yaml:"father"` //控制权限所有者
 }
 
-func loadOtherConfig() {
+func LoadOtherConfig() error {
 	var config OtherConfig
 	yamlFile, err := ioutil.ReadFile(global.URLTOOTHERConfig)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	err = yaml.Unmarshal(yamlFile, &config)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// 赋初值
@@ -54,12 +53,5 @@ func loadOtherConfig() {
 		Database: config.Database,
 		Address:  config.MysqlAddr,
 	}
-
-	fmt.Printf("%#v", global.Mysql)
-
-}
-
-func init() {
-	loadOtherConfig()
-	global.PrintVars()
+	return nil
 }

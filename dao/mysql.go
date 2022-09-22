@@ -7,7 +7,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func innoDB() error {
+func InitDB() error {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		global.Mysql.UId, global.Mysql.Password, global.Mysql.Address, global.Mysql.Database,
 	)
@@ -45,10 +45,4 @@ func innoDB() error {
 
 	global.DB = db
 	return nil
-}
-
-func init() {
-	if err := innoDB(); err != nil {
-		panic(err)
-	}
 }
