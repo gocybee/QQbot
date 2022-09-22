@@ -9,13 +9,13 @@ import (
 
 func Test(t *testing.T) {
 	var config OtherConfig
-	yamlFile, err := ioutil.ReadFile("./other_conf.yml")
+	yamlFile, err := ioutil.ReadFile("D:/GithubLibrary/gocybee/QQbot/config/other_conf.yml")
 	if err != nil {
-		fmt.Println("err when read file:", err)
+		panic(err)
 	}
 	err = yaml.Unmarshal(yamlFile, &config)
 	if err != nil {
-		fmt.Println("err when unmarshal file:", err)
+		panic(err)
 	}
 	fmt.Printf("%#v\n", config)
 }

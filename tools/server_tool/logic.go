@@ -1,6 +1,7 @@
 package server_tool
 
 import (
+	"QQbot/dao"
 	"QQbot/global"
 	"QQbot/tools/rasa_tool"
 )
@@ -14,7 +15,8 @@ func RespondLogic(text *global.ChanMsg) {
 		return
 	}
 
-	if text.Msg == "" || PunctualOnly(text.Msg) {
+	// 字数过少或者只有符号
+	if PunctualOnly(text.Msg) || len([]byte(text.Msg)) < 2 {
 		RespondWithText(text.Id, "干嘛？", text.Flag, true)
 		return
 	}
@@ -25,10 +27,10 @@ func RespondLogic(text *global.ChanMsg) {
 		RespondWithText(text.Id, "我不到啊", text.Flag, true)
 
 	} else {
-		// 获取到回答的消息
+		// 获取到回答的消息-过滤
+		dao.Filter(&answer)
 		RespondWithText(text.Id, answer, text.Flag, false)
 	}
-
 }
 
 // PostChanMsgToRouting 向全局的协程发送回复目标的信息

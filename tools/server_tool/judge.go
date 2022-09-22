@@ -32,14 +32,6 @@ func IsGroupMsg(flag string) bool {
 	return false
 }
 
-// IsHelp 是否为帮助
-func IsHelp(mt string) bool {
-	if strings.Contains(strings.ToLower(mt), "help") || mt == "帮助" {
-		return true
-	}
-	return false
-}
-
 // BeAt 看自己是否被@
 func BeAt(mt string) bool {
 	return strings.Contains(mt, fmt.Sprintf("[CQ:at,qq=%s]", global.MYQQID))
@@ -76,7 +68,6 @@ func IsMsgRepeated(rmPtr *global.ReceivedMsg) bool {
 			// 更新信息
 			r.Content = rmPtr.GetMsg()
 		}
-		return false
 	}
 	// 需要创建信息记录
 	RegisterRepeated(rmPtr)

@@ -3,7 +3,9 @@
 package server_tool
 
 import (
+	"QQbot/dao"
 	"QQbot/global"
+	"QQbot/tools/dao_tool"
 	"fmt"
 	"io"
 	"net/http"
@@ -55,5 +57,14 @@ func send(qq int64, msg string, flag string) string {
 	if err != nil {
 		return err.Error()
 	}
-	return *(*string)(unsafe.Pointer(&data))
+	an := *(*string)(unsafe.Pointer(&data))
+
+	//记录id和信息
+	temp := dao_tool.GenerateIdAndAnswerStr(an, msg)
+	err = dao.WritIdAndAnswer(temp)
+	if err != nil {
+		an += err.Error()
+	}
+
+	return an
 }
