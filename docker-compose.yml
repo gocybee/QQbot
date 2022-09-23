@@ -25,8 +25,10 @@ services:
 
   cqhttp:
     container_name: cqhttp
-    image: silicer/go-cqhttp:latest
+    image: pcrbot/gocqhttp:ffmpeg
     restart: always
+    ports:
+      - "5700:5700"
     volumes:
       - ${CQHTTP_DATA_PATH}:/data
 
