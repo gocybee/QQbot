@@ -54,7 +54,7 @@ func PostRespond(c *gin.Context) {
 		if dao_tool.NeedBan(rmPtr.GetSenderIdStr(), rmPtr.GetMsg()) {
 			//获取出reply的结构体中的msg_id
 			t := dao_tool.GetReplyMsgId(rmPtr.GetMsg())
-			err = dao.Baned(t)
+			err = dao.Banned(t)
 			if err != nil {
 				server_tool.RespondWithText(rmPtr.GetOppositeIdInt64(), "不，我还要说！",
 					rmPtr.GetGlobalFlag(), true)
