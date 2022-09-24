@@ -6,28 +6,44 @@ import (
 	"io/ioutil"
 )
 
-type OtherConfig struct {
-	TimeLimit int64 `yaml:"time_limit"` // 配置协程最大空闲时间
-
-	RasaURL string `yaml:"rasa_url"` // 后端链接rasa机器人传输问题的接口
-
-	SendMsgURL string `yaml:"send_msg_url"` // 发送QQ信息的接口
-
-	MyName string `yaml:"my_name"`  // qq机器人的自称(名字)
-	MYQQID string `yaml:"my_qq_id"` // QQ机器人的qq号码
-
-	MaxPoolNumber int `yaml:"max_pool_number"` // 连接池最大数量
-
-	MysqlId       string `yaml:"mysql_id"`       // 数据库账号
-	MysqlPassword string `yaml:"mysql_password"` // 数据库密码
-	MysqlAddr     string `yaml:"mysql_addr"`     // 数据库url
-	Database      string `yaml:"database"`       // 库的名称
-
-	Father []string `yaml:"father"` // 控制权限所有者
+type Config struct {
+	Pool       Pool     `yaml:"pool"`
+	Rasa       Rasa     `yaml:"rasa"`
+	QQ         QQ       `yaml:"qq"`
+	Mysql      Mysql    `yaml:"mysql"`
+	Debug      bool     `yaml:"debug"`      //控制chat_list的开关
+	Controller []string `yaml:"controller"` //bot管理
+	ChatList   []string `yaml:"chat_list"`  //回答的白名单
 }
 
-func LoadOtherConfig() error {
-	var config OtherConfig
+// Pool 协程池连接配置
+type Pool struct {
+	TimeLimit     int64 `yaml:"time_limit"`      // 配置协程最大空闲时间
+	MaxPoolNumber int   `yaml:"max_pool_number"` // 连接池最大数量
+}
+
+// Rasa rasa机器人链接配置
+type Rasa struct {
+	RasaURL string `yaml:"rasa_url"` // 后端链接rasa机器人传输问题的接口
+}
+
+// QQ QQ机器人的相关配置
+type QQ struct {
+	SendMsgURL string `yaml:"send_msg_url"` // 发送QQ信息的接口
+	Name       string `yaml:"name"`         // qq机器人的自称(名字)
+	QUID       string `yaml:"qq_id"`        // QQ机器人的qq号码
+}
+
+// Mysql 数据库配置
+type Mysql struct {
+	User     string `yaml:"user"`     // 数据库账号
+	Password string `yaml:"password"` // 数据库密码
+	Addr     string `yaml:"addr"`     // 数据库url
+	DbName   string `yaml:"db_name"`  // 库的名称
+}
+
+func Init() error {
+	var config Config
 	yamlFile, err := ioutil.ReadFile(global.URLTOOTHERConfig)
 	if err != nil {
 		return err
@@ -37,21 +53,34 @@ func LoadOtherConfig() error {
 		return err
 	}
 
-	// 赋初值
-	global.TimeLimit = config.TimeLimit         // 协程最大空闲时间
-	global.RasaURL = config.RasaURL             // rasa机器人webhook的地址
-	global.SendMsgURL = config.SendMsgURL       // 向QQ发送消息的地址
-	global.MyName = config.MyName               // QQ机器人的自称(名字)
-	global.MYQQID = config.MYQQID               // QQ机器人的QQ号
-	global.MaxPoolNumber = config.MaxPoolNumber // 协程池的最大数量
-	global.Fathers = config.Father
+	//debug
+	global.Debug = config.Debug
 
-	// 数据库登录信息
+	//Pool
+	global.TimeLimit = config.Pool.TimeLimit         // 协程最大空闲时间
+	global.MaxPoolNumber = config.Pool.MaxPoolNumber // 协程池的最大数量
+
+	//Rasa
+	global.RasaURL = config.Rasa.RasaURL // rasa机器人http_hook的地址
+
+	//QQ
+	global.SendMsgURL = config.QQ.SendMsgURL // 向QQ发送消息的地址
+	global.MyName = config.QQ.Name           // QQ机器人的自称(名字)
+	global.MYQQID = config.QQ.QUID           // QQ机器人的QQ号
+
+	//Mysql
 	global.Mysql = global.MysqlMsg{
-		UId:      config.MysqlId,
-		Password: config.MysqlPassword,
-		Database: config.Database,
-		Address:  config.MysqlAddr,
+		User:     config.Mysql.User,
+		Password: config.Mysql.Password,
+		DbName:   config.Mysql.DbName,
+		Address:  config.Mysql.Addr,
 	}
+
+	//Controller
+	global.Controller = config.Controller
+
+	//ChatList
+	global.ChatList = config.ChatList
+
 	return nil
 }

@@ -1,0 +1,45 @@
+# 测试
+debug: true #若为true则关闭聊天白名单
+
+
+# 连接池设置
+pool:
+  time_limit: 100                         #对话最大保持时间(s)
+  max_pool_number: 20                     #连接池最大对话维持数量
+
+
+# rasa机器人配置
+rasa:
+  #rasa_url: "http://rasa:5005"           # 向rasa机器人发送问题的接口 (docker-compose)
+  rasa_url: "http://127.0.0.1:5005"       # 本机测试    向rasa机器人发送问题的接口
+
+
+# qq机器人相关发基础配置
+qq:
+  #send_msg_url: "http://cqhttp:5700"     # 发送QQ信息的接口 (docker-compose)
+  send_msg_url: "http://127.0.0.1:5700"   #本机测试    发送QQ信息的接口
+  name: "鼠鼠"                             # QQ机器人的自称
+  qq_id: "3403191872"                     #QQ机器人的qq号(与cq-http配置文件相同，用于判断是否 At 自己)
+
+
+# 数据库配置
+mysql:
+  user: "root"                            #数据库账号
+  password: "030831"                      #数据库密码(没有就不填)
+  addr: "127.0.0.1:3306"                  #数据库url
+  dbname: "qqbot"                         #数据库的名称(小写)
+
+
+# 管理权限的qq号-可禁止bot的回答语句
+controller:
+  - "2505772098"                           # tr
+  - "918845478"                            # twh
+  - "744637972"                            # wx
+  - "1725014728"                           # lmj
+  - "879600610"                            # yxh
+  - "1598273095"                           # LuckyBoi
+
+
+# 聊天白名单(群和私)
+chat_list:
+  - "920689543"                           # qqbot测试群

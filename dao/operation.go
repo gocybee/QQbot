@@ -4,6 +4,8 @@ import (
 	"QQbot/global"
 )
 
+var number = 0 //记录信息条数
+
 // Banned 在所有情况下设置不能说的句子
 func Banned(msgId string) error {
 	// 在全局记录中寻找id对应的信息
@@ -30,10 +32,7 @@ func Filter(answer *string) {
 // CanChatWith 是否在聊天白名单内
 func CanChatWith(opp string) bool {
 	var t global.ChatWhiteList
-	// 测试群一定在白名单内
-	if opp == "920689543" {
-		return true
-	}
+
 	// 其他白名单的判断
 	if !global.DB.Model(&global.ChatWhiteList{}).Where("uid = ?", opp).First(&t).RecordNotFound() {
 		return true
@@ -41,9 +40,16 @@ func CanChatWith(opp string) bool {
 	return false
 }
 
-// WritIdAndAnswer 将信息写入数据库
+// WritIdAndAnswer 将信息写入数据库-只存500条
 func WritIdAndAnswer(x global.AnswerAndId) error {
-	err := global.DB.Model(&global.AnswerAndId{}).Create(&x).Error
+	var err error
+	number++
+	if number >= 500 {
+		x.Id = uint(number - 499)
+		err = global.DB.Model(&global.AnswerAndId{}).Where("id=?", number-499).Update(&x).Error
+	} else {
+		err = global.DB.Model(&global.AnswerAndId{}).Create(&x).Error
+	}
 	if err != nil {
 		return err
 	}
