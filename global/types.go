@@ -50,20 +50,20 @@ type MysqlMsg struct {
 	DbName   string // 数据库名称
 }
 
-// ChatWhiteList 聊天白名单的基本信息描述
-type ChatWhiteList struct {
+// ChatWhiteListStruct 聊天白名单的基本信息描述
+type ChatWhiteListStruct struct {
 	Id  uint   `gorm:"primaryKey"` //自增主键
 	Uid string `gorm:"uid"`        // 允许聊天的对象（qq号或群号）
 }
 
-// BanedAnswerList 禁止这样的回答-需要关键句子触发
-type BanedAnswerList struct {
+// BannedAnswerListStruct 禁止这样的回答-需要关键句子触发
+type BannedAnswerListStruct struct {
 	Id    uint   `gorm:"primaryKey"` //自增主键
 	Baned string `gorm:"baned"`      // 被禁止的回答
 }
 
-// AnswerAndId 存放回答的所有信息和对应的消息id
-type AnswerAndId struct {
+// AnswerAndIdStruct 存放回答的所有信息和对应的消息id
+type AnswerAndIdStruct struct {
 	Id      uint   `gorm:"primaryKey"` //自增主键
 	MsgId   string `gorm:"msg_id"`     // 信息的id
 	Content string `gorm:"content"`    // 信息的内容

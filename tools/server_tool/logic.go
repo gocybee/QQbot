@@ -29,6 +29,7 @@ func RespondLogic(text *global.ChanMsg) {
 	} else {
 		// 获取到回答的消息-过滤
 		dao.Filter(&answer)
+
 		RespondWithText(text.Id, answer, text.Flag, false)
 	}
 }

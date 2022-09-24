@@ -24,7 +24,7 @@ func PostRespond(c *gin.Context) {
 		return
 	}
 
-	// 生成ReceivedMsg结构体--先判断是否在聊天白名单内-否 则直接return err
+	// 生成ReceivedMsg结构体
 	rmPtr, err := global.GetSentenceStruct(form)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"err": err})

@@ -9,7 +9,7 @@ import (
 // NeedBan 是否触发黑名单-fathers@鼠鼠
 func NeedBan(opp string, msgExtracted string) bool {
 
-	for _, v := range global.Fathers {
+	for _, v := range global.Controller {
 		if v == opp {
 			if strings.Contains(msgExtracted, "不能这么说") {
 				return true
@@ -30,13 +30,13 @@ func GetReplyMsgId(status string) string {
 }
 
 // GenerateIdAndAnswerStr 发送信息后由返回的status生成对应的结构体
-func GenerateIdAndAnswerStr(status string, content string) global.AnswerAndId {
+func GenerateIdAndAnswerStr(status string, content string) global.AnswerAndIdStruct {
 	//提取id
 	s := regexp.MustCompile("\"message_id\":(.\\d*)")
 	_id := s.FindStringSubmatch(status)
 	id := _id[len(_id)-1]
 
-	return global.AnswerAndId{
+	return global.AnswerAndIdStruct{
 		MsgId:   id,
 		Content: content,
 	}

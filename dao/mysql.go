@@ -20,29 +20,36 @@ func Init() error {
 	db.SingularTable(true)
 
 	// 判断是否有聊天白名单
-	if !db.HasTable(&global.ChatWhiteList{}) {
-		err = db.CreateTable(&global.ChatWhiteList{}).Error
+	if !db.HasTable(&global.ChatWhiteListStruct{}) {
+		err = db.CreateTable(&global.ChatWhiteListStruct{}).Error
 		if err != nil {
 			return err
 		}
 	}
 
 	// 判断是否有回答黑名单
-	if !db.HasTable(&global.BanedAnswerList{}) {
-		err = db.CreateTable(&global.BanedAnswerList{}).Error
+	if !db.HasTable(&global.BannedAnswerListStruct{}) {
+		err = db.CreateTable(&global.BannedAnswerListStruct{}).Error
 		if err != nil {
 			return err
 		}
 	}
 
 	// 判断是否有信息记录
-	if !db.HasTable(&global.AnswerAndId{}) {
-		err = db.CreateTable(&global.AnswerAndId{}).Error
+	if !db.HasTable(&global.AnswerAndIdStruct{}) {
+		err = db.CreateTable(&global.AnswerAndIdStruct{}).Error
 		if err != nil {
 			return err
 		}
 	}
 
 	global.DB = db
+
+	//将聊天白名单写入数据库
+	err = writChatWhiteList(global.ChatList)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

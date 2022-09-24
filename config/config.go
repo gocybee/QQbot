@@ -39,7 +39,7 @@ type Mysql struct {
 	User     string `yaml:"user"`     // 数据库账号
 	Password string `yaml:"password"` // 数据库密码
 	Addr     string `yaml:"addr"`     // 数据库url
-	DbName   string `yaml:"db_name"`  // 库的名称
+	DBName   string `yaml:"dbname"`   // 库的名称
 }
 
 func Init() error {
@@ -72,7 +72,7 @@ func Init() error {
 	global.Mysql = global.MysqlMsg{
 		User:     config.Mysql.User,
 		Password: config.Mysql.Password,
-		DbName:   config.Mysql.DbName,
+		DbName:   config.Mysql.DBName,
 		Address:  config.Mysql.Addr,
 	}
 
