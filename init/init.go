@@ -9,19 +9,19 @@ import (
 
 func init() {
 	// config文件读取
-	err := config.LoadOtherConfig()
+	err := config.Init()
 	if err != nil {
 		panic(err)
 	}
 
 	//连接池的初始化
-	err = pool.LoadPool()
+	err = pool.Init()
 	if err != nil {
 		panic(err)
 	}
 
 	//数据库初始化
-	err = dao.InitDB()
+	err = dao.Init()
 	if err != nil {
 		panic(err)
 	}

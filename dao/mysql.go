@@ -7,9 +7,9 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func InitDB() error {
+func Init() error {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		global.Mysql.UId, global.Mysql.Password, global.Mysql.Address, global.Mysql.Database,
+		global.Mysql.User, global.Mysql.Password, global.Mysql.Address, global.Mysql.DbName,
 	)
 	db, err := gorm.Open("mysql", dsn)
 	if err != nil {

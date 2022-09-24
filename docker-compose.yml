@@ -36,5 +36,5 @@ services:
 # BOT_CONFIG_PATH=xxx
 # RASA_AUTH_TOKEN=xxx rasa 认证 token
 # RASA_DATA_PATH=[需要包含 endpoint.yml，credentials.yml config.yml 和 models 文件夹以及至少一个 model]
-# CQHTTP_DATA_PATH=[需要包含 cqhttp other_conf.yml]
+# CQHTTP_DATA_PATH=[需要包含 cqhttp config.yml]
 # RASA_ENDPOINTS_PORT=[暴露在外面的 rasa api 端口，用于持续集成]
