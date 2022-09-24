@@ -13,8 +13,8 @@ import (
 func PostRespond(c *gin.Context) {
 	// 获取接收到的信息
 	var form map[string]interface{}
-	if err := c.ShouldBind(&form); err != nil {
-		c.JSON(http.StatusOK, gin.H{"err": err})
+	if err := c.BindJSON(&form); err != nil {
+		c.JSON(http.StatusOK, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -27,7 +27,7 @@ func PostRespond(c *gin.Context) {
 	// 生成ReceivedMsg结构体--先判断是否在聊天白名单内-否 则直接return err
 	rmPtr, err := global.GetSentenceStruct(form)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"err": err})
+		c.JSON(http.StatusOK, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -48,7 +48,8 @@ func PostRespond(c *gin.Context) {
 
 	// 注册并维护协程--私聊信息或者群聊指定信息
 	// 维护这轮对话
-	if server_tool.IsPrivateMsg(rmPtr.GetGlobalFlag()) || (server_tool.IsGroupMsg(rmPtr.GetGlobalFlag()) && server_tool.BeAt(rmPtr.GetMsg())) {
+	if server_tool.IsPrivateMsg(rmPtr.GetGlobalFlag()) ||
+		(server_tool.IsGroupMsg(rmPtr.GetGlobalFlag()) && server_tool.BeAt(rmPtr.GetMsg())) {
 
 		// 是否需要ban调回答语句
 		if dao_tool.NeedBan(rmPtr.GetSenderIdStr(), rmPtr.GetMsg()) {
@@ -74,7 +75,7 @@ func PostRespond(c *gin.Context) {
 		// 询问全局并注册
 		err = routing_tool.MaintainRouting(rmPtr)
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{"err": err})
+			c.JSON(http.StatusOK, gin.H{"err": err.Error()})
 			return
 		}
 		// 发送问题

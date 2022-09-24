@@ -1,24 +1,18 @@
 
-# 对话时间设置
-time_limit: 100 #对话最大空闲时间(s)
+time_limit: 100 #对话最大保持时间(s)
 
-
-# rasa机器人设置
 #rasa_url: "http://rasa:5005" # 向rasa机器人发送问题的接口 (docker-compose)
-rasa_url: "http://127.0.0.1:5005" # 本机测试
+rasa_url: "http://127.0.0.1:5005" # 本机测试    向rasa机器人发送问题的接口
 
 #send_msg_url: "http://cqhttp:5700" # 发送QQ信息的接口 (docker-compose)
-send_msg_url: "http://127.0.0.1:5700" #本机测试
+send_msg_url: "http://127.0.0.1:5700" #本机测试    发送QQ信息的接口
 
-
-# 机器人相关信息
 my_name: "鼠鼠" # QQ机器人的自称
 
 my_qq_id: "3403191872" #QQ机器人的qq号(与cq-http配置文件相同，用于判断是否 At 自己)
 
-
-# 连接池数量设置
 max_pool_number: 20 #连接池最大对话维持数量
+
 
 
 #数据库相关设置
