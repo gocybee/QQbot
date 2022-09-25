@@ -48,8 +48,8 @@ func CanChatWith(opp string) bool {
 func WriteIdAndAnswer(x global.AnswerAndIdStruct) error {
 	var err error
 	number++
-	if number >= 2 {
-		err = global.DB.Model(&global.AnswerAndIdStruct{}).Where("id=?", number-499).Update(&x).Error
+	if number >= 300 {
+		err = global.DB.Model(&global.AnswerAndIdStruct{}).Where("id=?", number-299).Update(&x).Error
 	} else {
 		err = global.DB.Model(&global.AnswerAndIdStruct{}).Create(&x).Error
 	}

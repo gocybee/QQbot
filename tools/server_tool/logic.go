@@ -15,9 +15,8 @@ func RespondLogic(text *global.ChanMsg) {
 		return
 	}
 
-	// 字数过少或者只有符号
-	if PunctualOnly(text.Msg) || len([]byte(text.Msg)) < 2 {
-		RespondWithText(text.Id, "干嘛？", text.Flag, true)
+	// 字数过少或者只有符号-不回答
+	if PunctualOnly(text.Msg) || len([]byte(text.Msg)) <= 2 {
 		return
 	}
 

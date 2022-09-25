@@ -3,6 +3,7 @@ package server_tool
 import (
 	"QQbot/global"
 	"math/rand"
+	"strings"
 )
 
 // Beautify 为句子的尾部美化
@@ -27,4 +28,14 @@ func RegisterRepeated(rmPtr *global.ReceivedMsg) {
 		Times:   1,
 	}
 	global.Repeated[rmPtr.GetOppositeIdStr()] = &r
+}
+
+// Escape 将rasa回复的特殊字符转义为url可发送的
+func Escape(rasaMsg string) string {
+	s := strings.Split(rasaMsg, " ")
+	re := s[0]
+	for i := 1; i < len(s); i++ {
+		re += "%20" + s[i]
+	}
+	return re
 }

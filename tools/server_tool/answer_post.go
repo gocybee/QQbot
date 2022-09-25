@@ -37,6 +37,10 @@ func send(qq int64, msg string, rawMsg string, flag string) string {
 	} else {
 		target = "user"
 	}
+
+	//特殊符号替换
+	msg = Escape(msg)
+
 	url := fmt.Sprintf("%s/send_%s_msg?%s_id=%d&message=%s",
 		global.SendMsgURL, flag, target, qq, msg)
 	// _url := global.SendMsgURL + "/send_" + flag + "_msg?" + target + "_"
