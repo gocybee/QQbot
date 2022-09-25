@@ -32,7 +32,7 @@ func PostRespond(c *gin.Context) {
 	}
 
 	//不在白名单中则直接退出
-	if !(dao.CanChatWith(rmPtr.GetSenderIdStr()) || dao.CanChatWith(rmPtr.GetOppositeIdStr())) {
+	if !dao.CanChatWith(rmPtr.GetOppositeIdStr()) {
 		c.JSON(http.StatusOK, gin.H{})
 		return
 	}

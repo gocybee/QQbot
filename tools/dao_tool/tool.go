@@ -34,10 +34,9 @@ func GenerateIdAndAnswerStr(status string, content string) global.AnswerAndIdStr
 	//提取id
 	s := regexp.MustCompile("\"message_id\":(.\\d*)")
 	_id := s.FindStringSubmatch(status)
-	id := _id[len(_id)-1]
 
 	return global.AnswerAndIdStruct{
-		MsgId:   id,
+		MsgId:   _id[1],
 		Content: content,
 	}
 }

@@ -1,5 +1,5 @@
 # 测试
-debug: true #若为true则关闭聊天白名单
+debug: false #若为true则关闭聊天白名单
 
 
 # 连接池设置

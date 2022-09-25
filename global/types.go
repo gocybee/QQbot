@@ -50,21 +50,35 @@ type MysqlMsg struct {
 	DbName   string // 数据库名称
 }
 
+//数据库相关结构体
+
 // ChatWhiteListStruct 聊天白名单的基本信息描述
 type ChatWhiteListStruct struct {
-	Id  uint   `gorm:"primaryKey"` //自增主键
+	Id  int    `gorm:"primaryKey"` //自增主键
 	Uid string `gorm:"uid"`        // 允许聊天的对象（qq号或群号）
+}
+
+func (c *ChatWhiteListStruct) TableName() string {
+	return "chat_ok_list"
 }
 
 // BannedAnswerListStruct 禁止这样的回答-需要关键句子触发
 type BannedAnswerListStruct struct {
-	Id    uint   `gorm:"primaryKey"` //自增主键
+	Id    int    `gorm:"primaryKey"` //自增主键
 	Baned string `gorm:"baned"`      // 被禁止的回答
+}
+
+func (b *BannedAnswerListStruct) TableName() string {
+	return "ans_ban_list"
 }
 
 // AnswerAndIdStruct 存放回答的所有信息和对应的消息id
 type AnswerAndIdStruct struct {
-	Id      uint   `gorm:"primaryKey"` //自增主键
+	Id      int    `gorm:"primaryKey"` //自增主键
 	MsgId   string `gorm:"msg_id"`     // 信息的id
 	Content string `gorm:"content"`    // 信息的内容
+}
+
+func (a *AnswerAndIdStruct) TableName() string {
+	return "id_ans"
 }

@@ -36,20 +36,19 @@ func CanChatWith(opp string) bool {
 	if global.Debug == true {
 		return true
 	}
-
 	var t global.ChatWhiteListStruct
-	// 白名单的判断
-	if !global.DB.Model(&global.ChatWhiteListStruct{}).Where("uid = ?", opp).First(&t).RecordNotFound() {
-		return true
-	}
-	return false
+
+	//连着搜两次就有问题
+	flag := global.DB.Model(&global.ChatWhiteListStruct{}).Where("uid = ?", opp).Find(&t).RecordNotFound()
+
+	return !flag
 }
 
 // WriteIdAndAnswer 将信息写入数据库-只存500条
 func WriteIdAndAnswer(x global.AnswerAndIdStruct) error {
 	var err error
 	number++
-	if number >= 500 {
+	if number >= 2 {
 		err = global.DB.Model(&global.AnswerAndIdStruct{}).Where("id=?", number-499).Update(&x).Error
 	} else {
 		err = global.DB.Model(&global.AnswerAndIdStruct{}).Create(&x).Error

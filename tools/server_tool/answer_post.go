@@ -54,10 +54,12 @@ func send(qq int64, msg string, rawMsg string, flag string) string {
 	an := *(*string)(unsafe.Pointer(&data))
 
 	//记录id和信息
-	temp := dao_tool.GenerateIdAndAnswerStr(an, rawMsg)
-	err = dao.WriteIdAndAnswer(temp)
-	if err != nil {
-		an += err.Error()
+	if an != "400 Bad Request" {
+		temp := dao_tool.GenerateIdAndAnswerStr(an, rawMsg)
+		err = dao.WriteIdAndAnswer(temp)
+		if err != nil {
+			an += err.Error()
+		}
 	}
 
 	return an
