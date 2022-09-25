@@ -55,7 +55,7 @@ func send(qq int64, msg string, rawMsg string, flag string) string {
 
 	//记录id和信息
 	temp := dao_tool.GenerateIdAndAnswerStr(an, rawMsg)
-	err = dao.WritIdAndAnswer(temp)
+	err = dao.WriteIdAndAnswer(temp)
 	if err != nil {
 		an += err.Error()
 	}

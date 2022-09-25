@@ -45,8 +45,8 @@ func CanChatWith(opp string) bool {
 	return false
 }
 
-// WritIdAndAnswer 将信息写入数据库-只存500条
-func WritIdAndAnswer(x global.AnswerAndIdStruct) error {
+// WriteIdAndAnswer 将信息写入数据库-只存500条
+func WriteIdAndAnswer(x global.AnswerAndIdStruct) error {
 	var err error
 	number++
 	if number >= 500 {
