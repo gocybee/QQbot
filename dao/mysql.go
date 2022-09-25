@@ -21,7 +21,7 @@ func Init() error {
 
 	// 判断是否有聊天白名单
 	if !db.HasTable(&global.ChatWhiteListStruct{}) {
-		err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8").CreateTable(&global.ChatWhiteListStruct{}).Error
+		err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4").CreateTable(&global.ChatWhiteListStruct{}).Error
 		if err != nil {
 			return err
 		}
@@ -29,7 +29,7 @@ func Init() error {
 
 	// 判断是否有回答黑名单
 	if !db.HasTable(&global.BannedAnswerListStruct{}) {
-		err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8").CreateTable(&global.BannedAnswerListStruct{}).Error
+		err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4").CreateTable(&global.BannedAnswerListStruct{}).Error
 		if err != nil {
 			return err
 		}
@@ -37,7 +37,7 @@ func Init() error {
 
 	// 判断是否有信息记录
 	if !db.HasTable(&global.AnswerAndIdStruct{}) {
-		err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8").CreateTable(&global.AnswerAndIdStruct{}).Error
+		err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4").CreateTable(&global.AnswerAndIdStruct{}).Error
 		if err != nil {
 			return err
 		}
